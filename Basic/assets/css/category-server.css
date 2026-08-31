@@ -1,0 +1,9 @@
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+.cat-hub{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin-block-end:1rem}.cat-card{display:flex;flex:1 1 18rem;max-inline-size:26rem;align-items:center;gap:.875rem;text-align:start;text-decoration:none;color:var(--basic-body-color);padding:1rem 1.125rem;background-color:var(--basic-surface-bg);border:1px solid var(--basic-border-color);border-radius:var(--basic-radius);transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease}.cat-card:hover{border-color:var(--basic-primary-text);background-color:var(--basic-primary-subtle)}.cat-card:focus-visible{outline:0;box-shadow:var(--basic-focus-ring)}.cat-card-body{display:flex;flex-direction:column;min-inline-size:0;margin-inline-end:auto}.cat-card-title{font-weight:600;color:var(--basic-heading-color)}.cat-card-desc{font-size:.8rem;color:var(--basic-muted-color)}.cat-card-price{flex-shrink:0;text-align:end;line-height:1.15}.cat-card-price-from{display:block;font-size:.72rem;font-weight:500;color:var(--basic-muted-color)}.cat-card-price-now{display:block;white-space:nowrap}.cat-card-price-amount{font-size:1.2rem;font-weight:700;color:var(--basic-primary-text);letter-spacing:-.01em}.cat-card-price-cycle{font-size:.72rem;font-weight:500;color:var(--basic-muted-color)}.cat-card-chevron{flex-shrink:0;font-size:1.1rem;color:var(--basic-muted-color);transition:color .2s ease}.cat-card:hover .cat-card-chevron{color:var(--basic-primary-text)}[dir=rtl] .cat-card-chevron{transform:scaleX(-1)}

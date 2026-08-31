@@ -1,0 +1,86 @@
+<?php
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+return [
+    'name'        => 'Basic',
+    'description' => "WISECP'nin varsayılan teması. Bootstrap 5 üzerine kurulu, açık ve koyu mod ile RTL destekli, responsive bir tema. Sade ve temiz bir arayüz isteyenler için.",
+
+    'grp_topbar'           => 'Duyuru Çubuğu',
+    'set_topbar_enabled'      => 'Duyuru çubuğunu göster',
+    'set_topbar_enabled_desc' => 'Üst menünün üzerinde iletişim bilgisi, promosyon veya duyuru için ince bir şerit gösterir.',
+    'set_topbar_text'         => 'Duyuru metni',
+    'set_topbar_text_desc'    => 'Üst menünün üzerindeki şeritte gösterilir. HTML ve Smarty etiketleri desteklenir; betik, form ve olay işleyici etiketleri kaydedilirken kaldırılır.',
+
+    'grp_appearance'      => 'Görünüm',
+    'set_primary_color'   => 'Birincil Renk',
+    'set_secondary_color' => 'İkincil Renk',
+    'set_text_color'      => 'Metin Rengi',
+
+    'grp_checkout'              => 'Ödeme Adımları',
+    'set_checkout_sidebar'      => 'Sipariş özeti yerleşimi',
+    'set_checkout_sidebar_desc' => 'Sipariş özetinin yapılandırma, sepet ve ödeme sayfalarındaki yerleşimini belirler.',
+    'opt_checkout_rail'         => 'Yan Panel (Yapışkan)',
+    'opt_checkout_card'         => 'Kart (Sayfa İçi Kolon)',
+    'opt_checkout_stack'        => 'Tek Kolon (Alt Çubuk)',
+
+    'grp_dashboard'               => 'Müşteri Paneli',
+    'set_dashboard_layout'        => 'Panel yerleşimi',
+    'set_dashboard_layout_desc'   => 'Müşteri panelinin düzenini belirler: hero komut bantlı modern yerleşim veya sol hesap sütunlu klasik yerleşim.',
+    'opt_dash_hero'               => 'Modern (Hero)',
+    'opt_dash_standard'           => 'Klasik (Standard)',
+
+    'grp_popup'              => 'Açılır Pencere',
+    'set_popup_enabled'      => 'Popup penceresini göster',
+    'set_popup_enabled_desc' => 'Sayfa açıldıktan bir süre sonra, seçilen sıklığa göre site üzerinde bir popup penceresi gösterir.',
+    'set_popup_content'      => 'Pencere içeriği',
+    'set_popup_content_desc' => 'HTML ve Smarty etiketleri desteklenir; betik, form ve olay işleyici etiketleri kaydedilirken kaldırılır.',
+    'set_popup_width'        => 'Genişlik (px)',
+    'set_popup_height'       => 'Yükseklik (px)',
+    'set_popup_frequency'    => 'Sıklık',
+    'opt_popup_once'         => 'Ziyaretçi Başına Bir Kez',
+    'opt_popup_daily'        => 'Günde Bir Kez',
+    'opt_popup_always'       => 'Her Sayfa Açılışında',
+    'set_popup_delay'        => 'Gecikme (saniye)',
+    'set_popup_delay_desc'   => 'Popup, sayfa yüklendikten bu kadar saniye sonra görünür.',
+
+    'cz_title'           => 'Tema Önizleme',
+    'cz_subtitle'        => 'Tarayıcınızda saklanır; tema dosyaları değişmez.',
+    'cz_theme'           => 'Tema',
+    'cz_soon'            => 'Yakında',
+    'cz_layout'          => 'Yerleşim',
+    'cz_dashboard'       => 'Müşteri Paneli',
+    'cz_hero'            => 'Hero',
+    'cz_standard'        => 'Standart',
+    'cz_checkout'        => 'Ödeme Adımları',
+    'cz_rail'            => 'Yan Panel',
+    'cz_card'            => 'Kart',
+    'cz_stack'           => 'Tek Kolon',
+    'cz_appearance'      => 'Görünüm',
+    'cz_brand_logo'      => 'Marka Logosu',
+    'cz_logo_upload'     => 'Logonuzu Yükleyin',
+    'cz_logo_hint'       => 'Baskın marka renkleri otomatik uygulanır.',
+    'cz_logo_remove'     => 'Logoyu kaldır',
+    'cz_colors'          => 'Renkler',
+    'cz_primary'         => 'Birincil',
+    'cz_secondary'       => 'İkincil',
+    'cz_text'            => 'Metin',
+    'cz_text_note'       => '(açık mod)',
+    'cz_pick_primary'    => 'Birincil rengi seçin',
+    'cz_pick_secondary'  => 'İkincil rengi seçin',
+    'cz_pick_text'       => 'Metin rengini seçin',
+    'cz_typography'      => 'Tipografi',
+    'cz_font_family'     => 'Yazı tipi',
+    'cz_reset'           => 'Varsayılanlara Sıfırla',
+    'cz_close'           => 'Paneli kapat',
+    'cz_toast_extracted' => 'Marka renkleri logonuzdan çıkarıldı.',
+    'cz_toast_reset'     => 'Tema önizleme varsayılanlara sıfırlandı.',
+    'cz_nudge_dashboard' => 'Diğer Panel Düzenini Deneyin',
+    'cz_nudge_checkout'  => 'Farklı Ödeme Düzenini Deneyin',
+    'cz_nudge_explore'   => 'Tema Seçeneklerini Keşfedin',
+];

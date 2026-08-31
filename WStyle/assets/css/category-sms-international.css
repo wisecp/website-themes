@@ -1,0 +1,9 @@
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+.sms-calc{max-inline-size:44rem}.sms-calc-result{background-color:var(--wstyle-body-bg);border-radius:var(--wstyle-radius);padding:1.25rem}.sms-calc-figure{display:flex;flex-direction:column;gap:.15rem}.sms-calc-value{font-size:1.9rem;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--wstyle-heading-color)}.sms-calc-label{font-size:.75rem;color:var(--wstyle-muted-color)}.sms-rate-search{inline-size:100%}@media(min-width:576px){.sms-rate-search{inline-size:18rem}}.sms-rate-country{font-weight:600}.sms-rate-country .iti__flag{display:inline-block;margin-inline-end:.5rem;vertical-align:-1px}

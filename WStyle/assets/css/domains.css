@@ -1,0 +1,9 @@
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+.list-chip-btn{border:1px solid transparent;font-family:inherit;cursor:pointer;transition:background-color .18s ease,color .18s ease,border-color .18s ease}.list-chip-btn:hover{border-color:color-mix(in srgb,var(--wstyle-muted-color) 35%,transparent)}.list-chip-btn.is-on{background-color:var(--bs-success-bg-subtle);color:var(--bs-success-text-emphasis)}.list-chip-btn.is-on:hover{border-color:color-mix(in srgb,var(--bs-success-text-emphasis) 35%,transparent)}.list-chip-btn:disabled{cursor:default;opacity:.65}.list-chip-btn:disabled:hover{border-color:transparent}

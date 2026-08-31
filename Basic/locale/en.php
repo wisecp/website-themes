@@ -1,0 +1,86 @@
+<?php
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+return [
+    'name'        => 'Basic',
+    'description' => "WISECP's default theme. A responsive theme built on Bootstrap 5 with light and dark modes plus RTL support. Made for those who want a clean, simple interface.",
+
+    'grp_topbar'           => 'Announcement Bar',
+    'set_topbar_enabled'      => 'Show Announcement Bar',
+    'set_topbar_enabled_desc' => 'Displays a thin strip above the header for contact info, promotions or notices.',
+    'set_topbar_text'         => 'Announcement Text',
+    'set_topbar_text_desc'    => 'Shown in the strip above the header. HTML and Smarty tags are supported; scripts, forms and event handlers are removed when saved.',
+
+    'grp_appearance'      => 'Appearance',
+    'set_primary_color'   => 'Primary Color',
+    'set_secondary_color' => 'Secondary Color',
+    'set_text_color'      => 'Text Color',
+
+    'grp_checkout'              => 'Checkout',
+    'set_checkout_sidebar'      => 'Order Summary Layout',
+    'set_checkout_sidebar_desc' => 'Sets where the order summary appears on the configure, cart and checkout pages.',
+    'opt_checkout_rail'         => 'Rail (Sticky Side Panel)',
+    'opt_checkout_card'         => 'Card (In-Page Column)',
+    'opt_checkout_stack'        => 'Stack (Single Column + Bottom Bar)',
+
+    'grp_dashboard'               => 'Client Dashboard',
+    'set_dashboard_layout'        => 'Dashboard Layout',
+    'set_dashboard_layout_desc'   => 'Sets how the client dashboard is arranged: the modern layout with a hero command band, or the classic layout with a left account rail.',
+    'opt_dash_hero'               => 'Modern (Hero)',
+    'opt_dash_standard'           => 'Classic (Standard)',
+
+    'grp_popup'              => 'Popup Window',
+    'set_popup_enabled'      => 'Show Popup Window',
+    'set_popup_enabled_desc' => 'Displays a popup window over the site after a delay, based on the chosen frequency.',
+    'set_popup_content'      => 'Popup Content',
+    'set_popup_content_desc' => 'HTML and Smarty tags are supported; scripts, forms and event handlers are removed when saved.',
+    'set_popup_width'        => 'Width (px)',
+    'set_popup_height'       => 'Height (px)',
+    'set_popup_frequency'    => 'Frequency',
+    'opt_popup_once'         => 'Once per Visitor',
+    'opt_popup_daily'        => 'Once a Day',
+    'opt_popup_always'       => 'Every Page Load',
+    'set_popup_delay'        => 'Delay (seconds)',
+    'set_popup_delay_desc'   => 'The popup appears this many seconds after the page loads.',
+
+    'cz_title'           => 'Theme Preview',
+    'cz_subtitle'        => 'Stored in your browser; theme files stay untouched.',
+    'cz_theme'           => 'Theme',
+    'cz_soon'            => 'Soon',
+    'cz_layout'          => 'Layout',
+    'cz_dashboard'       => 'Dashboard',
+    'cz_hero'            => 'Hero',
+    'cz_standard'        => 'Standard',
+    'cz_checkout'        => 'Checkout',
+    'cz_rail'            => 'Rail',
+    'cz_card'            => 'Card',
+    'cz_stack'           => 'Stack',
+    'cz_appearance'      => 'Appearance',
+    'cz_brand_logo'      => 'Brand Logo',
+    'cz_logo_upload'     => 'Upload Your Logo',
+    'cz_logo_hint'       => 'Dominant brand colors are applied automatically.',
+    'cz_logo_remove'     => 'Remove logo',
+    'cz_colors'          => 'Colors',
+    'cz_primary'         => 'Primary',
+    'cz_secondary'       => 'Secondary',
+    'cz_text'            => 'Text',
+    'cz_text_note'       => '(light mode)',
+    'cz_pick_primary'    => 'Choose primary color',
+    'cz_pick_secondary'  => 'Choose secondary color',
+    'cz_pick_text'       => 'Choose text color',
+    'cz_typography'      => 'Typography',
+    'cz_font_family'     => 'Font Family',
+    'cz_reset'           => 'Reset to Defaults',
+    'cz_close'           => 'Close panel',
+    'cz_toast_extracted' => 'Brand colors extracted from your logo.',
+    'cz_toast_reset'     => 'Theme preview reset to defaults.',
+    'cz_nudge_dashboard' => 'Try the Other Dashboard',
+    'cz_nudge_checkout'  => 'Try Another Checkout Layout',
+    'cz_nudge_explore'   => 'Explore Theme Options',
+];

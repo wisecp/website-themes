@@ -1,0 +1,9 @@
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+:root{--wstyle-primary: #095174;--wstyle-primary-rgb: 9, 81, 116;--wstyle-secondary: #0d9488;--wstyle-secondary-rgb: 13, 148, 136;--wstyle-success: #2fa46e;--wstyle-success-rgb: 47, 164, 110;--wstyle-font-family: "Urbanist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;--wstyle-font-size-base: .9375rem;--wstyle-body-color: #475569;--wstyle-heading-color: #1e293b;--wstyle-muted-color: #6b7585;--wstyle-body-bg: #f5f6f8;--wstyle-surface-bg: #ffffff;--wstyle-border-color: #e4e7ec;--wstyle-chrome-bg: color-mix(in srgb, var(--wstyle-primary) 30%, #0b1220);--wstyle-chrome-bg-deep: color-mix(in srgb, var(--wstyle-primary) 22%, #070d16);--wstyle-chrome-color: #e9edf5;--wstyle-chrome-muted: #98a4b8;--wstyle-chrome-border: rgba(233, 237, 245, .09);--wstyle-radius: .625rem}[data-bs-theme=dark]{--wstyle-body-color: #c8cdd6;--wstyle-heading-color: #e8eaee;--wstyle-muted-color: #8b93a1;--wstyle-body-bg: color-mix(in srgb, var(--wstyle-primary) 12%, #0b0f15);--wstyle-surface-bg: color-mix(in srgb, var(--wstyle-primary) 14%, #101720);--wstyle-border-color: color-mix(in srgb, var(--wstyle-primary) 16%, #222c38)}

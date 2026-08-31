@@ -1,0 +1,322 @@
+{extends file='layouts/default.tpl'}
+
+{block name=head}
+<link rel="stylesheet" href="{asset path='css/category-server.css'}">
+{/block}
+
+{block name=content}
+
+    <section class="page-hero text-center">
+        <div class="container">
+            <h1 class="page-hero-title reveal mb-3">{$category.title}</h1>
+            {if $category.sub_title}<p class="page-hero-lead text-body-secondary reveal reveal-2 mb-4">{$category.sub_title}</p>{/if}
+            {if $show_trust && $trust_badges}
+            <div class="d-flex flex-wrap justify-content-center gap-4 fs-8 text-body-secondary reveal reveal-3">
+                {foreach $trust_badges as $b}
+                <span><i class="{$b.icon} me-1 text-success"></i>{$b.text}</span>
+                {/foreach}
+            </div>
+            {/if}
+        </div>
+    </section>
+
+    {if $breadcrumb}
+    <div class="container pt-3">
+        <nav aria-label="{lang key='website/products/category-breadcrumb-aria'}">
+            <ol class="breadcrumb fs-7 mb-0 justify-content-center">
+                {foreach $breadcrumb as $bc}
+                {if $bc@last}<li class="breadcrumb-item active" aria-current="page">{$bc.title}</li>
+                {else}<li class="breadcrumb-item"><a href="{$bc.url}">{$bc.title}</a></li>{/if}
+                {/foreach}
+            </ol>
+        </nav>
+    </div>
+    {/if}
+
+{if $mode == 'tabs'}
+    <section class="py-5" data-billing="{$default_cycle}" data-currency="{$selected_currency_code}" data-price-mode="{$price_mode}" data-save-text="{lang key='website/products/category-save'}">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="eyebrow">{$plans_eyebrow}</span>
+                <h2 class="tracking-tight mt-1 mb-2">{$plans_heading}</h2>
+                <p class="text-body-secondary mb-0">{$plans_subtitle}</p>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-between align-items-center gap-3 mb-2">
+                <ul class="nav nav-pills gap-1 mb-0" role="tablist">
+                    {foreach $tabs as $tab}
+                    <li class="nav-item" role="presentation"><button class="nav-link{if $tab.active} active{/if}" id="tab-{$tab.id}" data-bs-toggle="tab" data-bs-target="#pane-{$tab.id}" data-tab-url="{$tab.url}" data-meta-title="{$tab.meta.title}" data-meta-desc="{$tab.meta.description}" data-meta-keys="{$tab.meta.keywords}" type="button" role="tab" aria-controls="pane-{$tab.id}" aria-selected="{if $tab.active}true{else}false{/if}">{if $tab.icon.type == 'image'}<img src="{$tab.icon.value}" alt="" class="me-1" style="height:1em;vertical-align:-0.125em">{else}<i class="{$tab.icon.value} me-1"></i>{/if}{$tab.title}</button></li>
+                    {/foreach}
+                </ul>
+                {if $billing_cycles|@count > 1}
+                <div class="text-center text-lg-end">
+                    <div class="billing-toggle" data-billing-toggle role="group" aria-label="{lang key='website/products/category-billing-cycle'}">
+                        {foreach $billing_cycles as $c}
+                        <button class="billing-option{if $c.key == $default_cycle} active{/if}" type="button" data-action="set-billing" data-cycle="{$c.key}">{$c.label}</button>
+                        {/foreach}
+                    </div>
+                </div>
+                {/if}
+            </div>
+
+            {hook name='ui:client.catalog.plans.before'}
+
+            <div class="tab-content">
+                {foreach $tabs as $tab}
+                <div class="tab-pane fade{if $tab.active} show active{/if}" id="pane-{$tab.id}" role="tabpanel" aria-labelledby="tab-{$tab.id}" tabindex="0">
+                    {if $tab.plans}
+                    {if ($tab.layout|default:'grid') == 'rows'}
+                    {include file='components/plan-rows.tpl' plans=$tab.plans}
+                    {else}
+                    {include file='components/plan-grid.tpl' plans=$tab.plans}
+                    {/if}
+                    {else}
+                    <div class="basic-empty-state text-center py-5">
+                        <span class="icon-disc d-inline-flex mb-3"><i class="bi bi-box-seam"></i></span>
+                        <p class="text-body-secondary mb-0">{lang key='website/products/no-content'}</p>
+                    </div>
+                    {/if}
+                </div>
+                {/foreach}
+            </div>
+
+            {hook name='ui:client.catalog.plans.after'}
+
+            <p class="fs-8 text-body-secondary text-center mt-3 mb-0">{lang key='website/products/category-prices-in'} <span data-role="currency-label">{$selected_currency_code}</span>{if $prices_note}. {$prices_note}{/if}</p>
+        </div>
+    </section>
+
+    {if $has_content}
+    <section class="py-5 border-top border-bottom">
+        <div class="container">
+            {foreach $tabs as $tab}
+            {if $tab.content}<div class="category-content" data-tab-content="{$tab.id}"{if !$tab.active} hidden{/if}>{content var=$tab.content}</div>{/if}
+            {/foreach}
+        </div>
+    </section>
+    {/if}
+
+    {if $has_faq}
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow">{lang key='website/products/category-faq-eyebrow'}</span>
+                <h2 class="tracking-tight mt-1 mb-0">{lang key='website/products/category-faq-heading'}</h2>
+            </div>
+            {foreach $tabs as $tab}
+            {if $tab.faq}<div data-tab-faq="{$tab.id}"{if !$tab.active} hidden{/if}>
+                <div class="accordion page-faq" id="category-faq-{$tab.id}">
+                    {foreach $tab.faq as $i => $f}
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{$tab.id}-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$tab.id}-{$i}">{$f.title}</button>
+                        </h3>
+                        <div id="faq-{$tab.id}-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#category-faq-{$tab.id}">
+                            <div class="accordion-body">{$f.description nofilter}</div>
+                        </div>
+                    </div>
+                    {/foreach}
+                </div>
+            </div>{/if}
+            {/foreach}
+        </div>
+    </section>
+    {/if}
+
+{else}
+    {if $cards}
+    <section class="{if $is_top}py-5{else}pt-3 pb-5{/if}">
+        <div class="container">
+            {if $is_top}
+            <div class="text-center mb-4">
+                <span class="eyebrow">{lang key='website/products/category-server-hub-eyebrow'}</span>
+                <h2 class="tracking-tight mt-1 mb-2">{lang key='website/products/category-server-hub-heading'}</h2>
+                <p class="text-body-secondary mb-0">{lang key='website/products/category-server-hub-subtitle'}</p>
+            </div>
+            {/if}
+            <div class="cat-hub" aria-label="{lang key='website/products/category-server-cats-aria'}">
+                {foreach $cards as $card}
+                <a class="cat-card" href="{$card.url}">
+                    <span class="icon-disc">{if $card.icon.type == 'image'}<img src="{$card.icon.value}" alt="" style="width:1.1rem;height:1.1rem;object-fit:contain">{else}<i class="{$card.icon.value}"></i>{/if}</span>
+                    <span class="cat-card-body">
+                        <span class="cat-card-title">{$card.title}</span>
+                        {if $card.desc}<span class="cat-card-desc">{$card.desc}</span>{/if}
+                    </span>
+                    {if $card.from}<span class="cat-card-price"><span class="cat-card-price-from">{lang key='website/products/category-from'}</span><span class="cat-card-price-now"><span class="cat-card-price-amount num-tabular">{$card.from}</span><span class="cat-card-price-cycle">{lang key='website/products/category-per-month'}</span></span></span>{/if}
+                    <i class="bi bi-chevron-right cat-card-chevron" aria-hidden="true"></i>
+                </a>
+                {/foreach}
+            </div>
+        </div>
+    </section>
+    {/if}
+
+    {if $plans}
+    <section class="{if $is_top}py-5 border-top{else}pt-3 pb-5{/if}" data-billing="{$default_cycle}" data-currency="{$selected_currency_code}" data-price-mode="{$price_mode}" data-save-text="{lang key='website/products/category-save'}">
+        <div class="container">
+            <div class="text-center mb-4">
+                {if $is_top}
+                <span class="eyebrow">{lang key='website/products/category-cloud-eyebrow'}</span>
+                <h2 class="tracking-tight mt-1 mb-2">{lang key='website/products/category-cloud-heading'}</h2>
+                <p class="text-body-secondary mb-0">{lang key='website/products/category-cloud-subtitle'}</p>
+                {else}
+                <span class="eyebrow">{lang key='website/products/category-plans-eyebrow'}</span>
+                <h2 class="tracking-tight mt-1 mb-2">{lang key='website/products/category-server-plans-heading'}</h2>
+                {/if}
+            </div>
+
+            {if $billing_cycles|@count > 1}
+            <div class="d-flex justify-content-center justify-content-lg-end mb-2">
+                <div class="text-center text-lg-end">
+                    <div class="billing-toggle" data-billing-toggle role="group" aria-label="{lang key='website/products/category-billing-cycle'}">
+                        {foreach $billing_cycles as $c}
+                        <button class="billing-option{if $c.key == $default_cycle} active{/if}" type="button" data-action="set-billing" data-cycle="{$c.key}">{$c.label}</button>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+            {hook name='ui:client.catalog.plans.before'}
+
+            {if $layout == 'rows'}
+            {include file='components/plan-rows.tpl' plans=$plans}
+            {else}
+            {include file='components/plan-grid.tpl' plans=$plans}
+            {/if}
+
+            {hook name='ui:client.catalog.plans.after'}
+
+            <p class="fs-8 text-body-secondary text-center mt-3 mb-0">{lang key='website/products/category-prices-in'} <span data-role="currency-label">{$selected_currency_code}</span>{if $prices_note}. {$prices_note}{/if}</p>
+        </div>
+    </section>
+    {/if}
+
+    {if $show_extras && $included}
+    <section class="py-5 border-top border-bottom">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow">{$included.eyebrow}</span>
+                <h2 class="tracking-tight mt-1 mb-2">{$included.heading}</h2>
+                <p class="text-body-secondary mb-0">{$included.subtitle}</p>
+            </div>
+            <div class="row g-3">
+                {foreach $included.items as $item}
+                <div class="col-md-6 col-xl-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex align-items-start gap-3">
+                            <span class="icon-disc"><i class="{$item.icon}"></i></span>
+                            <div>
+                                <h3 class="h6 mb-1">{$item.title}</h3>
+                                <p class="fs-7 text-body-secondary mb-0">{$item.desc}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+    </section>
+    {/if}
+
+    {if $faq}
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="eyebrow">{lang key='website/products/category-faq-eyebrow'}</span>
+                <h2 class="tracking-tight mt-1 mb-0">{lang key='website/products/category-faq-heading'}</h2>
+            </div>
+            <div class="accordion page-faq" id="category-faq">
+                {foreach $faq as $i => $f}
+                <div class="accordion-item">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$i}">{$f.title}</button>
+                    </h3>
+                    <div id="faq-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#category-faq">
+                        <div class="accordion-body">{$f.description nofilter}</div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+    </section>
+    {/if}
+{/if}
+
+    {include file='components/cta-band.tpl'
+        cta_title_key='website/products/category-cta-title'
+        cta_text_key='website/products/category-cta-text'
+        cta_primary_key='website/products/category-cta-primary'
+        cta_secondary_key='website/products/category-cta-secondary'}
+
+{if $mode == 'tabs'}
+    {literal}
+    <script>
+      (function() {
+        var tabBtns = document.querySelectorAll('[data-bs-toggle="tab"][data-bs-target^="#pane-"]');
+        function syncTab(id) {
+          document.querySelectorAll("[data-tab-content],[data-tab-faq]").forEach(function(el) {
+            var t = el.getAttribute("data-tab-content") || el.getAttribute("data-tab-faq");
+            el.hidden = t !== id;
+          });
+        }
+        function tabPath(btn) {
+          try {
+            return new URL(btn.getAttribute("data-tab-url"), location.origin).pathname;
+          } catch (e) {
+            return null;
+          }
+        }
+        function upsertMeta(attr, name, value) {
+          if (value == null) return;
+          var el = document.head.querySelector("meta[" + attr + '="' + name + '"]');
+          if (!el) {
+            el = document.createElement("meta");
+            el.setAttribute(attr, name);
+            document.head.appendChild(el);
+          }
+          el.setAttribute("content", value);
+        }
+        function applyMeta(btn) {
+          var t = btn.getAttribute("data-meta-title"), d = btn.getAttribute("data-meta-desc"), k = btn.getAttribute("data-meta-keys"), u = btn.getAttribute("data-tab-url");
+          if (t) document.title = t;
+          upsertMeta("name", "description", d);
+          upsertMeta("name", "keywords", k);
+          upsertMeta("property", "og:title", t);
+          upsertMeta("property", "og:description", d);
+          upsertMeta("property", "og:url", u);
+          upsertMeta("name", "twitter:title", t);
+          upsertMeta("name", "twitter:description", d);
+          if (u) {
+            var c = document.head.querySelector('link[rel="canonical"]');
+            if (!c) {
+              c = document.createElement("link");
+              c.setAttribute("rel", "canonical");
+              document.head.appendChild(c);
+            }
+            c.setAttribute("href", u);
+          }
+        }
+        tabBtns.forEach(function(b) {
+          b.addEventListener("shown.bs.tab", function(e) {
+            var btn = e.target;
+            syncTab(btn.getAttribute("data-bs-target").replace("#pane-", ""));
+            applyMeta(btn);
+            var path = tabPath(btn);
+            if (path && path !== location.pathname) history.pushState(null, "", btn.getAttribute("data-tab-url"));
+          });
+        });
+        window.addEventListener("popstate", function() {
+          var match = null;
+          tabBtns.forEach(function(b) {
+            if (tabPath(b) === location.pathname) match = b;
+          });
+          var target = match || tabBtns[0];
+          if (target && window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
+        });
+      })();
+    </script>
+    {/literal}
+{/if}
+
+{/block}

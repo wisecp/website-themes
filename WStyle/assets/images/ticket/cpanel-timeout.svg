@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-label="Screenshot: cPanel connection timed out">
+  <rect width="640" height="420" fill="#eef1f5"/>
+  <!-- browser window -->
+  <rect x="40" y="40" width="560" height="340" rx="12" fill="#ffffff" stroke="#d7dce3"/>
+  <rect x="40" y="40" width="560" height="44" rx="12" fill="#f3f5f8"/>
+  <rect x="40" y="72" width="560" height="12" fill="#f3f5f8"/>
+  <circle cx="64" cy="62" r="5" fill="#f87171"/>
+  <circle cx="82" cy="62" r="5" fill="#fbbf24"/>
+  <circle cx="100" cy="62" r="5" fill="#34d399"/>
+  <rect x="124" y="52" width="456" height="20" rx="10" fill="#e7ebf0"/>
+  <text x="138" y="66" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#9aa6b2">https://srv12.example-hosting.net:2083</text>
+  <!-- error body -->
+  <circle cx="320" cy="180" r="40" fill="#fde8e8"/>
+  <path d="M320 162 L320 188 M320 198 L320 198" stroke="#dc2626" stroke-width="6" stroke-linecap="round"/>
+  <text x="320" y="252" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#334155">This site can't be reached</text>
+  <text x="320" y="284" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#64748b">srv12.example-hosting.net took too long to respond.</text>
+  <text x="320" y="320" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="0.5" fill="#94a3b8">ERR_CONNECTION_TIMED_OUT</text>
+</svg>

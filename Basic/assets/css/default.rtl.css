@@ -1,0 +1,9 @@
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+[dir=rtl] .bi-arrow-right,[dir=rtl] .bi-arrow-left,[dir=rtl] .bi-chevron-right,[dir=rtl] .bi-chevron-left,[dir=rtl] .bi-box-arrow-right,[dir=rtl] .bi-box-arrow-left{transform:scaleX(-1)}
