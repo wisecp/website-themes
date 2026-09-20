@@ -38,7 +38,7 @@
                 </ul>
                 {/if}
                 {if $plan.in_stock}
-                <a class="btn {if $plan.popular}btn-primary{else}btn-soft{/if} mt-auto" href="{$plan.link}">{lang key='website/products/category-get-started'}</a>
+                <a class="btn {if $plan.popular}btn-primary{else}btn-soft{/if} mt-auto" href="{$plan.link}"{if $plan.external|default:false} rel="nofollow noopener"{/if}>{if $plan.cta_label|default:''}{$plan.cta_label}{else}{lang key='website/products/category-get-started'}{/if}</a>
                 {else}
                 <button class="btn btn-soft mt-auto" type="button" disabled>{lang key='website/products/out-of-stock'}</button>
                 {/if}

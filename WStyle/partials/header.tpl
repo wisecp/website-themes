@@ -1,6 +1,6 @@
 {function name=wstyle_nav_item item=[]}
 <a class="dropdown-item"{if $item.link} href="{$item.link}"{/if}>
-    <span class="icon-disc"><i class="{$item.icon}"></i></span>
+    {if $item.icon}<span class="icon-disc"><i class="{$item.icon}"></i></span>{/if}
     <span><span class="item-title">{$item.title}{if $item.extra.tag ?? false}<span class="badge" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}</span>{if $item.extra.desc ?? ''}<span class="item-desc">{$item.extra.desc}</span>{/if}</span>
 </a>
 {/function}
@@ -56,7 +56,7 @@
                         {if $child.children}
                     <div class="dropdown-sub">
                         <a class="dropdown-item nav-sub-toggle"{if $child.link} href="{$child.link}"{/if} aria-haspopup="true">
-                            <span class="icon-disc"><i class="{$child.icon}"></i></span>
+                            {if $child.icon}<span class="icon-disc"><i class="{$child.icon}"></i></span>{/if}
                             <span><span class="item-title">{$child.title}{if $child.extra.tag ?? false}<span class="badge" style="background-color:{$child.extra.tag.color};color:{$child.extra.tag.text_color}">{if $child.extra.tag.icon ?? ''}<i class="{$child.extra.tag.icon} me-1"></i>{/if}{$child.extra.tag.name}</span>{/if}</span>{if $child.extra.desc ?? ''}<span class="item-desc">{$child.extra.desc}</span>{/if}</span>
                             <i class="bi bi-chevron-right nav-sub-caret"></i>
                         </a>

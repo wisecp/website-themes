@@ -138,7 +138,7 @@
                                 </div>
                                 {/if}
                                 <div class="d-grid gap-2">
-                                    {if $product.in_stock}<a class="btn btn-primary" href="{$order_link}"><i class="bi bi-cart-plus me-1"></i>{lang key='website/products/detail-add-to-cart'}</a>{else}<button class="btn btn-secondary" type="button" disabled><i class="bi bi-x-circle me-1"></i>{lang key='website/products/detail-out-of-stock'}</button>{/if}
+                                    {if $product.in_stock}<a class="btn btn-primary" href="{$order_link}"{if $order_external|default:false} rel="nofollow noopener"{/if}><i class="bi bi-cart-plus me-1"></i>{if $order_cta_label|default:''}{$order_cta_label}{else}{lang key='website/products/detail-add-to-cart'}{/if}</a>{else}<button class="btn btn-secondary" type="button" disabled><i class="bi bi-x-circle me-1"></i>{lang key='website/products/detail-out-of-stock'}</button>{/if}
                                     {if $demo_link || $demo_admin_link}
                                     <div class="d-flex gap-2">
                                         {if $demo_link}<a class="btn btn-soft flex-fill" href="{$demo_link}" target="_blank" rel="noopener"><i class="bi bi-eye me-1"></i>{lang key='website/products/detail-live-demo'}</a>{/if}

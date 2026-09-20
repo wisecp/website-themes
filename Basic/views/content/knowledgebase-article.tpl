@@ -108,7 +108,7 @@
             </div>
             <div class="kb-help-actions">
                 <a href="{link route='contact'}" class="btn btn-soft"><i class="bi bi-envelope me-1"></i>{lang key='website/knowledgebase/help-contact'}</a>
-                <a href="{link route='ticket-create'}" class="btn btn-primary"><i class="bi bi-life-preserver me-1"></i>{lang key='website/knowledgebase/help-ticket'}</a>
+                {if $support_enabled}<a href="{link route='ticket-create'}" class="btn btn-primary"><i class="bi bi-life-preserver me-1"></i>{lang key='website/knowledgebase/help-ticket'}</a>{/if}
             </div>
         </div>
 

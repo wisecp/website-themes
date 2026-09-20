@@ -108,7 +108,7 @@
         $blocked = !empty($jopts["block_access"]);
 
         $cid    = (int) $r["amount_cid"];
-        $amount = (float) $r["amount"];
+        $amount = (float) ($r["display_amount"] ?? $r["amount"]);
         $inUcid = $cid === $ucid ? $amount : (float) \Money::exChange($amount, $cid, $ucid);
 
         $dueTs   = $lifetime ? 0 : $validTs((string) $r["duedate"]);

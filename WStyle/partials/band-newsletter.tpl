@@ -17,7 +17,7 @@
                             </div>
                             <div class="form-check mt-3">
                                 <input class="form-check-input" type="checkbox" id="band-nl-consent" required data-role="newsletter-consent">
-                                <label class="form-check-label fs-8" for="band-nl-consent">{lang key='website/news/newsletter-consent-pre'} <a{if $privacy_contract_link} href="{$privacy_contract_link}" target="_blank" rel="noopener"{/if}>{lang key='website/news/newsletter-privacy'}</a>{lang key='website/news/newsletter-consent-post'}</label>
+                                <label class="form-check-label fs-8" for="band-nl-consent">{lang key='website/news/newsletter-consent-pre'} {if $privacy_contract_link}<a href="{$privacy_contract_link}" target="_blank" rel="noopener">{lang key='website/news/newsletter-privacy'}</a>{else}{lang key='website/news/newsletter-privacy'}{/if}{lang key='website/news/newsletter-consent-post'}</label>
                             </div>
                         </div>
                     </div>

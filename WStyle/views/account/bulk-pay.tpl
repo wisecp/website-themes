@@ -130,7 +130,7 @@
     </div>
     {/if}
 
-    <p class="invoice-help">{lang key='website/invoices/bulk/help-question'} <a href="{$support_link}">{lang key='website/invoices/detail/contact-support'}</a>.</p>
+    {if $show_support}<p class="invoice-help">{lang key='website/invoices/bulk/help-question'} <a href="{$support_link}">{lang key='website/invoices/detail/contact-support'}</a>.</p>{/if}
 
 </div>
 {/block}

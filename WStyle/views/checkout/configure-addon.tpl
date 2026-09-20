@@ -187,7 +187,7 @@
                                 <label for="cfg-req-{$req.id}" class="form-label d-flex align-items-center gap-2">{if $req.icon}<span class="label-media">{if $req.icon.type == 'image'}<img src="{$req.icon.value}" alt="">{else}<i class="{$req.icon.value}"></i>{/if}</span>{/if}{$req.name}{if $req.required} <span class="text-danger" aria-hidden="true">*</span>{/if}</label>
                                 <select class="form-select" id="cfg-req-{$req.id}" name="requirements[{$req.id}]"{if $req.required} required{/if}>
                                     {if !$req.required}<option value="" selected>{lang key='website/configure/configuration/select'}</option>{/if}
-                                    {foreach $req.options as $opt}<option value="{$opt.id}"{if $opt.selected} selected{/if}>{$opt.name}</option>{/foreach}
+                                    {foreach $req.groups as $grp}{if $grp.multi}<optgroup label="{$grp.name}">{foreach $grp.options as $opt}<option value="{$opt.id}"{if $opt.selected} selected{/if}>{$opt.label}</option>{/foreach}</optgroup>{else}{foreach $grp.options as $opt}<option value="{$opt.id}"{if $opt.selected} selected{/if}>{$opt.name}</option>{/foreach}{/if}{/foreach}
                                 </select>
                                 {if $req.description}<div class="form-text">{$req.description nofilter}</div>{/if}
                                 {if $req.required}<div class="invalid-feedback">{lang key='website/configure/configuration/required-select'}</div>{/if}
@@ -195,8 +195,15 @@
                                 {elseif $req.type == 'radio'}
                                 <span class="form-label d-flex align-items-center gap-2">{if $req.icon}<span class="label-media">{if $req.icon.type == 'image'}<img src="{$req.icon.value}" alt="">{else}<i class="{$req.icon.value}"></i>{/if}</span>{/if}{$req.name}{if $req.required} <span class="text-danger" aria-hidden="true">*</span>{/if}</span>
                                 {if $req.description}<span class="fs-8 text-body-secondary d-block mb-2">{$req.description nofilter}</span>{/if}
-                                <div class="{if $req.list_template == 1}option-grid{else}d-grid gap-2{/if}">
-                                    {foreach $req.options as $opt}
+                                {* Grouped choices: family card (no input) + version grid below the row, same as configure.tpl *}
+                                <div class="{if $req.list_template == 1}option-grid{else}d-grid gap-2{/if}" data-req-choices="{$req.id}">
+                                    {foreach $req.groups as $grp}
+                                    {if $grp.multi}
+                                    <div class="option-card option-card-radio{if $req.list_template == 1} option-card-sm{/if}{if $grp.selected} option-card-active{/if}" data-req-family="{$req.id}-{$grp@index}" role="button" tabindex="0" aria-expanded="{if $grp.selected}true{else}false{/if}" aria-controls="cfg-req-{$req.id}-family-{$grp@index}">
+                                        <span class="d-flex align-items-center gap-{if $req.list_template == 1}2{else}3{/if}">{if $grp.icon}<span class="option-media">{if $grp.icon.type == 'image'}<img src="{$grp.icon.value}" alt="">{else}<i class="{$grp.icon.value}"></i>{/if}</span>{/if}<span class="me-auto"><span class="fw-semibold d-block">{$grp.name}</span><span class="fs-8 text-body-secondary">{lang key='website/configure/configuration/group-versions' count=$grp.options|count}</span></span></span>
+                                    </div>
+                                    {else}
+                                    {foreach $grp.options as $opt}
                                     {if $req.list_template == 1}
                                     <label class="option-card option-card-radio option-card-sm">
                                         <input class="form-check-input" type="radio" name="requirements[{$req.id}]" value="{$opt.id}"{if $opt.selected} checked{/if}{if $req.required} required{/if}>
@@ -210,7 +217,23 @@
                                     </label>
                                     {/if}
                                     {/foreach}
+                                    {/if}
+                                    {/foreach}
                                 </div>
+                                {foreach $req.groups as $grp}{if $grp.multi}
+                                <div class="option-versions{if !$grp.selected} d-none{/if}" id="cfg-req-{$req.id}-family-{$grp@index}" data-req-versions="{$req.id}-{$grp@index}">
+                                    <span class="fs-8 text-body-secondary d-block mb-2">{lang key='website/configure/configuration/group-pick' group=$grp.name}</span>
+                                    <div class="option-grid">
+                                        {foreach $grp.options as $opt}
+                                        <label class="option-card option-card-radio option-card-sm">
+                                            <input class="form-check-input" type="radio" name="requirements[{$req.id}]" value="{$opt.id}"{if $opt.selected} checked{/if}{if $req.required} required{/if}>
+                                            <span class="fw-semibold">{$opt.label}</span>
+                                            {if $opt.description}<span class="fs-8 text-body-secondary d-block mt-1">{$opt.description nofilter}</span>{/if}
+                                        </label>
+                                        {/foreach}
+                                    </div>
+                                </div>
+                                {/if}{/foreach}
 
                                 {elseif $req.type == 'checkbox'}
                                 <span class="fw-semibold d-flex align-items-center gap-2">{if $req.icon}<span class="label-media">{if $req.icon.type == 'image'}<img src="{$req.icon.value}" alt="">{else}<i class="{$req.icon.value}"></i>{/if}</span>{/if}{$req.name}</span>

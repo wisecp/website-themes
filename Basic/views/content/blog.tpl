@@ -144,7 +144,7 @@
                             </div>
                             <div class="form-check mt-2">
                                 <input class="form-check-input" type="checkbox" id="blog-consent-list" required data-role="newsletter-consent">
-                                <label class="form-check-label fs-8" for="blog-consent-list">{lang key='website/articles/newsletter-consent-pre'} <a{if $privacy_contract_link} href="{$privacy_contract_link}" target="_blank" rel="noopener"{/if}>{lang key='website/articles/newsletter-privacy'}</a>{lang key='website/articles/newsletter-consent-post'}</label>
+                                <label class="form-check-label fs-8" for="blog-consent-list">{lang key='website/articles/newsletter-consent-pre'} {if $privacy_contract_link}<a href="{$privacy_contract_link}" target="_blank" rel="noopener">{lang key='website/articles/newsletter-privacy'}</a>{else}{lang key='website/articles/newsletter-privacy'}{/if}{lang key='website/articles/newsletter-consent-post'}</label>
                             </div>
                         </div>
                     </div>

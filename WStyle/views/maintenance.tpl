@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{if ($ui_dir|default:'ltr') == 'rtl'}{asset path='css/bootstrap.rtl.min.css'}{else}{asset path='css/bootstrap.min.css'}{/if}" id="css-bootstrap" data-ltr="{asset path='css/bootstrap.min.css'}" data-rtl="{asset path='css/bootstrap.rtl.min.css'}">
     <link rel="stylesheet" href="{asset path='css/libs/bootstrap-icons/bootstrap-icons.min.css'}">
     <link rel="stylesheet" href="{asset path='css/libs/fontawesome/css/all.min.css'}">
-    <link rel="stylesheet" href="{asset path='css/libs/fonts/urbanist.css'}">
+    <link rel="stylesheet" href="{asset path='css/libs/fonts/manrope.css'}">
     <link rel="stylesheet" href="{asset path='css/theme.css'}">
     <link rel="stylesheet" href="{asset path='css/default.css'}">
     <link rel="stylesheet" href="{asset path='css/default-dark.css'}">

@@ -157,6 +157,7 @@
             </div>
             <nav class="list-pagination" aria-label="{lang key='website/services/pagination-aria'}" data-role="pagination"><ul class="pagination pagination-sm m-0"></ul></nav>
         </div>
+        {if $list_tax_inclusive}<p class="fs-8 text-body-secondary mt-2 mb-0" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</p>{/if}
         {else}
         <div class="wstyle-empty-state is-page">
             <i class="bi bi-hdd-stack" aria-hidden="true"></i>

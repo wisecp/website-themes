@@ -143,9 +143,16 @@
 
 
                             {if $pay_failed}
-                            <div class="alert alert-danger d-flex align-items-center text-start mb-4" role="alert">
-                                <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>
-                                <div>{lang key='website/checkout/complete/pay-failed-note'}</div>
+                            <div class="alert alert-danger text-start mb-4" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-exclamation-circle me-2 flex-shrink-0" aria-hidden="true"></i>
+                                    <span>{lang key='website/checkout/complete/pay-failed-note'}</span>
+                                </div>
+                                {if $pay_error}
+                                <div class="mt-2 pt-2 border-top border-danger-subtle fs-8">
+                                    <span class="fw-semibold">{lang key='website/invoices/pay/result-failed-reason'}</span> {$pay_error}
+                                </div>
+                                {/if}
                             </div>
                             {/if}
 

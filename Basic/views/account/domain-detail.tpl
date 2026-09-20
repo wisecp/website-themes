@@ -142,7 +142,7 @@
                     </div>
                     <div class="sd-fact">
                         <dt>{lang key='website/domains/renewal-price'}</dt>
-                        <dd class="num-tabular">{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}</dd>
+                        <dd class="num-tabular">{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}{if $d.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}</dd>
                     </div>
                     <div class="sd-fact">
                         <dt>{lang key='website/domains/auto-renew'}</dt>
@@ -182,7 +182,7 @@
         {hook name='ui:client.domain_detail.hero.after'}
 
         <div class="card sd-tabcard">
-            <div class="card-header sd-tabbar">
+            <div class="card-header sd-tabbar" data-scroll-prev="{lang key='needs/tabs-scroll-prev'}" data-scroll-next="{lang key='needs/tabs-scroll-next'}">
                 <ul class="nav sd-segtabs" role="tablist" data-basic-tabs="domain-detail">
                     <li class="nav-item" role="presentation"><button class="nav-link active" id="dd-overview-tab" data-tab-hash="overview" data-bs-toggle="tab" data-bs-target="#dd-overview" type="button" role="tab" aria-controls="dd-overview" aria-selected="true"><i class="bi bi-grid-1x2 me-1"></i>{lang key='website/domains/tab-overview'}</button></li>
                     {if $showNsTab}<li class="nav-item" role="presentation"><button class="nav-link" id="dd-nameservers-tab" data-tab-hash="nameservers" data-bs-toggle="tab" data-bs-target="#dd-nameservers" type="button" role="tab" aria-controls="dd-nameservers" aria-selected="false"><i class="bi bi-hdd-network me-1"></i>{lang key='website/domains/tab-nameservers'}</button></li>{/if}
@@ -731,7 +731,7 @@
                                     <h2 class="sd-panel-title"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/bill-renewal'}</h2>
                                     <dl class="sd-info mb-3">
                                         <div class="sd-info-row"><dt>{lang key='website/domains/bill-next-due'}</dt><dd class="num-tabular">{if $d.expires}{$d.expires}{else}-{/if}</dd></div>
-                                        <div class="sd-info-row"><dt>{lang key='website/domains/bill-renewal-price'}</dt><dd class="num-tabular">{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}</dd></div>
+                                        <div class="sd-info-row"><dt>{lang key='website/domains/bill-renewal-price'}</dt><dd class="num-tabular">{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}{if $d.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}</dd></div>
                                         {if $d.pay_method}<div class="sd-info-row"><dt>{lang key='website/domains/bill-payment-method'}</dt><dd><span class="sd-card-brand"><i class="bi bi-credit-card-2-front me-1"></i>{$d.pay_method}</span></dd></div>{/if}
                                     </dl>
                                     {if $d.sub_blocked}

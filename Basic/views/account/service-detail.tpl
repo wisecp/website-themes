@@ -115,6 +115,7 @@
                                 {foreach $s.renew_cycles as $rc}
                                 <li><button type="button" class="dropdown-item sd-renew-opt" data-action="renew-period" data-id="{$s.id}" data-period="{$rc.period}" data-period-time="{$rc.period_time}" data-label="{$rc.label}" data-price="{$rc.price_fmt}"><span class="sd-renew-opt-label">{$rc.label}{if $rc.save_text}<span class="sd-renew-save">{$rc.save_text}</span>{/if}</span><span class="sd-renew-opt-price num-tabular">{if $rc.gross_fmt}<s class="text-body-secondary me-1">{$rc.gross_fmt}</s>{/if}{$rc.price_fmt}</span></button></li>
                                 {/foreach}
+                                {if $s.tax_inclusive}<li><span class="dropdown-item-text fs-8 text-body-secondary" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span></li>{/if}
                             </ul>
                         </div>
                         {/if}
@@ -138,7 +139,7 @@
                 <dl class="sd-facts">
                     <div class="sd-fact">
                         <dt>{lang key='website/services/f-price'}</dt>
-                        <dd class="num-tabular">{if $s.renew_skipped}-{else}{$s.amount}{if $s.cycle_short}<span class="sd-fact-unit">/{$s.cycle_short}</span>{/if}{/if}</dd>
+                        <dd class="num-tabular">{if $s.renew_skipped}-{else}{$s.amount}{if $s.cycle_short}<span class="sd-fact-unit">/{$s.cycle_short}</span>{/if}{if $s.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}{/if}</dd>
                     </div>
                     {if $s.cycle}
                     <div class="sd-fact">
@@ -186,7 +187,7 @@
         </header>
 
         <div class="card sd-tabcard">
-            <div class="card-header sd-tabbar">
+            <div class="card-header sd-tabbar" data-scroll-prev="{lang key='needs/tabs-scroll-prev'}" data-scroll-next="{lang key='needs/tabs-scroll-next'}">
                 <ul class="nav sd-segtabs" role="tablist" data-basic-tabs="service-detail">
                     <li class="nav-item" role="presentation"><button class="nav-link active" id="sd-overview-tab" data-tab-hash="overview" data-bs-toggle="tab" data-bs-target="#sd-overview" type="button" role="tab" aria-controls="sd-overview" aria-selected="true"><i class="bi bi-grid-1x2 me-1"></i>{lang key='website/services/tab-overview'}</button></li>
                     {if $s.can_manage}<li class="nav-item" role="presentation"><button class="nav-link" id="sd-management-tab" data-tab-hash="management" data-bs-toggle="tab" data-bs-target="#sd-management" type="button" role="tab" aria-controls="sd-management" aria-selected="false"><i class="bi bi-hdd-stack me-1"></i>{lang key='website/services/tab-management'}</button></li>{/if}
@@ -430,7 +431,7 @@
                                             <a class="btn btn-primary btn-sm" href="{$s.delivery.file_link}"><i class="bi bi-download me-1"></i>{lang key='website/services/delivery/download'}</a>
                                         </div>
                                         {/if}
-                                        <p class="fs-7 text-body-secondary mb-0 mt-auto pt-3"><i class="bi bi-info-circle me-1"></i>{lang key='website/services/delivery/note'} <a href="{link route='ticket-create'}?service={$s.id}">{lang key='website/services/delivery/open-ticket'}</a></p>
+                                        <p class="fs-7 text-body-secondary mb-0 mt-auto pt-3"><i class="bi bi-info-circle me-1"></i>{lang key='website/services/delivery/note'} {if $show_support}<a href="{link route='ticket-create'}?service={$s.id}">{lang key='website/services/delivery/open-ticket'}</a>{/if}</p>
                                     {else}
                                         <div class="basic-empty-state my-auto">
                                             <i class="bi bi-inbox" aria-hidden="true"></i>
@@ -1122,7 +1123,7 @@
                                     <h2 class="sd-panel-title"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/services/bill-renewal'}</h2>
                                     <dl class="sd-info mb-3">
                                         <div class="sd-info-row"><dt>{lang key='website/services/bill-next-due'}</dt><dd class="num-tabular">{if $s.expires}{$s.expires}{else}-{/if}</dd></div>
-                                        <div class="sd-info-row"><dt>{lang key='website/services/bill-amount'}</dt><dd class="num-tabular">{if $s.renew_skipped}-{else}{$s.amount}{if $s.cycle_short}<span class="sd-fact-unit">/{$s.cycle_short}</span>{/if}{/if}</dd></div>
+                                        <div class="sd-info-row"><dt>{lang key='website/services/bill-amount'}</dt><dd class="num-tabular">{if $s.renew_skipped}-{else}{$s.amount}{if $s.cycle_short}<span class="sd-fact-unit">/{$s.cycle_short}</span>{/if}{if $s.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}{/if}</dd></div>
                                         {if $s.cycle}<div class="sd-info-row"><dt>{lang key='website/services/f-cycle'}</dt><dd>{$s.cycle}</dd></div>{/if}
                                         {if $s.pay_method}<div class="sd-info-row"><dt>{lang key='website/services/bill-payment-method'}</dt><dd><span class="sd-card-brand"><i class="bi bi-credit-card-2-front me-1"></i>{$s.pay_method}</span></dd></div>{/if}
                                     </dl>

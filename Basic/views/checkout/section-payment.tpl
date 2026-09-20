@@ -16,6 +16,25 @@
         {include file='components/checkout-pay-footer.tpl'}
     </div>
 </div>
+{elseif $payment_country_pending|default:false}
+<div class="card">
+    <div class="card-body p-4">
+        <div class="checkout-head">
+            <span class="icon-disc"><i class="bi bi-credit-card"></i></span>
+            <div>
+                <h2 class="h6 fw-semibold mb-0">{lang key='website/checkout/payment-title'}</h2>
+                <p class="fs-8 text-body-secondary mb-0">{lang key='website/checkout/payment-sub'}</p>
+            </div>
+        </div>
+
+        <div class="pay-detail-list" role="status">
+            <div class="pay-detail">
+                <i class="bi bi-info-circle text-body-secondary" aria-hidden="true"></i>
+                <span>{lang key='website/checkout/payment-country-pending'}</span>
+            </div>
+        </div>
+    </div>
+</div>
 {else}
 <div class="card">
     <div class="card-body p-4">

@@ -113,7 +113,7 @@
         </header>
 
         <div class="card sd-tabcard">
-            <div class="card-header sd-tabbar">
+            <div class="card-header sd-tabbar" data-scroll-prev="{lang key='needs/tabs-scroll-prev'}" data-scroll-next="{lang key='needs/tabs-scroll-next'}">
                 <ul class="nav sd-segtabs" role="tablist" data-basic-tabs="sms">
                     <li class="nav-item" role="presentation"><button class="nav-link active" id="sd-overview-tab" data-tab-hash="overview" data-bs-toggle="tab" data-bs-target="#sd-overview" type="button" role="tab" aria-controls="sd-overview" aria-selected="true"><i class="bi bi-grid-1x2 me-1"></i>{lang key='website/sms/panel/tab-overview'}</button></li>
                     <li class="nav-item" role="presentation"><button class="nav-link" id="sd-send-tab" data-tab-hash="send" data-bs-toggle="tab" data-bs-target="#sd-send" type="button" role="tab" aria-controls="sd-send" aria-selected="false"><i class="bi bi-send me-1"></i>{lang key='website/sms/panel/tab-send'}</button></li>

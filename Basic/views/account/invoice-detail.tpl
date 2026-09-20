@@ -389,7 +389,7 @@
     </div>
     {/if}
 
-    <p class="invoice-help">{lang key='website/invoices/detail/help-question'} <a href="{$support_link}">{lang key='website/invoices/detail/contact-support'}</a>.</p>
+    {if $show_support}<p class="invoice-help">{lang key='website/invoices/detail/help-question'} <a href="{$support_link}">{lang key='website/invoices/detail/contact-support'}</a>.</p>{/if}
 
     {hook name='ui:client.invoice_detail.bottom'}
 </div>

@@ -1,0 +1,86 @@
+<?php
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+return [
+    'name'        => 'Basic',
+    'description' => "Тема WISECP по умолчанию. Адаптивная тема на Bootstrap 5 со светлым и тёмным режимами и поддержкой RTL. Для тех, кому нужен чистый и простой интерфейс.",
+
+    'grp_topbar'           => 'Полоса объявления',
+    'set_topbar_enabled'      => 'Показывать полосу объявления',
+    'set_topbar_enabled_desc' => 'Показывает тонкую полосу над шапкой для контактов, акций или объявлений.',
+    'set_topbar_text'         => 'Текст объявления',
+    'set_topbar_text_desc'    => 'Показывается в полосе над шапкой. Поддерживаются HTML и теги Smarty; скрипты, формы и обработчики событий удаляются при сохранении.',
+
+    'grp_appearance'      => 'Оформление',
+    'set_primary_color'   => 'Основной цвет',
+    'set_secondary_color' => 'Дополнительный цвет',
+    'set_text_color'      => 'Цвет текста',
+
+    'grp_checkout'              => 'Оформление заказа',
+    'set_checkout_sidebar'      => 'Расположение сводки заказа',
+    'set_checkout_sidebar_desc' => 'Задаёт, где показывается сводка заказа на страницах настройки, корзины и оформления.',
+    'opt_checkout_rail'         => 'Боковая панель (закреплена сбоку)',
+    'opt_checkout_card'         => 'Карточка (колонка на странице)',
+    'opt_checkout_stack'        => 'Стопка (одна колонка и нижняя панель)',
+
+    'grp_dashboard'               => 'Личный кабинет',
+    'set_dashboard_layout'        => 'Макет кабинета',
+    'set_dashboard_layout_desc'   => 'Задаёт, как устроен личный кабинет клиента: современный макет с крупной командной панелью или классический с боковой панелью аккаунта слева.',
+    'opt_dash_hero'               => 'Современный (обложка)',
+    'opt_dash_standard'           => 'Классический (стандартный)',
+
+    'grp_popup'              => 'Всплывающее окно',
+    'set_popup_enabled'      => 'Показывать всплывающее окно',
+    'set_popup_enabled_desc' => 'Показывает всплывающее окно поверх сайта через заданную задержку с выбранной частотой.',
+    'set_popup_content'      => 'Содержимое окна',
+    'set_popup_content_desc' => 'Поддерживаются HTML и теги Smarty; скрипты, формы и обработчики событий удаляются при сохранении.',
+    'set_popup_width'        => 'Ширина (px)',
+    'set_popup_height'       => 'Высота (px)',
+    'set_popup_frequency'    => 'Частота',
+    'opt_popup_once'         => 'Один раз для посетителя',
+    'opt_popup_daily'        => 'Раз в день',
+    'opt_popup_always'       => 'При каждой загрузке страницы',
+    'set_popup_delay'        => 'Задержка (секунды)',
+    'set_popup_delay_desc'   => 'Окно появляется через столько секунд после загрузки страницы.',
+
+    'cz_title'           => 'Предпросмотр темы',
+    'cz_subtitle'        => 'Хранится в вашем браузере; файлы темы не изменяются.',
+    'cz_theme'           => 'Тема',
+    'cz_soon'            => 'Скоро',
+    'cz_layout'          => 'Макет',
+    'cz_dashboard'       => 'Кабинет',
+    'cz_hero'            => 'Обложка',
+    'cz_standard'        => 'Стандартный',
+    'cz_checkout'        => 'Оформление заказа',
+    'cz_rail'            => 'Панель',
+    'cz_card'            => 'Карточка',
+    'cz_stack'           => 'Стопка',
+    'cz_appearance'      => 'Оформление',
+    'cz_brand_logo'      => 'Логотип',
+    'cz_logo_upload'     => 'Загрузить свой логотип',
+    'cz_logo_hint'       => 'Основные цвета бренда подставляются автоматически.',
+    'cz_logo_remove'     => 'Удалить логотип',
+    'cz_colors'          => 'Цвета',
+    'cz_primary'         => 'Основной',
+    'cz_secondary'       => 'Дополнительный',
+    'cz_text'            => 'Текст',
+    'cz_text_note'       => '(светлая тема)',
+    'cz_pick_primary'    => 'Выбрать основной цвет',
+    'cz_pick_secondary'  => 'Выбрать дополнительный цвет',
+    'cz_pick_text'       => 'Выбрать цвет текста',
+    'cz_typography'      => 'Типографика',
+    'cz_font_family'     => 'Шрифт',
+    'cz_reset'           => 'Вернуть настройки по умолчанию',
+    'cz_close'           => 'Закрыть панель',
+    'cz_toast_extracted' => 'Цвета бренда взяты из вашего логотипа.',
+    'cz_toast_reset'     => 'Предпросмотр темы сброшен к настройкам по умолчанию.',
+    'cz_nudge_dashboard' => 'Попробуйте другой кабинет',
+    'cz_nudge_checkout'  => 'Попробуйте другой вид оформления заказа',
+    'cz_nudge_explore'   => 'Посмотрите настройки темы',
+];

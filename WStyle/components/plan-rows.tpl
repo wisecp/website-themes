@@ -18,7 +18,7 @@
                     <div><span class="price-now num-tabular" data-role="price-now">{$plan.price_now|default:''}</span><span class="fs-8 text-body-secondary{if $plan.is_period} d-none{/if}">{lang key='website/products/category-per-month'}</span><span class="badge bg-secondary-subtle text-secondary-emphasis fs-8 ms-1{if !($plan.is_onetime|default:false)} d-none{/if}" data-role="price-onetime"><i class="bi bi-tag me-1"></i>{lang key='date/cycles/onetime'}</span></div>
                 </div>
                 <div class="plan-row-actions d-flex align-items-center gap-2">
-                    {if $plan.in_stock}<a class="btn {if $plan.popular}btn-light{else}btn-soft{/if} btn-sm" href="{$plan.link}">{lang key='website/products/category-configure'}</a>
+                    {if $plan.in_stock}<a class="btn {if $plan.popular}btn-light{else}btn-soft{/if} btn-sm" href="{$plan.link}"{if $plan.external|default:false} rel="nofollow noopener"{/if}>{if $plan.cta_label|default:''}{$plan.cta_label}{else}{lang key='website/products/category-configure'}{/if}</a>
                     {else}<button class="btn btn-soft btn-sm" type="button" disabled>{lang key='website/products/out-of-stock'}</button>{/if}
                     <button class="btn btn-soft btn-sm billing-compare collapsed" type="button" data-wui-toggle data-wui-target="#planRow{$plan.id}" aria-expanded="false" aria-label="{lang key='website/products/category-show-details'}"><i class="bi bi-chevron-down"></i></button>
                 </div>

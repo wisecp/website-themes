@@ -49,9 +49,9 @@
     <link rel="stylesheet" href="{if ($ui_dir|default:'ltr') == 'rtl'}{asset path='css/bootstrap.rtl.min.css'}{else}{asset path='css/bootstrap.min.css'}{/if}" id="css-bootstrap" data-ltr="{asset path='css/bootstrap.min.css'}" data-rtl="{asset path='css/bootstrap.rtl.min.css'}">
     <link rel="stylesheet" href="{asset path='css/libs/bootstrap-icons/bootstrap-icons.min.css'}">
     <link rel="stylesheet" href="{asset path='css/libs/fontawesome/css/all.min.css'}">
-    <link rel="preload" href="{asset path='css/libs/fonts/urbanist/urbanist-latin.woff2'}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{asset path='css/libs/fonts/urbanist/urbanist-latin-ext.woff2'}" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="{asset path='css/libs/fonts/urbanist.css'}">
+    <link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-latin.woff2'}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-latin-ext.woff2'}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{asset path='css/libs/fonts/manrope.css'}">
     <link rel="stylesheet" href="{asset path='css/theme.css'}">
     <link rel="stylesheet" href="{asset path='css/default.css'}">
     <link rel="stylesheet" href="{asset path='css/default-dark.css'}">
@@ -76,6 +76,7 @@
         const currency_formats = {$currency_formats_json|default:'{}' nofilter};
         const currency_ids     = {$currency_ids_json|default:'{}' nofilter};
         const currency_rates   = {$currency_rates_json|default:'{}' nofilter};
+        const currency_digits  = {$currency_digits_json|default:'{}' nofilter};
         const currency_default = '{$currency_default|default:"USD"}';
         const currencies       = Object.keys(currency_ids).map(code => ({ code: code, id: parseInt(currency_ids[code]) }));
         const site_default_country = '{$default_country|default:""}';

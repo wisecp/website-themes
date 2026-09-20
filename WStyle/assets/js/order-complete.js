@@ -6,4 +6,4 @@
  *
  * Terms of service: https://wisecp.com/terms-of-service
  */
-(function(){"use strict";const s=new URLSearchParams(location.search).get("state");if(s==="bank-transfer"||s==="bank"){const e=document.querySelector('[data-result="success"]'),t=document.querySelector('[data-result="bank-transfer"]');e&&e.classList.add("d-none"),t&&t.classList.remove("d-none")}})();
+(function(){"use strict";const e=new URLSearchParams(location.search).get("state");if(e==="bank-transfer"||e==="bank"){const t=document.querySelector('[data-result="success"]'),s=document.querySelector('[data-result="bank-transfer"]');t&&t.classList.add("d-none"),s&&s.classList.remove("d-none")}})();

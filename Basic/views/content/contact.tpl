@@ -101,7 +101,7 @@
                                     <span class="contact-method-label">{lang key='website/contact/support-label'}</span>
                                     <span class="contact-method-sub">{lang key='website/contact/support-sub'}</span>
                                     <span class="d-flex flex-wrap gap-2 mt-2">
-                                        <a class="btn btn-soft btn-sm" href="{link route='ticket-create'}"><i class="bi bi-life-preserver me-1"></i>{lang key='website/contact/open-ticket'}</a>
+                                        {if $support_enabled}<a class="btn btn-soft btn-sm" href="{link route='ticket-create'}"><i class="bi bi-life-preserver me-1"></i>{lang key='website/contact/open-ticket'}</a>{/if}
                                         <a class="btn btn-soft btn-sm" href="{link route='kbase'}"><i class="bi bi-journal-text me-1"></i>{lang key='website/contact/knowledge-base'}</a>
                                     </span>
                                 </div>
