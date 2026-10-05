@@ -29,8 +29,8 @@
 
             <div class="d-flex flex-wrap justify-content-center gap-4 fs-8 text-body-secondary reveal reveal-5">
                 <span><i class="bi bi-shield-check me-1 text-success"></i>{lang key='website/index/hero-trust-moneyback'}</span>
-                <span><i class="bi bi-activity me-1 text-success"></i>{lang key='website/index/hero-trust-uptime'}</span>
-                <span><i class="bi bi-check2-circle me-1 text-success"></i>{lang key='website/index/hero-trust-cancel'}</span>
+                <span><i class="bi bi-lightning-charge me-1 text-success"></i>{lang key='website/index/hero-trust-uptime'}</span>
+                <span><i class="bi bi-tag me-1 text-success"></i>{lang key='website/index/hero-trust-cancel'}</span>
             </div>
         </div>
     </section>

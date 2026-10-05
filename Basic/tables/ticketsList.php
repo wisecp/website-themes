@@ -75,7 +75,7 @@
     <span class="{$icoClass}">{$icoInner}{$staffRibbon}</span>
     <div class="list-main">
         <div class="list-head">
-            <a class="list-name" href="{$link}">{$subject}</a>
+            <a class="list-name" href="{$link}"><bdi>{$subject}</bdi></a>
             {$badgeHtml}
         </div>
         <div class="list-meta">{$metaHtml}</div>

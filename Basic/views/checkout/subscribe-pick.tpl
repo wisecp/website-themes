@@ -51,9 +51,6 @@
                 : n.toFixed(2);
         };
 
-        /* The host reloads the pane over the network, and on an OPEN pane it shows no
-           spinner of its own (a re-prepare must not flash over live content). Without
-           this the click looks ignored. */
         function setBusy(btn, on) {
             if (!btn) return;
             if (on) {
@@ -67,15 +64,6 @@
             }
         }
 
-        /* The answer travels as hidden fields on the host form; re-running the
-           host's prepare call stores it and swaps in the gateway's own screen.
-
-           The pay page hosts neither: it is the gateway screen, so it carries no
-           form and loads pay.js instead of the checkout/balance/invoice bundles
-           that publish wcpPreparePane. There the answer is posted as a plain
-           navigation to this same address — capture_subscription_pick() stores it
-           and payment_screen() forwards on the spot, because it sees sub_pick_mode
-           arriving with the request. */
         function submitPick(mode, refs, btn) {
             var form = root.closest('form');
             var host = typeof window.wcpPreparePane === 'function';
@@ -104,8 +92,6 @@
 
             setBusy(btn, true);
             var release = function () { setBusy(btn, false); };
-            // Success swaps this whole surface out (the button goes with it); a failure
-            // leaves the pane in place, so the control has to come back either way.
             var done = window.wcpPreparePane();
             if (done && typeof done.then === 'function') done.then(release, release);
             else release();
@@ -120,9 +106,6 @@
         });
 
         if (!single) {
-            /* One agreement carries ONE cadence (and one start anchor): the first
-               tick locks them, lines on another cycle grey out until every tick is
-               cleared. Unpicked lines simply stay in the first payment. */
             function syncPicks() {
                 var boxes = Array.prototype.slice.call(root.querySelectorAll('[data-sub-line]'));
                 var picked = boxes.filter(function (b) { return b.checked; });

@@ -115,7 +115,7 @@
                                 <span class="icon-disc"><i class="bi bi-telephone"></i></span>
                                 <div class="contact-method-body">
                                     <span class="contact-method-label">{lang key='website/contact/phone-label'}</span>
-                                    <a class="contact-method-value num-tabular" href="tel:{$contact_phones[0]|replace:' ':''}">{$contact_phones[0]}</a>
+                                    <a class="contact-method-value num-tabular" href="tel:{$contact_phones[0]|replace:' ':''}"><span dir="ltr">{$contact_phones[0]}</span></a>
                                     <span class="contact-method-sub">{lang key='website/contact/phone-sub'}</span>
                                 </div>
                             </li>
@@ -156,7 +156,7 @@
                         </div>
                         {if $office.address}<address class="contact-office-addr">{$office.address|escape|nl2br nofilter}</address>{/if}
                         <ul class="contact-office-meta list-unstyled mb-0">
-                            {if $office.phone}<li><i class="bi bi-telephone" aria-hidden="true"></i><a class="num-tabular" href="tel:{$office.phone|replace:' ':''}">{$office.phone}</a></li>{/if}
+                            {if $office.phone}<li><i class="bi bi-telephone" aria-hidden="true"></i><a class="num-tabular" href="tel:{$office.phone|replace:' ':''}"><span dir="ltr">{$office.phone}</span></a></li>{/if}
                             {if $office.hours}<li><i class="bi bi-clock" aria-hidden="true"></i>{$office.hours}</li>{/if}
                         </ul>
                     </li>

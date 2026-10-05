@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{asset path='css/configure.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
 {/block}
 
 {block name=scripts}
@@ -19,6 +20,7 @@
           data-txt-submit-failed="{lang key='website/configure/submit-failed'}"
           data-currency="{$currency}"
           data-billed-map="{$billed_map_json}"
+          data-cycle-map="{$cycle_map_json}"
           data-save-text="{lang key='website/products/category-save'}"
           data-permonth-suffix="{lang key='website/products/category-per-month'}"
           data-renews-at="{lang key='website/configure/renews-at'}"
@@ -104,7 +106,7 @@
                                         {foreach $cycles as $cycle}
                                         <label class="option-card option-card-radio billing-cycle-card" data-billed="{$cycle.billed}" data-renew="{$cycle.renew}">
                                             <input class="form-check-input" type="radio" name="billing_cycle" value="{$cycle.key}"{if $cycle.key == $default_cycle} checked{/if}>
-                                            <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+                                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
                                                 <span class="billing-cycle-name">{$cycle.label}</span>
                                                 <span class="badge bg-success-subtle text-success-emphasis fw-semibold d-none" data-role="cycle-savings"></span>
                                             </div>
@@ -711,9 +713,9 @@
                                 {if $addons}
                                 {foreach $addons as $addon}
                                 <div class="wui-collapse summary-slot"><div class="wui-collapse-inner">
-                                <div class="order-summary-line summary-addon" data-summary-addon="{$addon.id}">
-                                    <span class="summary-label"><span data-role="addon-name"></span><span class="summary-sub d-block" data-role="addon-cycle"></span></span>
-                                    <span class="summary-value" data-role="addon-value"></span>
+                                <div class="order-summary-line rail-addon" data-summary-addon="{$addon.id}">
+                                    <span class="summary-sub" data-role="addon-name"></span>
+                                    <span class="summary-value num-tabular" data-role="addon-value"></span>
                                 </div>
                                 </div></div>
                                 {/foreach}
@@ -775,8 +777,9 @@
                                     <button class="btn btn-primary" type="submit" form="configure-form" data-add-to-cart><i class="bi bi-cart-plus me-2"></i>{lang key='website/configure/add-to-cart'}</button>
                                     {/if}
                                 </div>
-                                <p class="fs-8 text-body-secondary text-center mt-3 mb-0">{lang key='website/configure/prices-shown-in'} <span data-role="currency-label">{$currency}</span>{lang key='website/configure/excluding-tax'}</p>
-                                <p class="fs-8 text-body-secondary text-center mb-0">{lang key='website/configure/taxes-at-checkout'}</p>
+                                {assign var=tax_mode value=$tax_note|default:'exclusive'}
+                                <p class="fs-8 text-body-secondary text-center mt-3 mb-0">{lang key='website/configure/prices-shown-in'} <span data-role="currency-label">{$currency}</span>{if $tax_mode == 'inclusive'}{lang key='website/configure/including-tax'}{elseif $tax_mode == 'none'}{lang key='website/configure/prices-shown-end'}{else}{lang key='website/configure/excluding-tax'}{/if}</p>
+                                {if $tax_mode == 'exclusive'}<p class="fs-8 text-body-secondary text-center mb-0">{lang key='website/configure/taxes-at-checkout'}</p>{/if}
 
                                 {hook name='ui:client.configure.summary.bottom'}
                             </div>

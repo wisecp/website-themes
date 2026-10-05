@@ -183,11 +183,11 @@
                 {foreach $faqs as $i => $f}
                 <div class="accordion-item">
                     <h3 class="accordion-header">
-                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#sms-intl-faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="sms-intl-faq-{$i}">{$f.title}</button>
+                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-wui-toggle data-wui-target="#sms-intl-faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="sms-intl-faq-{$i}">{$f.title}</button>
                     </h3>
-                    <div id="sms-intl-faq-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#sms-intl-faq">
+                    <div id="sms-intl-faq-{$i}" class="wui-collapse{if $i == 0} wui-show{/if}" data-wui-parent="#sms-intl-faq"><div class="wui-collapse-inner">
                         <div class="accordion-body">{$f.description nofilter}</div>
-                    </div>
+                    </div></div>
                 </div>
                 {/foreach}
             </div>

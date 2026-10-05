@@ -13,7 +13,7 @@
                     <span class="contact-ico"><i class="bi bi-telephone"></i></span>
                     <span class="contact-body">
                         <span class="contact-label">{lang key='band_contact_call'}</span>
-                        <span class="contact-value num-tabular">{$contact_phone}</span>
+                        <span class="contact-value num-tabular"><span dir="ltr">{$contact_phone}</span></span>
                         <span class="contact-sub">{lang key='band_contact_call_sub'}</span>
                     </span>
                     <i class="bi bi-arrow-right contact-arrow" aria-hidden="true"></i>

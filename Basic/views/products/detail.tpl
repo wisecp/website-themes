@@ -94,11 +94,11 @@
                                 {foreach $faq as $i => $f}
                                 <div class="accordion-item">
                                     <h3 class="accordion-header">
-                                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#swfaq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="swfaq-{$i}">{$f.title}</button>
+                                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-wui-toggle data-wui-target="#swfaq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="swfaq-{$i}">{$f.title}</button>
                                     </h3>
-                                    <div id="swfaq-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#software-faq">
+                                    <div id="swfaq-{$i}" class="wui-collapse{if $i == 0} wui-show{/if}" data-wui-parent="#software-faq"><div class="wui-collapse-inner">
                                         <div class="accordion-body">{$f.description nofilter}</div>
-                                    </div>
+                                    </div></div>
                                 </div>
                                 {/foreach}
                             </div>
@@ -121,8 +121,8 @@
                                 <div class="plan-price price-band">
                                     <div><span class="price-now num-tabular">{$prices[0].display}</span><span class="fs-7 text-body-secondary"> {$prices[0].label}</span></div>
                                     {if $prices|@count > 1}
-                                    <button class="btn btn-link btn-sm p-0 mt-1 fs-8 fw-semibold text-decoration-none billing-compare collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#planBilling" aria-expanded="false">{lang key='website/products/detail-compare-billing'}<i class="bi bi-chevron-down ms-1"></i></button>
-                                    <div class="collapse" id="planBilling">
+                                    <button class="btn btn-link btn-sm p-0 mt-1 fs-8 fw-semibold text-decoration-none billing-compare collapsed" type="button" data-wui-toggle data-wui-target="#planBilling" aria-expanded="false">{lang key='website/products/detail-compare-billing'}<i class="bi bi-chevron-down ms-1"></i></button>
+                                    <div class="wui-collapse" id="planBilling"><div class="wui-collapse-inner">
                                         <div class="table-responsive mt-2">
                                             <table class="table table-sm align-middle plan-billing-table fs-8 mb-0">
                                                 <thead><tr><th scope="col">{lang key='website/products/detail-billing-cycle'}</th><th scope="col" class="text-end">{lang key='website/products/detail-billing-total'}</th></tr></thead>
@@ -133,7 +133,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
+                                    </div></div>
                                     {/if}
                                 </div>
                                 {/if}

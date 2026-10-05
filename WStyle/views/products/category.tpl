@@ -287,9 +287,8 @@
       var hero = document.querySelector(".page-hero");
       function applyHero(btn) {
         if (!hero) return;
-        var title = btn.getAttribute("data-tab-hero-title") || "", lead = btn.getAttribute("data-tab-hero-lead") || "", bg = btn.getAttribute("data-tab-hero-bg") || "", h1 = hero.querySelector(".page-hero-title"), p = hero.querySelector(".page-hero-lead"), crumb = hero.querySelector(".breadcrumb-item.active"), img = hero.querySelector(".page-hero-media"), scrim = hero.querySelector(".page-hero-scrim");
+        var title = btn.getAttribute("data-tab-hero-title") || "", lead = btn.getAttribute("data-tab-hero-lead") || "", bg = btn.getAttribute("data-tab-hero-bg") || "", h1 = hero.querySelector(".page-hero-title"), p = hero.querySelector(".page-hero-lead"), img = hero.querySelector(".page-hero-media"), scrim = hero.querySelector(".page-hero-scrim");
         if (h1 && title) h1.textContent = title;
-        if (crumb && title) crumb.textContent = title;
         if (!p && lead && h1) {
           p = document.createElement("p");
           p.className = "page-hero-lead reveal reveal-2 mb-0";
@@ -330,9 +329,18 @@
         }
         el.setAttribute("content", value);
       }
+      function metaContent(attr, name) {
+        var el = document.head.querySelector("meta[" + attr + '="' + name + '"]');
+        return el ? el.getAttribute("content") || "" : "";
+      }
+      var headLayout = (function() {
+        var bare = metaContent("property", "og:title"), at = bare ? document.title.indexOf(bare) : -1;
+        return at < 0 ? null : [document.title.slice(0, at), document.title.slice(at + bare.length)];
+      })();
       function applyMeta(btn) {
-        var t = btn.getAttribute("data-meta-title"), d = btn.getAttribute("data-meta-desc"), k = btn.getAttribute("data-meta-keys"), u = btn.getAttribute("data-tab-url");
-        if (t) document.title = t;
+        var t = btn.getAttribute("data-meta-title"), d = btn.getAttribute("data-meta-desc"), k = btn.getAttribute("data-meta-keys"), u = btn.getAttribute("data-tab-url"), head = btn.getAttribute("data-head-title");
+        if (head) document.title = head;
+        else if (t) document.title = headLayout ? headLayout[0] + t + headLayout[1] : t;
         upsertMeta("name", "description", d);
         upsertMeta("name", "keywords", k);
         upsertMeta("property", "og:title", t);
@@ -350,14 +358,42 @@
           c.setAttribute("href", u);
         }
       }
+      var home = null, homeTab = null, atHome = false, quiet = false;
+      if (!Array.prototype.some.call(tabBtns, function(b) {
+        return tabPath(b) === location.pathname;
+      })) {
+        var homeH1 = hero ? hero.querySelector(".page-hero-title") : null, homeLead = hero ? hero.querySelector(".page-hero-lead") : null, homeImg = hero ? hero.querySelector(".page-hero-media") : null, can = document.head.querySelector('link[rel="canonical"]'), own = {
+          "data-tab-hero-title": homeH1 ? homeH1.textContent : "",
+          "data-tab-hero-lead": homeLead && !homeLead.hidden ? homeLead.textContent : "",
+          "data-tab-hero-bg": homeImg ? homeImg.getAttribute("src") || "" : "",
+          "data-head-title": document.title,
+          "data-meta-title": metaContent("property", "og:title"),
+          "data-meta-desc": metaContent("name", "description"),
+          "data-meta-keys": metaContent("name", "keywords"),
+          "data-tab-url": can ? can.getAttribute("href") : location.href
+        };
+        home = { getAttribute: function(n) {
+          return own[n] == null ? null : own[n];
+        } };
+        homeTab = document.querySelector('[data-bs-toggle="tab"][data-bs-target^="#pane-"].active');
+        atHome = true;
+      }
+      function openTab(btn) {
+        atHome = false;
+        applyHero(btn);
+        applyMeta(btn);
+        var path = tabPath(btn);
+        if (path && path !== location.pathname) history.pushState(null, "", btn.getAttribute("data-tab-url"));
+      }
       tabBtns.forEach(function(b) {
         b.addEventListener("shown.bs.tab", function(e) {
           var btn = e.target;
           syncTab(btn.getAttribute("data-bs-target").replace("#pane-", ""));
-          applyHero(btn);
-          applyMeta(btn);
-          var path = tabPath(btn);
-          if (path && path !== location.pathname) history.pushState(null, "", btn.getAttribute("data-tab-url"));
+          if (quiet) return;
+          openTab(btn);
+        });
+        b.addEventListener("click", function() {
+          if (atHome && b.classList.contains("active")) openTab(b);
         });
       });
       window.addEventListener("popstate", function() {
@@ -365,8 +401,24 @@
         tabBtns.forEach(function(b) {
           if (tabPath(b) === location.pathname) match = b;
         });
+        if (!match && home) {
+          if (homeTab && !homeTab.classList.contains("active") && window.bootstrap && bootstrap.Tab) {
+            quiet = true;
+            bootstrap.Tab.getOrCreateInstance(homeTab).show();
+            quiet = false;
+          }
+          atHome = true;
+          applyHero(home);
+          applyMeta(home);
+          return;
+        }
         var target = match || tabBtns[0];
-        if (target && window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
+        if (!target) return;
+        if (target.classList.contains("active")) {
+          if (atHome) openTab(target);
+          return;
+        }
+        if (window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
       });
     }
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

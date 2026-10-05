@@ -38,15 +38,43 @@
                             {captcha area='domain-check' tray='domain-reg-captcha'}
                         </form>
 
-                        <div class="collapse" id="domain-reg-results">
-                            <div class="search-results text-start mt-3">
-                                <div class="card d-none" data-role="results-loading" aria-hidden="true">
-                                    <div class="card-body p-3 p-md-4">
-                                        <span class="basic-skeleton d-block w-50 mb-3"></span>
-                                        <span class="basic-skeleton d-block w-100 mb-2"></span>
-                                        <span class="basic-skeleton d-block w-75 mb-2"></span>
-                                        <span class="basic-skeleton d-block w-25"></span>
+                        <div class="wui-collapse" id="domain-reg-results" data-role="domain-results"><div class="wui-collapse-inner">
+                            <div class="search-results text-start pt-3">
+                                <div class="d-none" data-role="results-loading" aria-hidden="true">
+                                    <div class="card result-primary">
+                                        <div class="card-body d-flex flex-wrap align-items-center gap-3 p-3 p-md-4">
+                                            <div class="me-auto">
+                                                <div class="result-domain fw-bold num-tabular fs-4 mb-1"><span class="position-relative d-inline-block invisible"><span data-role="skeleton-domain">example.com</span><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                                    <span class="badge bg-success-subtle text-success-emphasis position-relative invisible"><i class="bi bi-check-circle me-1"></i>{lang key='website/domain/result-available'}<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <div class="num-tabular fw-bold fs-5"><span class="position-relative d-inline-block invisible">$5.99<span class="fs-8 text-body-secondary fw-normal">{lang key='website/domain/per-year'}</span><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                                <div class="fs-8 text-body-secondary"><span class="position-relative d-inline-block invisible">{lang key='website/domain/renews-at'} <span class="num-tabular">$11.99</span>{lang key='website/domain/per-year'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                            </div>
+                                            <span class="btn btn-primary position-relative invisible"><i class="bi bi-cart-plus me-1"></i>{lang key='website/domain/add-to-cart'}<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                        </div>
                                     </div>
+                                    {if $spotlight_tlds}
+                                    <div class="card mt-2" data-role="skeleton-suggestions">
+                                        <ul class="list-group list-group-flush">
+                                            {foreach $spotlight_tlds as $ext}
+                                            <li class="list-group-item d-flex flex-wrap align-items-center gap-3 p-3" data-role="skeleton-suggestion" data-tld="{$ext}">
+                                                <span class="result-domain num-tabular position-relative invisible"><span data-role="skeleton-name">example.{$ext}</span><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                                <span class="badge bg-success-subtle text-success-emphasis position-relative invisible"><i class="bi bi-check-circle me-1"></i>{lang key='website/domain/result-available'}<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                                <div class="ms-auto d-flex align-items-center gap-2">
+                                                    <span class="num-tabular fw-semibold position-relative invisible">$5.99<span class="fs-8 text-body-secondary fw-normal">{lang key='website/domain/per-year'}</span><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                                    <span class="btn btn-soft btn-sm position-relative invisible"><i class="bi bi-cart-plus me-1"></i>{lang key='website/domain/add-to-cart'}<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                                </div>
+                                            </li>
+                                            {/foreach}
+                                        </ul>
+                                        <div class="border-top p-2 text-center">
+                                            <span class="link-arrow fs-8 position-relative invisible">{lang key='website/domain/see-all-pricing'}<i class="bi bi-arrow-right"></i><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                        </div>
+                                    </div>
+                                    {/if}
                                 </div>
                                 <div data-role="results-body">
                                     <div class="card result-primary" data-role="result-available">
@@ -119,7 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div></div>
                     </div>
                     <div class="tab-pane fade" id="domain-pane-transfer" role="tabpanel" aria-labelledby="domain-tab-transfer" tabindex="0">
                         <form action="{link route='domain'}" method="post" data-results="#domain-tr-results" data-price-column="transfer" data-check>
@@ -133,13 +161,34 @@
                             {captcha area='domain-check' tray='domain-tr-captcha'}
                         </form>
 
-                        <div class="collapse" id="domain-tr-results">
-                            <div class="search-results text-start mt-3">
-                                <div class="card d-none" data-role="results-loading" aria-hidden="true">
-                                    <div class="card-body p-3 p-md-4">
-                                        <span class="basic-skeleton d-block w-50 mb-3"></span>
-                                        <span class="basic-skeleton d-block w-100 mb-2"></span>
-                                        <span class="basic-skeleton d-block w-25"></span>
+                        <div class="wui-collapse" id="domain-tr-results" data-role="domain-results"><div class="wui-collapse-inner">
+                            <div class="search-results text-start pt-3">
+                                <div class="d-none" data-role="results-loading" aria-hidden="true">
+                                    <div class="card result-primary">
+                                        <div class="card-body d-flex flex-wrap align-items-center gap-3 p-3 p-md-4">
+                                            <div class="me-auto">
+                                                <div class="result-domain fw-bold num-tabular fs-4 mb-1"><span class="position-relative d-inline-block invisible"><span data-role="skeleton-domain">example.com</span><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                                    <span class="badge bg-info-subtle text-info-emphasis position-relative invisible"><i class="bi bi-arrow-down-circle me-1"></i>{lang key='website/domain/result-transfer-in'}<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                                    <span class="fs-8 text-body-secondary position-relative invisible"><i class="bi bi-calendar-plus me-1"></i>{lang key='website/domain/transfer-extension'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <div class="num-tabular fw-bold fs-5"><span class="position-relative d-inline-block invisible">$9.59<span class="fs-8 text-body-secondary fw-normal"> {lang key='website/domain/one-time'}</span><span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                                <div class="fs-8 text-body-secondary"><span class="position-relative d-inline-block invisible">{lang key='website/domain/renews-at'} <span class="num-tabular">$11.99</span>{lang key='website/domain/per-year'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                            </div>
+                                            <span class="btn btn-primary position-relative invisible"><i class="bi bi-cart-plus me-1"></i>{lang key='website/domain/add-to-cart'}<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                        </div>
+                                        <div class="border-top p-3">
+                                            <span class="form-label fs-7 fw-semibold mb-1 d-inline-block position-relative invisible">{lang key='website/domain/auth-code-label'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                            <span class="form-control transfer-auth-input position-relative invisible">&nbsp;<span class="basic-skeleton position-absolute top-0 start-0 w-100 h-100 visible"></span></span>
+                                            <div class="form-text fs-8"><span class="position-relative d-inline-block invisible">{lang key='website/domain/auth-code-hint'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span></div>
+                                        </div>
+                                        <div class="border-top px-3 py-2 d-flex flex-wrap gap-3 fs-8 text-body-secondary">
+                                            <span class="position-relative invisible"><i class="bi bi-key me-1"></i>{lang key='website/domain/transfer-req-epp'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                            <span class="position-relative invisible"><i class="bi bi-unlock me-1"></i>{lang key='website/domain/transfer-req-unlock'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                            <span class="position-relative invisible"><i class="bi bi-clock-history me-1"></i>{lang key='website/domain/transfer-req-time'}<span class="basic-skeleton position-absolute top-50 start-0 w-100 h-50 translate-middle-y visible"></span></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div data-role="results-body">
@@ -193,7 +242,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div></div>
                         <p class="fs-8 text-body-secondary mt-2 mb-0">{lang key='website/domain/transfer-note'}</p>
                     </div>
                 </div>
@@ -377,11 +426,11 @@
                 {foreach $faqs as $i => $f}
                 <div class="accordion-item">
                     <h3 class="accordion-header">
-                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$i}">{$f.title}</button>
+                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-wui-toggle data-wui-target="#faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$i}">{$f.title}</button>
                     </h3>
-                    <div id="faq-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#domain-faq">
+                    <div id="faq-{$i}" class="wui-collapse{if $i == 0} wui-show{/if}" data-wui-parent="#domain-faq"><div class="wui-collapse-inner">
                         <div class="accordion-body">{$f.description nofilter}</div>
-                    </div>
+                    </div></div>
                 </div>
                 {/foreach}
             </div>

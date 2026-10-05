@@ -102,8 +102,8 @@
 
                                 {if !$is_guest}
                                 <div class="col-12">
-                                    <label for="tkt-service" class="form-label">{lang key='website/tickets/create/service'} <span class="text-body-secondary fw-normal">{lang key='website/tickets/create/optional'}</span></label>
-                                    <select class="form-select" id="tkt-service" name="related_service" data-wstyle-select data-rich-select data-search-placeholder="{lang key='website/tickets/create/service-search'}">
+                                    <label for="tkt-service" class="form-label">{lang key='website/tickets/create/service'} <span class="text-danger" data-service-required hidden aria-hidden="true">*</span><span class="text-body-secondary fw-normal" data-service-optional>{lang key='website/tickets/create/optional'}</span></label>
+                                    <select class="form-select" id="tkt-service" name="related_service" data-wstyle-select data-rich-select data-search-placeholder="{lang key='website/tickets/create/service-search'}" data-required-departments="{$service_required_departments|default:''}" data-autoselect="{$service_autoselect|default:0}">
                                         <option value="">{lang key='website/tickets/create/service-none'}</option>
                                         {foreach $service_groups as $g}
                                         <optgroup label="{$g.label}">
@@ -111,6 +111,7 @@
                                         </optgroup>
                                         {/foreach}
                                     </select>
+                                    <div class="invalid-feedback">{lang key='website/tickets/create/err-service-required'}</div>
                                     <div class="form-text">{lang key='website/tickets/create/service-hint'}</div>
                                 </div>
                                 {/if}

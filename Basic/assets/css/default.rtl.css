@@ -6,4 +6,4 @@
  *
  * Terms of service: https://wisecp.com/terms-of-service
  */
-[dir=rtl] .bi-arrow-right,[dir=rtl] .bi-arrow-left,[dir=rtl] .bi-chevron-right,[dir=rtl] .bi-chevron-left,[dir=rtl] .bi-box-arrow-right,[dir=rtl] .bi-box-arrow-left{transform:scaleX(-1)}
+[dir=rtl] .bi-arrow-right,[dir=rtl] .bi-arrow-left,[dir=rtl] .bi-chevron-right,[dir=rtl] .bi-chevron-left,[dir=rtl] .bi-box-arrow-right,[dir=rtl] .bi-box-arrow-left{transform:scaleX(-1)}[dir=rtl] .fa-angle-left,[dir=rtl] .fa-angle-right{scale:-1 1}[dir=rtl] .iti__selected-dial-code,[dir=rtl] .iti__dial-code{direction:ltr;unicode-bidi:isolate}

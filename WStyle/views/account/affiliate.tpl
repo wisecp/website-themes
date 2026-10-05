@@ -2,6 +2,7 @@
 
 {block name=head}
     <link rel="stylesheet" href="{asset path='css/affiliate.css'}">
+    {if $aff_promo}<link rel="stylesheet" href="{asset path='css/knowledgebase.css'}">{/if}
 {/block}
 
 {block name=scripts}
@@ -21,7 +22,7 @@
             <div>
                 <nav aria-label="{lang key='website/affiliate/breadcrumb-aria'}">
                     <ol class="breadcrumb mb-1">
-                        <li class="breadcrumb-item"><a href="{link route='my-account'}">{lang key='website/index/subnav-dashboard'}</a></li>
+                        {if !$aff_visitor}<li class="breadcrumb-item"><a href="{link route='my-account'}">{lang key='website/index/subnav-dashboard'}</a></li>{/if}
                         <li class="breadcrumb-item active" aria-current="page">{lang key='website/affiliate/title'}</li>
                     </ol>
                 </nav>
@@ -42,10 +43,12 @@
                 <h2 class="aff-join-title">{lang key='website/affiliate/join-title'}</h2>
                 <p class="aff-join-lead">{lang key='website/affiliate/join-lead'}</p>
                 <div class="aff-join-perks">
+                    {if $aff_show_rate}
                     <div class="aff-perk">
                         <span class="aff-perk-ico"><i class="bi bi-percent"></i></span>
                         <span><span class="aff-perk-title">{$aff_rate}% {lang key='website/affiliate/perk-commission'}</span><span class="aff-perk-text">{lang key='website/affiliate/perk-commission-text'}</span></span>
                     </div>
+                    {/if}
                     <div class="aff-perk">
                         <span class="aff-perk-ico"><i class="bi bi-clock-history"></i></span>
                         <span><span class="aff-perk-title">{$aff_cookie_days}-{lang key='website/affiliate/perk-cookie'}</span><span class="aff-perk-text">{lang key='website/affiliate/perk-cookie-text'}</span></span>
@@ -59,6 +62,11 @@
                 <form id="aff-join-form">
                     <button type="submit" class="btn btn-primary" data-action="aff-join" data-busy-text="{lang key='website/affiliate/joining'}"><i class="bi bi-person-plus me-1"></i>{lang key='website/affiliate/join-cta'}</button>
                 </form>
+                {elseif $aff_visitor}
+                <div class="d-flex flex-wrap justify-content-center gap-2">
+                    {if $registration_enabled}<a class="btn btn-primary" href="{$aff_signup_link}"><i class="bi bi-person-plus me-1"></i>{lang key='website/index/auth-signup'}</a>{/if}
+                    {if $login_enabled}<a class="btn btn-soft" href="{$aff_signin_link}"><i class="bi bi-box-arrow-in-right me-1"></i>{lang key='website/index/auth-login'}</a>{/if}
+                </div>
                 {/if}
             </div>
         </div>
@@ -182,6 +190,16 @@
                 </div>
             </div>
         </section>
+
+        {if $aff_promo}
+        <section class="card aff-toolkit" data-role="aff-promo">
+            <div class="card-body p-4">
+                <h2 class="aff-toolkit-title">{lang key='website/affiliate/promo-title'}</h2>
+                <p class="text-body-secondary fs-7 mb-3">{lang key='website/affiliate/promo-lead'}</p>
+                <div class="kb-prose">{content var=$aff_promo}</div>
+            </div>
+        </section>
+        {/if}
 
         <div class="aff-list-head d-flex flex-wrap align-items-end justify-content-between gap-2">
             <div>

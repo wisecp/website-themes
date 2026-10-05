@@ -25,7 +25,6 @@
                                 <span class="h4 fw-bold num-tabular mb-0">{$amount_due_fmt}</span>
                             </div>
 
-                            {if $bank_accounts}
                             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                                 <span class="fs-8 fw-semibold text-body-secondary text-uppercase">{lang key='website/invoices/complete/transfer-details'}</span>
                                 <span class="bank-reference">
@@ -34,7 +33,6 @@
                                     <button class="btn btn-link p-0 text-decoration-none lh-1" type="button" data-action="copy" data-copy-text="{$bank_reference}" data-bs-toggle="tooltip" title="{lang key='website/invoices/complete/copy'}"><i class="bi bi-clipboard"></i></button>
                                 </span>
                             </div>
-                            {/if}
                             {foreach $bank_accounts as $b}
                             <div class="pay-detail-list mb-4">
                                 <div class="pay-detail">
@@ -74,6 +72,35 @@
                             {/foreach}
 
                             <p class="fs-8 text-body-secondary text-start mb-4"><i class="bi bi-info-circle me-1"></i>{lang key='website/invoices/complete/bank-note'}</p>
+
+                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                                <a class="btn btn-primary" href="{link route='invoice-detail' p1=$invoice_id}"><i class="bi bi-receipt me-2"></i>{lang key='website/invoices/complete/view-invoice'}</a>
+                                <a class="btn btn-soft" href="{$invoices_link}"><i class="bi bi-arrow-left me-2"></i>{lang key='website/invoices/complete/back-invoices'}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {elseif $complete_state == 'pending'}
+                <div data-result="pending">
+                    <div class="card">
+                        <div class="card-body p-4 p-sm-5 text-center">
+                            <i class="bi bi-hourglass-split text-warning checkout-result-icon" aria-hidden="true"></i>
+                            <h1 class="h3 tracking-tight mt-3 mb-3">{lang key='website/invoices/complete/pending-title'}</h1>
+                            <p class="text-body-secondary mb-4">{lang key='website/invoices/complete/pending-body' number=$invoice_number}</p>
+
+                            <div class="pay-detail-list mb-4">
+                                <div class="pay-detail">
+                                    <span class="pay-detail-label">{lang key='website/invoices/complete/invoice-number'}</span>
+                                    <span class="pay-detail-value ms-auto num-tabular">{$invoice_number}</span>
+                                </div>
+                                {if $paid_method_name}
+                                <div class="pay-detail">
+                                    <span class="pay-detail-label">{lang key='website/invoices/complete/payment-method'}</span>
+                                    <span class="pay-detail-value ms-auto">{$paid_method_name}</span>
+                                </div>
+                                {/if}
+                            </div>
 
                             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                                 <a class="btn btn-primary" href="{link route='invoice-detail' p1=$invoice_id}"><i class="bi bi-receipt me-2"></i>{lang key='website/invoices/complete/view-invoice'}</a>

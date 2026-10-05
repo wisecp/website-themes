@@ -120,18 +120,18 @@
             <div class="invoice-parties">
                 <div class="invoice-party">
                     <span class="invoice-party-label">{lang key='website/invoices/detail/from'}</span>
-                    {if $parties.from.name}<span class="invoice-party-name">{$parties.from.name}</span>{/if}
-                    {foreach $parties.from.lines as $l}<span class="invoice-party-line">{$l}</span>{/foreach}
+                    {if $parties.from.name}<span class="invoice-party-name"><bdi>{$parties.from.name}</bdi></span>{/if}
+                    {foreach $parties.from.lines as $l}<span class="invoice-party-line"><bdi>{$l}</bdi></span>{/foreach}
                 </div>
                 <div class="invoice-party">
                     <span class="invoice-party-label">{lang key='website/invoices/detail/bill-to'}</span>
-                    {if $parties.to.name}<span class="invoice-party-name">{$parties.to.name}</span>{/if}
-                    {if $parties.to.contact}<span class="invoice-party-line">{$parties.to.contact}</span>{/if}
-                    {foreach $parties.to.lines as $l}<span class="invoice-party-line">{$l}</span>{/foreach}
-                    {if $parties.to.email}<span class="invoice-party-line">{$parties.to.email}</span>{/if}
-                    {if $parties.to.tax}<span class="invoice-party-line">{lang key='website/invoices/detail/vat-reg'} {$parties.to.tax}</span>{/if}
-                    {if $parties.to.identity}<span class="invoice-party-line">{lang key='website/invoices/detail/identity'} {$parties.to.identity}</span>{/if}
-                    {foreach $custom_fields as $cf}<span class="invoice-party-line">{$cf.name}: {$cf.value}</span>{/foreach}
+                    {if $parties.to.name}<span class="invoice-party-name"><bdi>{$parties.to.name}</bdi></span>{/if}
+                    {if $parties.to.contact}<span class="invoice-party-line"><bdi>{$parties.to.contact}</bdi></span>{/if}
+                    {foreach $parties.to.lines as $l}<span class="invoice-party-line"><bdi>{$l}</bdi></span>{/foreach}
+                    {if $parties.to.email}<span class="invoice-party-line"><bdi>{$parties.to.email}</bdi></span>{/if}
+                    {if $parties.to.tax}<span class="invoice-party-line">{lang key='website/invoices/detail/vat-reg'} <bdi>{$parties.to.tax}</bdi></span>{/if}
+                    {if $parties.to.identity}<span class="invoice-party-line">{lang key='website/invoices/detail/identity'} <bdi>{$parties.to.identity}</bdi></span>{/if}
+                    {foreach $custom_fields as $cf}<span class="invoice-party-line">{$cf.name}: <bdi>{$cf.value}</bdi></span>{/foreach}
                 </div>
             </div>
 
@@ -202,6 +202,18 @@
                         <span class="summary-value num-tabular text-success-emphasis">-{$summary.group_fmt}</span>
                     </div>
                     {/if}
+                    {if $summary.custom_show}
+                    <div class="order-summary-line">
+                        <span class="summary-label text-success-emphasis"><i class="bi bi-tag me-1"></i>{lang key='website/invoices/pdf/discount-custom'}</span>
+                        <span class="summary-value num-tabular text-success-emphasis">-{$summary.custom_fmt}</span>
+                    </div>
+                    {/if}
+                    {if $summary.promo_show}
+                    <div class="order-summary-line">
+                        <span class="summary-label text-success-emphasis"><i class="bi bi-gift me-1"></i>{lang key='website/invoices/pdf/discount-promotions'}</span>
+                        <span class="summary-value num-tabular text-success-emphasis">-{$summary.promo_fmt}</span>
+                    </div>
+                    {/if}
                     {if $summary.tax_show}
                     <div class="order-summary-line">
                         <span class="summary-label">{lang key='website/invoices/detail/vat'} ({$summary.tax_rate}%)</span>
@@ -236,6 +248,21 @@
                     </div>
                 </div>
             </div>
+            {if !empty($doc_blocks)}
+            <div class="mt-4 pt-4 border-top">
+                {foreach $doc_blocks as $blk}
+                <div class="d-flex align-items-start gap-3{if !$blk@last} mb-3{/if}">
+                    <img src="{$blk.image}" alt="{$blk.title}" width="96" class="flex-shrink-0">
+                    {if $blk.title || $blk.description}
+                    <div>
+                        {if $blk.title}<h3 class="h6 fw-semibold mb-1">{$blk.title}</h3>{/if}
+                        {if $blk.description}<p class="fs-7 text-body-secondary mb-0">{$blk.description|escape:'html'|nl2br nofilter}</p>{/if}
+                    </div>
+                    {/if}
+                </div>
+                {/foreach}
+            </div>
+            {/if}
         </div>
     </div>
 

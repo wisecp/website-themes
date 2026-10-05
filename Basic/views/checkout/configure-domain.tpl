@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{asset path='css/configure.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
 {/block}
 
 {block name=scripts}
@@ -177,8 +178,9 @@
                                     <button class="btn btn-primary" type="submit" form="configure-form" data-add-to-cart><i class="bi bi-check2 me-2"></i>{lang key='website/configure/edit-domain/update'}</button>
                                     <a class="btn btn-soft" href="{link route='cart'}"><i class="bi bi-arrow-left me-2"></i>{lang key='website/configure/edit-domain/back'}</a>
                                 </div>
-                                <p class="fs-8 text-body-secondary text-center mt-3 mb-0">{lang key='website/configure/prices-shown-in'} <span data-role="currency-label">{$currency}</span>{lang key='website/configure/excluding-tax'}</p>
-                                <p class="fs-8 text-body-secondary text-center mb-0">{lang key='website/configure/taxes-at-checkout'}</p>
+                                {assign var=tax_mode value=$tax_note|default:'exclusive'}
+                                <p class="fs-8 text-body-secondary text-center mt-3 mb-0">{lang key='website/configure/prices-shown-in'} <span data-role="currency-label">{$currency}</span>{if $tax_mode == 'inclusive'}{lang key='website/configure/including-tax'}{elseif $tax_mode == 'none'}{lang key='website/configure/prices-shown-end'}{else}{lang key='website/configure/excluding-tax'}{/if}</p>
+                                {if $tax_mode == 'exclusive'}<p class="fs-8 text-body-secondary text-center mb-0">{lang key='website/configure/taxes-at-checkout'}</p>{/if}
                             </div>
                         </div>
                     </div>

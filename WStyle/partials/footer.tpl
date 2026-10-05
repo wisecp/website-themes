@@ -16,7 +16,7 @@
                 </a>
                 <p class="fs-7 footer-brand-desc mb-3">{lang key='website/index/footer-tagline'}</p>
                 {if $contact_phone}
-                <a class="footer-phone num-tabular d-inline-flex align-items-center gap-2 mb-3" href="tel:{$contact_phone|regex_replace:'/[^+0-9]/':''}"><i class="bi bi-telephone"></i>{$contact_phone}</a>
+                <a class="footer-phone num-tabular d-inline-flex align-items-center gap-2 mb-3" href="tel:{$contact_phone|regex_replace:'/[^+0-9]/':''}"><i class="bi bi-telephone"></i><span dir="ltr">{$contact_phone}</span></a>
                 {/if}
                 <div class="footer-controls mb-3">
                     {include file='components/locale-switcher.tpl' idsuffix='' wrapclass='dropup footer-locale' toggleclass='btn btn-ghost btn-sm locale-toggle' menuclass='dropdown-menu locale-menu' caret=true}

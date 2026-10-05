@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{asset path='js/libs/intl-tel-input/css/intlTelInput.min.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
     <script src="{asset path='js/list.js'}" defer></script>
 {/block}
 
@@ -307,7 +308,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
             <div class="modal-body">
-                <p class="text-body-secondary fs-7 mb-3">{lang key='website/domains/transfer-note'}</p>
+                <p class="text-body-secondary fs-7 mb-3" data-role="transfer-note" data-note-refused="{lang key='website/domains/transfer-refused-note'}">{lang key='website/domains/transfer-note'}</p>
                 <label for="transferAuthCode" class="form-label">{lang key='website/domains/transfer-authcode-label'}</label>
                 <input type="text" class="form-control" id="transferAuthCode" placeholder="{lang key='website/domains/transfer-authcode-ph'}" autocomplete="off">
                 <div class="invalid-feedback">{lang key='website/domains/transfer-authcode-invalid'}</div>

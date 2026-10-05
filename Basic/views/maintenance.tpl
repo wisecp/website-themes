@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{$ui_lang|default:'en'}" dir="{$ui_dir|default:'ltr'}">
+<html lang="{$ui_lang|default:'en'}" dir="{$ui_dir|default:'ltr'}"{if ($setting.default_mode|default:'') == 'dark'} data-theme-default="dark"{elseif ($setting.default_mode|default:'') == 'auto'} data-theme-default="auto"{/if}>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
         return c.indexOf("wcp_theme_mode=") === 0;
       });
       var mv = mc.length === 1 ? mc[0].slice(15) : "";
-      var m = (mv === "light" || mv === "dark" || mv === "auto" ? mv : "") || localStorage.getItem("basic-theme-mode") || localStorage.getItem("basic-theme") || "light";
+      var m = (mv === "light" || mv === "dark" || mv === "auto" ? mv : "") || localStorage.getItem("basic-theme-mode") || localStorage.getItem("basic-theme") || document.documentElement.getAttribute("data-theme-default") || "light";
       var t = m === "light" || m === "dark" ? m : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       document.documentElement.setAttribute("data-bs-theme", t);
       try {

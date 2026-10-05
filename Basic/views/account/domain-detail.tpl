@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{asset path='js/libs/intl-tel-input/css/intlTelInput.min.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
     {/if}
 {/block}
 
@@ -48,11 +49,12 @@
     <div class="container" data-domain-detail data-id="{$d.id}"
         data-txt-days-left="{lang key='website/domains/days-left'}"
         data-txt-day-left="{lang key='website/domains/days-left-one'}"
-        data-txt-on="{lang key='website/domains/on'}" data-txt-off="{lang key='website/domains/off'}"
-        {if $cnsManage}data-txt-cns-del-title="{lang key='website/domains/cns-del-title'}" data-txt-cns-del-msg="{lang key='website/domains/cns-del-msg'}" data-txt-cns-del-action="{lang key='website/domains/cns-del-action'}"{/if}
-        {if $dnsRecordsActive}data-txt-dns-del-title="{lang key='website/domains/dns-del-title'}" data-txt-dns-del-msg="{lang key='website/domains/dns-del-msg'}" data-txt-dns-del-action="{lang key='website/domains/dns-del-action'}" data-txt-dns-edit="{lang key='website/domains/dns-edit'}" data-txt-dns-add-title="{lang key='website/domains/dns-add-title'}" data-txt-dns-edit-title="{lang key='website/domains/dns-edit-title'}"{/if}
-        {if $dnssecManage}data-txt-dnssec-del-title="{lang key='website/domains/dnssec-del-title'}" data-txt-dnssec-del-msg="{lang key='website/domains/dnssec-del-msg'}" data-txt-dnssec-del-action="{lang key='website/domains/dnssec-del-action'}"{/if}
-        {if $efwdManage}data-txt-efwd-del-title="{lang key='website/domains/efwd-del-title'}" data-txt-efwd-del-msg="{lang key='website/domains/efwd-del-msg'}" data-txt-efwd-del-action="{lang key='website/domains/efwd-del-action'}"{/if}
+        data-txt-on="{lang key='website/domains/on'}" data-txt-off="{lang key='website/domains/off'}" data-txt-retry="{lang key='website/domain/retry'}"
+        {if $cnsManage}data-txt-cns-del-title="{lang key='website/domains/cns-del-title'}" data-txt-cns-del-msg="{lang key='website/domains/cns-del-msg'}" data-txt-cns-del-action="{lang key='website/domains/cns-del-action'}" data-txt-cns-failed="{lang key='website/domains/err-cns-failed'}"{/if}
+        {if $dnsRecordsActive}data-txt-dns-del-title="{lang key='website/domains/dns-del-title'}" data-txt-dns-del-msg="{lang key='website/domains/dns-del-msg'}" data-txt-dns-del-action="{lang key='website/domains/dns-del-action'}" data-txt-dns-edit="{lang key='website/domains/dns-edit'}" data-txt-dns-add-title="{lang key='website/domains/dns-add-title'}" data-txt-dns-edit-title="{lang key='website/domains/dns-edit-title'}" data-txt-dns-failed="{lang key='website/domains/err-dns-failed'}"{/if}
+        {if $dnssecManage}data-txt-dnssec-del-title="{lang key='website/domains/dnssec-del-title'}" data-txt-dnssec-del-msg="{lang key='website/domains/dnssec-del-msg'}" data-txt-dnssec-del-action="{lang key='website/domains/dnssec-del-action'}" data-txt-dnssec-failed="{lang key='website/domains/err-dnssec-failed'}"{/if}
+        {if $efwdManage}data-txt-efwd-del-title="{lang key='website/domains/efwd-del-title'}" data-txt-efwd-del-msg="{lang key='website/domains/efwd-del-msg'}" data-txt-efwd-del-action="{lang key='website/domains/efwd-del-action'}" data-txt-efwd-failed="{lang key='website/domains/err-efwd-failed'}"{/if}
+        {if $ufwdManage}data-txt-ufwd-failed="{lang key='website/domains/err-ufwd-failed'}"{/if}
         {if $contactsManage}data-txt-whois-registrant="{lang key='website/domains/whois-role-registrant'}" data-txt-whois-administrative="{lang key='website/domains/whois-role-administrative'}" data-txt-whois-technical="{lang key='website/domains/whois-role-technical'}" data-txt-whois-billing="{lang key='website/domains/whois-role-billing'}" data-txt-whois-all="{lang key='website/domains/whois-role-all'}"{/if}
         {if $transferTab && $caps.transfer_lock_get}data-lock-live="1"{/if}
         {if $is_self}data-txt-bill-default="{lang key='website/domains/bill-profile-default'}"{/if}
@@ -76,7 +78,8 @@
                     <div class="sd-hero-id">
                         <div class="sd-hero-titlerow">
                             <h1 class="sd-hero-title">{$d.name}</h1>
-                            {if $d.badge == 'pending'}<span class="sd-status sd-status-pending"><i class="bi bi-hourglass-split"></i>{$d.status_label}</span>
+                            {if $d.transfer_refused}<span class="sd-status sd-status-expired" data-role="transfer-refused-badge"><i class="bi bi-x-octagon"></i>{$d.status_label}</span>
+                            {elseif $d.badge == 'pending'}<span class="sd-status sd-status-pending"><i class="bi bi-hourglass-split"></i>{$d.status_label}</span>
                             {elseif $d.badge == 'expired'}<span class="sd-status sd-status-expired"><i class="bi bi-calendar-x"></i>{$d.status_label}</span>
                             {elseif $d.badge == 'suspended'}<span class="sd-status sd-status-expired"><i class="bi bi-pause-circle"></i>{$d.status_label}</span>
                             {elseif $d.badge == 'cancelled'}<span class="sd-status sd-status-cancelled"><i class="bi bi-x-circle"></i>{$d.status_label}</span>
@@ -178,6 +181,23 @@
                 {/if}
             </div>
         </header>
+
+        {if $d.transfer_refused}
+        <div class="alert alert-danger d-flex align-items-start mb-3" role="alert" data-role="transfer-refused">
+            <i class="bi bi-x-octagon me-2 flex-shrink-0" aria-hidden="true"></i>
+            <div class="text-break">
+                <div class="fw-semibold">{lang key='website/domains/transfer-refused-text'}</div>
+                {if $d.transfer_reason}<div class="mt-1" data-role="transfer-refused-reason">{lang key='website/domains/transfer-refused-reason' reason=$d.transfer_reason|escape}</div>{/if}
+                <div class="mt-1">{lang key='website/domains/transfer-refused-next'}</div>
+                {if $d.transfer_code_editable || $show_support}
+                <div class="d-flex flex-wrap gap-2 mt-2">
+                    {if $d.transfer_code_editable}<button type="button" class="btn btn-soft btn-sm" data-bs-toggle="modal" data-bs-target="#transferCodeModal"><i class="bi bi-key me-1"></i>{lang key='website/domains/transfer-action'}</button>{/if}
+                    {if $show_support}<a class="btn btn-soft btn-sm" href="{link route='ticket-create'}"><i class="bi bi-headset me-1"></i>{lang key='website/domains/transfer-refused-support'}</a>{/if}
+                </div>
+                {/if}
+            </div>
+        </div>
+        {/if}
 
         {hook name='ui:client.domain_detail.hero.after'}
 
@@ -871,6 +891,32 @@
 {/block}
 
 {block name=body_end}
+{if $d.transfer_refused && $d.transfer_code_editable}
+<div class="modal fade" id="transferCodeModal" tabindex="-1" aria-labelledby="transferCodeTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-icon"><i class="bi bi-arrow-down-circle"></i></span>
+                <div class="modal-titles">
+                    <h2 class="modal-title h5" id="transferCodeTitle">{lang key='website/domains/transfer-title'}</h2>
+                    <p class="modal-subtitle">{$d.name}</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-body-secondary fs-7 mb-3">{lang key='website/domains/transfer-refused-note'}</p>
+                <label for="transferCodeInput" class="form-label">{lang key='website/domains/transfer-authcode-label'}</label>
+                <input type="text" class="form-control" id="transferCodeInput" placeholder="{lang key='website/domains/transfer-authcode-ph'}" autocomplete="off">
+                <div class="invalid-feedback">{lang key='website/domains/transfer-authcode-invalid'}</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-soft" data-bs-dismiss="modal">{lang key='website/domains/cancel'}</button>
+                <button type="button" class="btn btn-primary" data-action="transfer-code-save" data-busy-text="{lang key='website/domains/transfer-saving'}"><i class="bi bi-check-lg me-1"></i>{lang key='website/domains/transfer-submit'}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
 {if $can_manage && $d.actionable && $caps.auth_code}
 <div class="modal fade" id="eppCodeModal" tabindex="-1" aria-labelledby="eppCodeTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -884,7 +930,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
             <div class="modal-body">
-                <p class="fs-7 text-body-secondary">{lang key='website/domains/epp-intro-1'} <strong>{$d.name}</strong> {lang key='website/domains/epp-intro-2'}</p>
+                <p class="fs-7 text-body-secondary">{lang key='website/domains/epp-intro-1'} <strong>{$epp_email|default:''}</strong> {lang key='website/domains/epp-intro-2'}</p>
                 <label class="form-label" for="eppPassword">{lang key='website/domains/epp-password-label'}</label>
                 <div class="input-group">
                     <input type="password" class="form-control" id="eppPassword" autocomplete="current-password" placeholder="{lang key='website/domains/epp-password-ph'}">

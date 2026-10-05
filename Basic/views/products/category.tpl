@@ -109,11 +109,11 @@
                     {foreach $tab.faq as $i => $f}
                     <div class="accordion-item">
                         <h3 class="accordion-header">
-                            <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{$tab.id}-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$tab.id}-{$i}">{$f.title}</button>
+                            <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-wui-toggle data-wui-target="#faq-{$tab.id}-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$tab.id}-{$i}">{$f.title}</button>
                         </h3>
-                        <div id="faq-{$tab.id}-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#category-faq-{$tab.id}">
+                        <div id="faq-{$tab.id}-{$i}" class="wui-collapse{if $i == 0} wui-show{/if}" data-wui-parent="#category-faq-{$tab.id}"><div class="wui-collapse-inner">
                             <div class="accordion-body">{$f.description nofilter}</div>
-                        </div>
+                        </div></div>
                     </div>
                     {/foreach}
                 </div>
@@ -230,11 +230,11 @@
                 {foreach $faq as $i => $f}
                 <div class="accordion-item">
                     <h3 class="accordion-header">
-                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$i}">{$f.title}</button>
+                        <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-wui-toggle data-wui-target="#faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$i}">{$f.title}</button>
                     </h3>
-                    <div id="faq-{$i}" class="accordion-collapse collapse{if $i == 0} show{/if}" data-bs-parent="#category-faq">
+                    <div id="faq-{$i}" class="wui-collapse{if $i == 0} wui-show{/if}" data-wui-parent="#category-faq"><div class="wui-collapse-inner">
                         <div class="accordion-body">{$f.description nofilter}</div>
-                    </div>
+                    </div></div>
                 </div>
                 {/foreach}
             </div>
@@ -277,9 +277,18 @@
           }
           el.setAttribute("content", value);
         }
+        function metaContent(attr, name) {
+          var el = document.head.querySelector("meta[" + attr + '="' + name + '"]');
+          return el ? el.getAttribute("content") || "" : "";
+        }
+        var headLayout = (function() {
+          var bare = metaContent("property", "og:title"), at = bare ? document.title.indexOf(bare) : -1;
+          return at < 0 ? null : [document.title.slice(0, at), document.title.slice(at + bare.length)];
+        })();
         function applyMeta(btn) {
-          var t = btn.getAttribute("data-meta-title"), d = btn.getAttribute("data-meta-desc"), k = btn.getAttribute("data-meta-keys"), u = btn.getAttribute("data-tab-url");
-          if (t) document.title = t;
+          var t = btn.getAttribute("data-meta-title"), d = btn.getAttribute("data-meta-desc"), k = btn.getAttribute("data-meta-keys"), u = btn.getAttribute("data-tab-url"), head = btn.getAttribute("data-head-title");
+          if (head) document.title = head;
+          else if (t) document.title = headLayout ? headLayout[0] + t + headLayout[1] : t;
           upsertMeta("name", "description", d);
           upsertMeta("name", "keywords", k);
           upsertMeta("property", "og:title", t);
@@ -297,13 +306,38 @@
             c.setAttribute("href", u);
           }
         }
+        var home = null, homeTab = null, atHome = false, quiet = false;
+        if (!Array.prototype.some.call(tabBtns, function(b) {
+          return tabPath(b) === location.pathname;
+        })) {
+          var can = document.head.querySelector('link[rel="canonical"]'), own = {
+            "data-head-title": document.title,
+            "data-meta-title": metaContent("property", "og:title"),
+            "data-meta-desc": metaContent("name", "description"),
+            "data-meta-keys": metaContent("name", "keywords"),
+            "data-tab-url": can ? can.getAttribute("href") : location.href
+          };
+          home = { getAttribute: function(n) {
+            return own[n] == null ? null : own[n];
+          } };
+          homeTab = document.querySelector('[data-bs-toggle="tab"][data-bs-target^="#pane-"].active');
+          atHome = true;
+        }
+        function openTab(btn) {
+          atHome = false;
+          applyMeta(btn);
+          var path = tabPath(btn);
+          if (path && path !== location.pathname) history.pushState(null, "", btn.getAttribute("data-tab-url"));
+        }
         tabBtns.forEach(function(b) {
           b.addEventListener("shown.bs.tab", function(e) {
             var btn = e.target;
             syncTab(btn.getAttribute("data-bs-target").replace("#pane-", ""));
-            applyMeta(btn);
-            var path = tabPath(btn);
-            if (path && path !== location.pathname) history.pushState(null, "", btn.getAttribute("data-tab-url"));
+            if (quiet) return;
+            openTab(btn);
+          });
+          b.addEventListener("click", function() {
+            if (atHome && b.classList.contains("active")) openTab(b);
           });
         });
         window.addEventListener("popstate", function() {
@@ -311,8 +345,23 @@
           tabBtns.forEach(function(b) {
             if (tabPath(b) === location.pathname) match = b;
           });
+          if (!match && home) {
+            if (homeTab && !homeTab.classList.contains("active") && window.bootstrap && bootstrap.Tab) {
+              quiet = true;
+              bootstrap.Tab.getOrCreateInstance(homeTab).show();
+              quiet = false;
+            }
+            atHome = true;
+            applyMeta(home);
+            return;
+          }
           var target = match || tabBtns[0];
-          if (target && window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
+          if (!target) return;
+          if (target.classList.contains("active")) {
+            if (atHome) openTab(target);
+            return;
+          }
+          if (window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
         });
       })();
     </script>

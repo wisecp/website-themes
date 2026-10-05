@@ -99,9 +99,9 @@
                         </div>
                     </div>
                 </div>
-                {if $s.renew_ok || $s.can_manage || $updown.visible || $lt.visible || $serviceTransferTab || $cancel.show}
+                {if $s.renew_ok || $s.has_management || $updown.visible || $lt.visible || $serviceTransferTab || $cancel.show}
                 <div class="sd-hero-actions">
-                    {if $s.can_manage}
+                    {if $s.has_management}
                     <button type="button" class="btn btn-primary btn-sm" data-action="show-tab" data-tab="sd-management-tab"><i class="bi bi-gear me-1"></i>{lang key='website/services/manage'}</button>
                     {/if}
                     {if $s.renew_ok}
@@ -190,7 +190,7 @@
             <div class="card-header sd-tabbar" data-scroll-prev="{lang key='needs/tabs-scroll-prev'}" data-scroll-next="{lang key='needs/tabs-scroll-next'}">
                 <ul class="nav sd-segtabs" role="tablist" data-wstyle-tabs="service-detail">
                     <li class="nav-item" role="presentation"><button class="nav-link active" id="sd-overview-tab" data-tab-hash="overview" data-bs-toggle="tab" data-bs-target="#sd-overview" type="button" role="tab" aria-controls="sd-overview" aria-selected="true"><i class="bi bi-grid-1x2 me-1"></i>{lang key='website/services/tab-overview'}</button></li>
-                    {if $s.can_manage}<li class="nav-item" role="presentation"><button class="nav-link" id="sd-management-tab" data-tab-hash="management" data-bs-toggle="tab" data-bs-target="#sd-management" type="button" role="tab" aria-controls="sd-management" aria-selected="false"><i class="bi bi-hdd-stack me-1"></i>{lang key='website/services/tab-management'}</button></li>{/if}
+                    {if $s.has_management}<li class="nav-item" role="presentation"><button class="nav-link" id="sd-management-tab" data-tab-hash="management" data-bs-toggle="tab" data-bs-target="#sd-management" type="button" role="tab" aria-controls="sd-management" aria-selected="false"><i class="bi bi-hdd-stack me-1"></i>{lang key='website/services/tab-management'}</button></li>{/if}
                     {if $lt.visible}<li class="nav-item" role="presentation"><button class="nav-link" id="sd-transfer-tab" data-tab-hash="license-transfer" data-bs-toggle="tab" data-bs-target="#sd-transfer" type="button" role="tab" aria-controls="sd-transfer" aria-selected="false"><i class="bi bi-arrow-left-right me-1"></i>{lang key='website/services/lt/tab'}</button></li>{/if}
                     {if $s.blocks}<li class="nav-item" role="presentation"><button class="nav-link" id="sd-extra-tab" data-tab-hash="extra" data-bs-toggle="tab" data-bs-target="#sd-extra" type="button" role="tab" aria-controls="sd-extra" aria-selected="false"><i class="bi bi-info-square me-1"></i>{lang key='website/services/tab-extra'}</button></li>{/if}
                     {if $addons_owned || $addons_available}<li class="nav-item" role="presentation"><button class="nav-link" id="sd-addons-tab" data-tab-hash="addons" data-bs-toggle="tab" data-bs-target="#sd-addons" type="button" role="tab" aria-controls="sd-addons" aria-selected="false"><i class="bi bi-puzzle me-1"></i>{lang key='website/services/tab-addons'}</button></li>{/if}
@@ -466,10 +466,13 @@
                         <div class="row g-3">
                             <div class="col-lg-7">
                                 <section class="sd-panel">
-                                    {if $s.can_change_password}
+                                    {if $s.info_status || ($s.can_change_password && !$s.chpass_in_field)}
                                     <div class="sd-panel-head">
                                         <h2 class="sd-panel-title"><i class="bi bi-info-circle me-1"></i>{lang key='website/services/service-information'}</h2>
-                                        <button type="button" class="btn btn-soft btn-sm" data-action="sd-chpass"><i class="bi bi-key me-1"></i>{lang key='website/services/chpass-btn'}</button>
+                                        <div class="d-flex align-items-center gap-2">
+                                            {if $s.info_status}<span class="badge bg-{$s.info_status.badge_color}-subtle text-{$s.info_status.badge_color}-emphasis" data-bs-toggle="tooltip" title="{$s.info_status.label}"><i class="{$s.info_status.badge_icon} me-1"></i>{$s.info_status.value}</span>{/if}
+                                            {if $s.can_change_password && !$s.chpass_in_field}<button type="button" class="btn btn-soft btn-sm" data-action="sd-chpass"><i class="bi bi-key me-1"></i>{lang key='website/services/chpass-btn'}</button>{/if}
+                                        </div>
                                     </div>
                                     {else}
                                     <h2 class="sd-panel-title"><i class="bi bi-info-circle me-1"></i>{lang key='website/services/service-information'}</h2>
@@ -491,6 +494,7 @@
                                                     <span class="sd-mono" data-role="pass-text">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
                                                     <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="sd-pass-toggle" data-pass="{$f.value}" aria-label="{lang key='website/services/show-password'}" data-bs-toggle="tooltip" title="{lang key='website/services/show-password'}"><i class="bi bi-eye"></i></button>
                                                     <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="copy" data-copy-text="{$f.value}" aria-label="{lang key='website/services/copy'}" data-bs-toggle="tooltip" title="{lang key='website/services/copy'}"><i class="bi bi-clipboard"></i></button>
+                                                    {if $f.chpass|default:false}<button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="sd-chpass" aria-label="{lang key='website/services/chpass-btn'}" data-bs-toggle="tooltip" title="{lang key='website/services/chpass-btn'}"><i class="bi bi-key"></i></button>{/if}
                                                 {elseif $f.kind == 'copy'}
                                                     <span class="sd-mono">{$f.value}</span>
                                                     <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="copy" data-copy-text="{$f.value}" aria-label="{lang key='website/services/copy'}" data-bs-toggle="tooltip" title="{lang key='website/services/copy'}"><i class="bi bi-clipboard"></i></button>
@@ -590,7 +594,7 @@
                         {hook name='ui:client.service_detail.overview.after'}
                     </div>
 
-                    {if $s.can_manage}
+                    {if $s.has_management}
                     <div class="tab-pane fade" id="sd-management" role="tabpanel" aria-labelledby="sd-management-tab" tabindex="0">
                         {if $s.has_sso}
                         <div class="sd-mgmt-cta">
@@ -806,6 +810,21 @@
                                                 {if $a.expires}
                                                 <span class="sd-addon-note{if $a.cancel_planned} d-none{/if}" data-role="addon-note-renews">{lang key='website/services/addon-renews-on'} {$a.expires}</span>
                                                 <span class="sd-addon-note{if !$a.cancel_planned} d-none{/if}" data-role="addon-note-ends">{lang key='website/services/addon-ends-on'} {$a.expires}</span>
+                                                {/if}
+                                                {if $a.can_autorenew}
+                                                <span class="sd-addon-note">{lang key='website/services/f-autorenew'}:
+                                                    {if $s.account_autopay}
+                                                    <span class="form-check form-switch sd-switch-inline m-0 d-inline-flex align-middle" data-bs-toggle="tooltip" title="{lang key='website/account/autorenew-locked-account'}">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sd-addon-autorenew-{$a.id}" checked disabled aria-label="{lang key='website/services/addon-autorenew-aria'}">
+                                                        <span class="sd-switch-state">{lang key='website/services/on'}</span>
+                                                    </span>
+                                                    {else}
+                                                    <span class="form-check form-switch sd-switch-inline m-0 d-inline-flex align-middle">
+                                                        <input class="form-check-input" type="checkbox" role="switch" id="sd-addon-autorenew-{$a.id}" data-action="toggle-addon-autorenew" data-addon-id="{$a.id}" data-addon-name="{$a.name}" aria-label="{lang key='website/services/addon-autorenew-aria'}"{if $a.autorenew} checked{/if}>
+                                                        <span class="sd-switch-state" data-role="addon-autorenew-state">{if $a.autorenew}{lang key='website/services/on'}{else}{lang key='website/services/off'}{/if}</span>
+                                                    </span>
+                                                    {/if}
+                                                </span>
                                                 {/if}
                                             </div>
                                             {if $a.price}<span class="sd-addon-price num-tabular">{$a.price}{if $a.cycle_short}<span class="sd-fact-unit">/{$a.cycle_short}</span>{/if}</span>{/if}

@@ -34,13 +34,13 @@
                     {if $m.kind == 'bank'}
                     {if !empty($bank_reference)}
                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-                        <span class="form-label mb-0">{lang key='website/checkout/bank-accounts-label'}</span>
+                        <span class="form-label mb-0">{if $m.bank_accounts}{lang key='website/checkout/bank-accounts-label'}{else}{lang key='website/invoices/complete/transfer-details'}{/if}</span>
                         <span class="bank-reference">
                             <span class="bank-reference-label">{lang key='website/invoices/pay/bank-reference'}</span>
                             <span class="bank-reference-value num-tabular">{$bank_reference}</span>
                         </span>
                     </div>
-                    {else}
+                    {elseif $m.bank_accounts}
                     <span class="form-label d-block mb-2">{lang key='website/checkout/bank-accounts-label'}</span>
                     {/if}
                     <div class="bank-account-grid" data-bank-accounts>
@@ -78,21 +78,7 @@
                         {/foreach}
                     </div>
                     {if !empty($bank_reference)}
-                    <div class="row g-3 mt-1" data-bank-notify>
-                        {if $m.bank_accounts}
-                        <div class="col-sm-6">
-                            <label class="form-label" for="inv-bank-account">{lang key='website/invoices/pay/bank-account-label'}</label>
-                            <select class="form-select" id="inv-bank-account" data-role="bank-account">
-                                {foreach $m.bank_accounts as $b}<option value="{$b.id}">{$b.name}</option>{/foreach}
-                            </select>
-                        </div>
-                        {/if}
-                        <div class="col-sm-6">
-                            <label class="form-label" for="inv-bank-sender">{lang key='website/invoices/pay/bank-sender-label'} <span class="text-danger" aria-hidden="true">*</span></label>
-                            <input type="text" class="form-control" id="inv-bank-sender" data-role="bank-sender" autocomplete="name" placeholder="{lang key='website/invoices/pay/bank-sender-ph'}">
-                            <div class="invalid-feedback">{lang key='website/invoices/pay/error-bank-sender'}</div>
-                        </div>
-                    </div>
+                    {include file='components/bank-transfer-notify.tpl' accounts=$m.bank_accounts prefix='inv'}
                     {/if}
                     <p class="fs-8 text-body-secondary mt-3 mb-0"><i class="bi bi-info-circle me-1"></i>{if !empty($bank_note)}{$bank_note}{elseif !empty($bank_reference)}{lang key='website/invoices/pay/bank-note'}{else}{lang key='website/checkout/bank-note'}{/if}</p>
                     {elseif $m.kind == 'balance'}

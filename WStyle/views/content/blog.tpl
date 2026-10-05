@@ -106,9 +106,9 @@
                             {if $categories}
                             <h2 class="news-sidebar-title">{lang key='website/articles/categories-title'}</h2>
                             <div class="news-cats" role="group" data-news-filter aria-label="{lang key='website/articles/categories-aria'}">
-                                <button class="news-cat active" type="button" data-cat="all" aria-pressed="true"><span class="news-cat-label"><i class="bi bi-grid"></i>{lang key='website/articles/all'}</span><span class="news-cat-count num-tabular">{$total_count}</span></button>
+                                <button class="news-cat{if !$active_category} active{/if}" type="button" data-cat="all" aria-pressed="{if $active_category}false{else}true{/if}"><span class="news-cat-label"><i class="bi bi-grid"></i>{lang key='website/articles/all'}</span><span class="news-cat-count num-tabular">{$total_count}</span></button>
                                 {foreach $categories as $cat}
-                                <button class="news-cat" type="button" data-cat="{$cat.slug}" aria-pressed="false"{if $cat.color} style="--cat-color: {$cat.color}"{/if}><span class="news-cat-label">{if $cat.icon.type == 'image'}<img src="{$cat.icon.value}" alt="">{else}<i class="{$cat.icon.value}"></i>{/if}{$cat.title}</span><span class="news-cat-count num-tabular">{$cat.count}</span></button>
+                                <button class="news-cat{if $active_category && $cat.slug == $active_category} active{/if}" type="button" data-cat="{$cat.slug}" aria-pressed="{if $active_category && $cat.slug == $active_category}true{else}false{/if}"{if $cat.color} style="--cat-color: {$cat.color}"{/if}><span class="news-cat-label">{if $cat.icon.type == 'image'}<img src="{$cat.icon.value}" alt="">{else}<i class="{$cat.icon.value}"></i>{/if}{$cat.title}</span><span class="news-cat-count num-tabular">{$cat.count}</span></button>
                                 {/foreach}
                             </div>
                             {/if}

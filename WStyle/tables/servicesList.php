@@ -75,7 +75,7 @@
         if ($badge === "suspended")
             return array_merge($base, $dated, ['text' => \Language::gc("website/services/overdue"), 'class' => "is-critical", 'icon' => "bi bi-exclamation-circle", 'flag' => 'attention']);
 
-        $days = (int) ceil(($dueTs - $today) / 86400);
+        $days = max((int) round((strtotime(date("Y-m-d", $dueTs)) - $today) / 86400), $dueTs > time() ? 1 : 0);
         if ($days <= 0)
             return array_merge($base, $dated, ['text' => \Language::gc("website/services/overdue"), 'class' => "is-critical", 'icon' => "bi bi-exclamation-circle", 'flag' => 'due', 'overdue' => true]);
 

@@ -43,6 +43,8 @@
 
         $amountFmt = (string) ($r["amount"] ?? '');
         $issued    = (string) ($r["issued"] ?? '');
+        $balanceDue  = (string) ($r["balance_due"] ?? '');
+        $balanceHtml = $balanceDue !== '' ? '<span class="list-cycle fw-semibold text-warning-emphasis">' . \Language::gc("website/invoices/detail/balance-due") . ': ' . $balanceDue . '</span>' : '';
 
         if ($pay)
             $actionsHtml = '<a class="btn btn-soft btn-sm list-manage" href="' . $link . '"><i class="bi bi-credit-card me-1"></i>' . \Language::gc("website/invoices/pay-now") . '</a>';
@@ -76,6 +78,7 @@
         <div class="list-price">
             <span class="list-amount num-tabular">{$amountFmt}</span>
             <span class="list-cycle">{$issued}</span>
+            {$balanceHtml}
         </div>
         <div class="list-actions">{$actionsHtml}</div>
     </div>

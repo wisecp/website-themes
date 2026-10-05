@@ -71,6 +71,11 @@
         $remText = (string) ($r["rem_text"] ?? '');
         if ($dueKind === 'pending')
             $dueHtml = '<span class="list-due-pending"><i class="' . $remIcon . ' me-1"></i>' . $remText . '</span>';
+        elseif ($dueKind === 'refused') {
+            $reason  = (string) ($r["transfer_reason"] ?? '');
+            $tipAttr = $reason !== '' ? ' data-bs-toggle="tooltip" title="' . htmlspecialchars($reason) . '"' : '';
+            $dueHtml = '<span class="badge bg-danger-subtle text-danger-emphasis"' . $tipAttr . ' data-role="transfer-refused"><i class="' . $remIcon . ' me-1"></i>' . $remText . '</span>';
+        }
         elseif ($dueKind === 'none')
             $dueHtml = '<span class="list-due-date list-due-none">' . $remText . '</span>';
         else {
@@ -109,7 +114,7 @@
         if (!$blocked && $canManage && ($canNs || $canEpp || $canWhois || $isTrans || $needsVerify)) {
             $items = '';
             if ($isTrans)
-                $items .= '<li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#transferStatusModal" data-id="' . $id . '" data-domain="' . $nameEsc . '"><i class="bi bi-key"></i>' . \Language::gc("website/domains/transfer-action") . '</button></li>';
+                $items .= '<li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#transferStatusModal" data-id="' . $id . '" data-domain="' . $nameEsc . '"' . ($dueKind === 'refused' ? ' data-refused="1"' : '') . '><i class="bi bi-key"></i>' . \Language::gc("website/domains/transfer-action") . '</button></li>';
             if ($needsVerify)
                 $items .= '<li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#domainVerifyModal" data-id="' . $id . '" data-domain="' . $nameEsc . '" data-verify-state="' . htmlspecialchars($verifyState) . '"><i class="bi bi-clipboard-check"></i>' . \Language::gc("website/domains/verify-action") . '</button></li>';
             if ($canNs)

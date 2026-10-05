@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (freq === 'always') return true;
         var last = localStorage.getItem(key);
         if (freq === 'daily') return last !== new Date().toDateString();
-        return !last; // once per visitor
+        return !last; 
     }
     if (!shouldShow()) return;
     setTimeout(function () {

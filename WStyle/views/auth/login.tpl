@@ -127,7 +127,7 @@
         <div class="text-center mb-4">
             <span class="auth-icon"><i class="bi bi-chat-dots"></i></span>
             <h2 class="h3 tracking-tight mb-2">{lang key='website/sign/sms-heading'}</h2>
-            <p class="text-body-secondary mb-0">{lang key='website/sign/sms-subtitle'} <span class="num-tabular">0199</span>.</p>
+            <p class="text-body-secondary mb-0">{lang key='website/sign/sms-subtitle'} <span class="num-tabular" data-role="sms-destination">••••</span>.</p>
         </div>
         <form action="{link route='sign-in'}" method="post" novalidate data-auth-form="sms">
             <fieldset class="mb-3">

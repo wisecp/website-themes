@@ -44,6 +44,30 @@ return [
                 'default'   => '#0d9488',
                 'from_logo' => 1,
             ],
+            'content_width' => [
+                'type'    => 'select',
+                'group'   => 'appearance',
+                'label'   => 'set_content_width',
+                'desc'    => 'set_content_width_desc',
+                'options' => [
+                    'standard' => 'opt_width_standard',
+                    'wide'     => 'opt_width_wide',
+                    'wider'    => 'opt_width_wider',
+                ],
+                'default' => 'standard',
+            ],
+            'default_mode' => [
+                'type'    => 'select',
+                'group'   => 'appearance',
+                'label'   => 'set_default_mode',
+                'desc'    => 'set_default_mode_desc',
+                'options' => [
+                    'light' => 'opt_mode_light',
+                    'dark'  => 'opt_mode_dark',
+                    'auto'  => 'opt_mode_auto',
+                ],
+                'default' => 'light',
+            ],
             'status_url' => [
                 'type'    => 'text',
                 'group'   => 'footer',

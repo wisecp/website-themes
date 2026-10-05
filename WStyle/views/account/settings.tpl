@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{asset path='css/account-settings.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
     {if $show_activity || $show_messages}
     <link rel="stylesheet" href="{asset path='css/libs/wcp-table/table.css'}">
     <script src="{asset path='js/libs/wcp-table/table.js'}" defer></script>
@@ -85,9 +86,9 @@
                     <div class="mt-2">
                         {foreach $missing_required_fields as $f}
                         <button type="button" class="as-gate-step" data-action="as-goto-profile" data-as-field="{$f.name}">
-                            <i class="bi bi-person-vcard" aria-hidden="true"></i>
+                            <i class="bi {if ($f.tab|default:'profile') == 'security'}bi-shield-lock{else}bi-person-vcard{/if}" aria-hidden="true"></i>
                             <span class="as-gate-step-name">{$f.label}</span>
-                            <span class="as-gate-step-go">{lang key='website/account/tab-profile'}</span>
+                            <span class="as-gate-step-go">{if ($f.tab|default:'profile') == 'security'}{lang key='website/account/tab-security'}{else}{lang key='website/account/tab-profile'}{/if}</span>
                             <i class="bi bi-chevron-right" aria-hidden="true"></i>
                         </button>
                         {/foreach}
@@ -437,7 +438,7 @@
                                     <div class="as-item-meta">
                                         {if $c.company_name}<span class="as-item-line">{$c.company_name}</span>{/if}
                                         {if $c.email}<span class="list-chip"><i class="bi bi-envelope"></i>{$c.email}</span>{/if}
-                                        {if $c.phone}<span class="list-chip"><i class="bi bi-telephone"></i>{$c.phone}</span>{/if}
+                                        {if $c.phone}<span class="list-chip"><i class="bi bi-telephone"></i><span dir="ltr">{$c.phone}</span></span>{/if}
                                     </div>
                                 </div>
                                 <div class="as-item-actions">
@@ -957,7 +958,7 @@
                                         <span class="as-item-name">{lang key='website/account/verify-phone-name'}</span>
                                         {if $verify_phone_verified}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-check-circle me-1"></i>{lang key='website/account/verify-verified'}</span>{else}<span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-dash-circle me-1"></i>{lang key='website/account/verify-unverified'}</span>{/if}
                                     </div>
-                                    <div class="as-item-meta"><span class="as-item-line">{if $verify_phone_verified}{$verify_phone}{else}{lang key='website/account/verify-phone-add'}{/if}</span></div>
+                                    <div class="as-item-meta"><span class="as-item-line">{if $verify_phone}<span dir="ltr">{$verify_phone}</span>{else}{lang key='website/account/verify-phone-add'}{/if}</span></div>
                                 </div>
                                 {if !$verify_phone_verified && $verify_phone_enabled}
                                 <div class="as-item-actions">
@@ -1602,7 +1603,7 @@
                         <span class="as-2fa-done-ico"><i class="bi bi-shield-check"></i></span>
                         <h3 class="h5 mt-3 mb-1">{lang key='website/account/2fa-done-title'}</h3>
                         <p class="fs-7 text-body-secondary mb-0">{lang key='website/account/2fa-done-sub'}</p>
-                        <div class="as-2fa-trust-note"><i class="bi bi-laptop"></i><span>{lang key='website/account/2fa-trust-note'}</span></div>
+                        {if ($trust_window|default:0) > 0}<div class="as-2fa-trust-note"><i class="bi bi-laptop"></i><span>{lang key='website/account/2fa-trust-note'}</span></div>{/if}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1700,7 +1701,7 @@
                         <span class="as-2fa-done-ico"><i class="bi bi-shield-check"></i></span>
                         <h3 class="h5 mt-3 mb-1">{lang key='website/account/2fa-sms-done-title'}</h3>
                         <p class="fs-7 text-body-secondary mb-0">{lang key='website/account/2fa-sms-done-sub'}</p>
-                        <div class="as-2fa-trust-note"><i class="bi bi-laptop"></i><span>{lang key='website/account/2fa-trust-note'}</span></div>
+                        {if ($trust_window|default:0) > 0}<div class="as-2fa-trust-note"><i class="bi bi-laptop"></i><span>{lang key='website/account/2fa-trust-note'}</span></div>{/if}
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1738,7 +1739,7 @@
                         <span class="as-2fa-done-ico"><i class="bi bi-shield-check"></i></span>
                         <h3 class="h5 mt-3 mb-1">{lang key='website/account/2fa-email-done-title'}</h3>
                         <p class="fs-7 text-body-secondary mb-0">{lang key='website/account/2fa-email-done-sub'}</p>
-                        <div class="as-2fa-trust-note"><i class="bi bi-laptop"></i><span>{lang key='website/account/2fa-trust-note'}</span></div>
+                        {if ($trust_window|default:0) > 0}<div class="as-2fa-trust-note"><i class="bi bi-laptop"></i><span>{lang key='website/account/2fa-trust-note'}</span></div>{/if}
                     </div>
                 </div>
                 <div class="modal-footer">

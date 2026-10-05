@@ -1,0 +1,9 @@
+/**
+ * WISECP · Web Hosting Billing and Digital Services Platform
+ *
+ * Copyright (c) WISECP LLC — All rights reserved.
+ * Unlicensed copying, distribution or use is prohibited.
+ *
+ * Terms of service: https://wisecp.com/terms-of-service
+ */
+(function(){"use strict";const t=document.querySelector("[data-bank-notify-form]");if(!t)return;const o=t.querySelector('[data-role="notify-alert"]'),d=t.querySelector('[data-role="notify-alert-text"]'),r=t.querySelector('[data-role="bank-sender"]'),l=t.querySelector('[data-role="bank-account"]'),n=t.querySelector('button[type="submit"]'),i=()=>window.WCPTheme&&window.WCPTheme.collapse||null;let s=!1;function u(c){d&&(d.textContent=c||t.dataset.txtError||"Something went wrong. Please try again."),o&&i()&&i().show(o)}function f(){o&&o.classList.contains("wui-show")&&i()&&i().hide(o)}r&&r.addEventListener("input",()=>{r.classList.remove("is-invalid"),f()}),t.addEventListener("submit",c=>{if(c.preventDefault(),s)return;f();const p=r?r.value.trim():"";if(r&&p===""){r.classList.add("is-invalid"),r.focus();return}const a=new FormData;a.append("operation","pay_invoice"),a.append("token",t.querySelector('input[name="token"]').value),a.append("id",t.querySelector('input[name="id"]').value),a.append("pmethod","BankTransfer"),a.append("sender_name",p),l&&a.append("bank_account",l.value),s=!0;const h=n?Array.from(n.childNodes,e=>e.cloneNode(!0)):[];if(n){const e=document.createElement("span");e.className="spinner-border spinner-border-sm me-2",e.setAttribute("role","status"),e.setAttribute("aria-hidden","true"),n.disabled=!0,n.replaceChildren(e,document.createTextNode(n.dataset.busyText||""))}const m=()=>{s=!1,n&&(n.disabled=!1,n.replaceChildren(...h))};fetch(t.getAttribute("action"),{method:"POST",body:a,headers:{"X-Requested-With":"XMLHttpRequest"}}).then(e=>e.json()).then(e=>{if(e&&e.status==="successful"&&e.redirect){window.location.href=e.redirect;return}m(),u(e&&e.message)}).catch(()=>{m(),u()})})})();

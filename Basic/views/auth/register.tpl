@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{asset path='css/auth.css'}">
 <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
 <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
+{if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
 <script src="{asset path='js/geo-country.js'}" defer></script>
 {/block}
 
@@ -54,7 +55,7 @@
                                         <input type="radio" class="btn-check" name="account_type" id="acct-company" value="company">
                                         <label class="btn btn-soft" for="acct-company"><i class="bi bi-building me-1"></i>{lang key='website/sign/register-acct-company'}</label>
                                     </div>
-                                    <div class="collapse" id="company-fields">
+                                    <div class="wui-collapse" id="company-fields"><div class="wui-collapse-inner">
                                         <div class="pt-3">
                                             <div class="mb-3">
                                                 <label for="reg-company" class="form-label">{lang key='website/sign/register-company-name'} <span class="text-danger" aria-hidden="true">*</span></label>
@@ -72,7 +73,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div></div>
                                     {else}
                                     <input type="hidden" name="account_type" value="individual">
                                     {/if}
@@ -132,13 +133,13 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="reg-address1" class="form-label">{lang key='website/sign/register-address'} <span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span></label>
-                                            <input type="text" class="form-control" id="reg-address1" name="address1" autocomplete="address-line1">
+                                            <label for="reg-address1" class="form-label">{lang key='website/sign/register-address'} {if $registration.address_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
+                                            <input type="text" class="form-control" id="reg-address1" name="address1" autocomplete="address-line1"{if $registration.address_required} data-required="1"{/if}>
                                             <div class="invalid-feedback">{lang key='website/sign/register-address-invalid'}</div>
                                         </div>
                                         <div class="row g-3 mb-3">
                                             <div class="col-sm-6">
-                                                <label for="reg-country" class="form-label">{lang key='website/sign/register-country'} <span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span></label>
+                                                <label for="reg-country" class="form-label">{lang key='website/sign/register-country'} {if $registration.address_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
                                                 <select class="form-select" id="reg-country" name="country" data-basic-select data-flag-select autocomplete="country">
                                                     {foreach $countries as $c}
                                                     <option value="{$c.a2_iso}">{$c.name}</option>
@@ -156,15 +157,15 @@
                                         </div>
                                         <div class="row g-3">
                                             <div class="col-sm-6">
-                                                <label for="reg-city" class="form-label">{lang key='website/sign/register-city'} <span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span></label>
+                                                <label for="reg-city" class="form-label">{lang key='website/sign/register-city'} {if $registration.address_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
                                                 <select class="form-select" id="reg-city" name="city" data-basic-select disabled>
                                                     <option value="">{lang key='website/sign/register-city-placeholder'}</option>
                                                 </select>
-                                                <input type="text" class="form-control d-none" id="reg-city-text" name="city_text" autocomplete="address-level2" placeholder="{lang key='website/sign/register-city'}">
+                                                <input type="text" class="form-control d-none" id="reg-city-text" name="city_text" autocomplete="address-level2" placeholder="{lang key='website/sign/register-city'}"{if $registration.address_required} data-required="1"{/if}>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label for="reg-postal" class="form-label">{lang key='website/sign/register-postal'} <span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span></label>
-                                                <input type="text" class="form-control" id="reg-postal" name="postal_code" autocomplete="postal-code">
+                                                <label for="reg-postal" class="form-label">{lang key='website/sign/register-postal'} {if $registration.address_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
+                                                <input type="text" class="form-control" id="reg-postal" name="postal_code" autocomplete="postal-code"{if $registration.address_required} data-required="1"{/if}>
                                                 <div class="invalid-feedback">{lang key='website/sign/register-postal-invalid'}</div>
                                             </div>
                                         </div>
@@ -282,20 +283,20 @@
                                             {foreach $contracts as $contract}
                                             <div class="accordion-item">
                                                 <h3 class="accordion-header">
-                                                    <button class="accordion-button collapsed fs-7 fw-semibold py-2" type="button" data-bs-toggle="collapse" data-bs-target="#contract-{$contract.id}" aria-expanded="false" aria-controls="contract-{$contract.id}">
+                                                    <button class="accordion-button collapsed fs-7 fw-semibold py-2" type="button" data-wui-toggle data-wui-target="#contract-{$contract.id}" aria-expanded="false" aria-controls="contract-{$contract.id}">
                                                         <i class="bi bi-file-earmark-text me-2"></i>{$contract.title}
                                                     </button>
                                                 </h3>
-                                                <div id="contract-{$contract.id}" class="accordion-collapse collapse" data-bs-parent="#reg-contracts">
+                                                <div id="contract-{$contract.id}" class="wui-collapse" data-wui-parent="#reg-contracts"><div class="wui-collapse-inner">
                                                     <div class="accordion-body contract-scroll overflow-auto">{$contract.content nofilter}</div>
-                                                </div>
+                                                </div></div>
                                             </div>
                                             {/foreach}
                                         </div>
                                         {capture name=contract_links}{foreach $contracts as $contract}<a class="fw-semibold text-decoration-none" href="{$contract.link}" target="_blank" rel="noopener">{$contract.title}</a>{if !$contract@last}, {/if}{/foreach}{/capture}
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" type="checkbox" id="reg-terms" name="terms" required>
-                                            <label class="form-check-label fs-7" for="reg-terms">{lang key='website/sign/register-contracts-accept' contracts=$smarty.capture.contract_links} <span class="text-danger" aria-hidden="true">*</span></label>
+                                            <label class="form-check-label fs-7" for="reg-terms">{lang key='website/sign/register-contracts-accept' contracts=$smarty.capture.contract_links raw='contracts'} <span class="text-danger" aria-hidden="true">*</span></label>
                                             <div class="invalid-feedback">{lang key='website/sign/register-terms-invalid'}</div>
                                         </div>
                                         {/if}

@@ -32,9 +32,9 @@
 
         {if $categories}
         <div class="reference-filters" role="group" data-ref-filter aria-label="{lang key='website/references/filter-aria'}">
-            <button class="reference-chip active" type="button" data-cat="all" aria-pressed="true"><i class="bi bi-grid"></i><span>{lang key='website/references/filter-all'}</span><span class="reference-chip-count num-tabular">{$total_count}</span></button>
+            <button class="reference-chip{if !$active_category} active{/if}" type="button" data-cat="all" aria-pressed="{if $active_category}false{else}true{/if}"><i class="bi bi-grid"></i><span>{lang key='website/references/filter-all'}</span><span class="reference-chip-count num-tabular">{$total_count}</span></button>
             {foreach $categories as $cat}
-            <button class="reference-chip" type="button" data-cat="{$cat.slug}" aria-pressed="false">{if $cat.icon.type == 'image'}<img src="{$cat.icon.value}" alt="">{else}<i class="{$cat.icon.value}"></i>{/if}<span>{$cat.title}</span><span class="reference-chip-count num-tabular">{$cat.count}</span></button>
+            <button class="reference-chip{if $active_category && $cat.slug == $active_category} active{/if}" type="button" data-cat="{$cat.slug}" aria-pressed="{if $active_category && $cat.slug == $active_category}true{else}false{/if}">{if $cat.icon.type == 'image'}<img src="{$cat.icon.value}" alt="">{else}<i class="{$cat.icon.value}"></i>{/if}<span>{$cat.title}</span><span class="reference-chip-count num-tabular">{$cat.count}</span></button>
             {/foreach}
         </div>
         {/if}

@@ -6,6 +6,12 @@
 
 {block name=body_class} checkout-shell-centered{/block}
 
+{block name=scripts}
+    {if $complete_state == 'bank' && $bank_notify == 'form'}
+    <script src="{asset path='js/bank-notify.js'}" defer></script>
+    {/if}
+{/block}
+
 {block name=content}
 
     <div class="container py-5">
@@ -63,14 +69,22 @@
                         <div class="card-body p-4 p-sm-5 text-center">
                             <i class="bi bi-hourglass-split text-warning checkout-result-icon" aria-hidden="true"></i>
                             <h1 class="h3 tracking-tight mt-3 mb-2">{lang key='website/checkout/complete/title'}</h1>
+                            {if $bank_notify == 'sent'}
+                            <div class="alert alert-info d-flex align-items-center text-start mb-4" role="alert">
+                                <i class="bi bi-clock me-2 flex-shrink-0" aria-hidden="true"></i>
+                                <div>{lang key='website/checkout/complete/bank-notified' number=$order_number}</div>
+                            </div>
+                            {elseif $bank_notify == 'form'}
                             <p class="text-body-secondary mb-4">{lang key='website/checkout/complete/bank-body' number=$order_number}</p>
+                            {else}
+                            <p class="text-body-secondary mb-4">{lang key='website/checkout/complete/bank-body-plain' number=$order_number}</p>
+                            {/if}
 
                             <div class="d-inline-flex align-items-baseline gap-2 mb-4">
                                 <span class="text-body-secondary fs-7">{lang key='website/checkout/complete/amount-due'}</span>
                                 <span class="h4 fw-bold num-tabular mb-0">{$order_total_fmt}</span>
                             </div>
 
-                            {if $bank_accounts}
                             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                                 <span class="fs-8 fw-semibold text-body-secondary text-uppercase">{lang key='website/checkout/complete/transfer-details'}</span>
                                 <span class="bank-reference">
@@ -79,7 +93,6 @@
                                     <button class="btn btn-link p-0 text-decoration-none lh-1" type="button" data-action="copy" data-copy-text="{$bank_reference}" data-bs-toggle="tooltip" title="{lang key='website/checkout/complete/copy'}"><i class="bi bi-clipboard"></i></button>
                                 </span>
                             </div>
-                            {/if}
                             {foreach $bank_accounts as $b}
                             <div class="pay-detail-list mb-4">
                                 <div class="pay-detail">
@@ -119,6 +132,67 @@
                             {/foreach}
 
                             <p class="fs-8 text-body-secondary text-start mb-4"><i class="bi bi-info-circle me-1"></i>{lang key='website/checkout/complete/bank-note'}</p>
+
+                            {if $bank_notify == 'form'}
+                            <form class="text-start" action="{link route='invoices'}" method="post" novalidate data-bank-notify-form
+                                  data-txt-error="{lang key='website/invoices/pay/error-generic'}">
+                                <input type="hidden" name="id" value="{$invoice_id}">
+                                {csrf form='invoice-pay'}
+                                <span class="fs-8 fw-semibold text-body-secondary text-uppercase d-block">{lang key='website/checkout/complete/notify-title'}</span>
+                                {include file='components/bank-transfer-notify.tpl' accounts=$bank_notify_accounts prefix='oc'}
+                                <div class="wui-collapse" data-role="notify-alert">
+                                    <div class="wui-collapse-inner">
+                                        <div class="pt-3">
+                                            <div class="alert alert-danger d-flex align-items-center mb-0" role="alert">
+                                                <i class="bi bi-exclamation-circle me-2 flex-shrink-0" aria-hidden="true"></i>
+                                                <div class="text-break" data-role="notify-alert-text"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                                    <button class="btn btn-primary" type="submit" data-busy-text="{lang key='website/invoices/pay/paying'}"><i class="bi bi-send me-2"></i>{lang key='website/invoices/pay/bank-button'}</button>
+                                    <a class="btn btn-soft" href="{link route='my-account'}"><i class="bi bi-speedometer2 me-2"></i>{lang key='website/checkout/complete/go-dashboard'}</a>
+                                    {if $invoice_id}
+                                    <a class="btn btn-soft" href="{link route='invoice-detail' p1=$invoice_id}"><i class="bi bi-receipt me-2"></i>{lang key='website/checkout/complete/view-invoice'}</a>
+                                    {/if}
+                                </div>
+                            </form>
+                            {else}
+                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                                <a class="btn btn-primary" href="{link route='my-account'}"><i class="bi bi-speedometer2 me-2"></i>{lang key='website/checkout/complete/go-dashboard'}</a>
+                                {if $invoice_id}
+                                <a class="btn btn-soft" href="{link route='invoice-detail' p1=$invoice_id}"><i class="bi bi-receipt me-2"></i>{lang key='website/checkout/complete/view-invoice'}</a>
+                                {/if}
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+
+                {elseif $complete_state == 'refunded' || $complete_state == 'cancelled'}
+                <div data-result="{$complete_state}">
+                    <div class="card">
+                        <div class="card-body p-4 p-sm-5 text-center">
+                            {if $complete_state == 'refunded'}
+                            <i class="bi bi-arrow-counterclockwise text-info checkout-result-icon" aria-hidden="true"></i>
+                            <h1 class="h3 tracking-tight mt-3 mb-3">{lang key='website/invoices/detail/status-refunded-title'}</h1>
+                            <p class="text-body-secondary mb-4">{lang key='website/invoices/detail/status-refunded-desc'}</p>
+                            {else}
+                            <i class="bi bi-x-circle text-body-secondary checkout-result-icon" aria-hidden="true"></i>
+                            <h1 class="h3 tracking-tight mt-3 mb-3">{lang key='website/invoices/detail/status-cancelled-title'}</h1>
+                            <p class="text-body-secondary mb-4">{lang key='website/invoices/detail/status-cancelled-desc'}</p>
+                            {/if}
+                            {if !empty($ordering_for)}
+                            <p class="fs-8 fw-semibold text-warning-emphasis mb-4"><i class="bi bi-people-fill me-1"></i>{lang key='website/checkout/ordered-for' account=$ordering_for.name}</p>
+                            {/if}
+
+                            <div class="pay-detail-list mb-4">
+                                <div class="pay-detail">
+                                    <span class="pay-detail-label">{lang key='website/checkout/complete/order-number'}</span>
+                                    <span class="pay-detail-value ms-auto num-tabular">#{$order_number}</span>
+                                </div>
+                            </div>
 
                             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                                 <a class="btn btn-primary" href="{link route='my-account'}"><i class="bi bi-speedometer2 me-2"></i>{lang key='website/checkout/complete/go-dashboard'}</a>

@@ -69,28 +69,28 @@
             <div class="mb-3">
                 <span class="form-label d-block mb-2">{lang key='website/account/type-title'}</span>
                 <div class="btn-group" role="group" aria-label="{lang key='website/account/type-title'}">
-                    <input type="radio" class="btn-check" name="account_type" id="co-billing-type-individual" value="individual" autocomplete="off" checked>
+                    <input type="radio" class="btn-check" name="account_type" id="co-billing-type-individual" value="individual" autocomplete="off"{if !($billing_prefill.corporate|default:false)} checked{/if}>
                     <label class="btn btn-soft" for="co-billing-type-individual"><i class="bi bi-person me-1"></i>{lang key='website/account/type-individual'}</label>
-                    <input type="radio" class="btn-check" name="account_type" id="co-billing-type-company" value="company" autocomplete="off">
+                    <input type="radio" class="btn-check" name="account_type" id="co-billing-type-company" value="company" autocomplete="off"{if $billing_prefill.corporate|default:false} checked{/if}>
                     <label class="btn btn-soft" for="co-billing-type-company"><i class="bi bi-building me-1"></i>{lang key='website/account/type-company'}</label>
                 </div>
             </div>
-            <div class="wui-collapse" data-billing-company-fields>
+            <div class="wui-collapse{if $billing_prefill.corporate|default:false} wui-show{/if}" data-billing-company-fields>
                 <div class="wui-collapse-inner">
                     <div class="pb-3">
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="co-billing-company-name" class="form-label">{lang key='website/account/company-name'} <span class="text-danger" aria-hidden="true">*</span></label>
-                                <input type="text" class="form-control" id="co-billing-company-name" name="company_name" autocomplete="organization">
+                                <input type="text" class="form-control" id="co-billing-company-name" name="company_name" autocomplete="organization" value="{$billing_prefill.company_name|default:''}">
                                 <div class="invalid-feedback">{lang key='website/account/err-company-name'}</div>
                             </div>
                             <div class="col-sm-6">
                                 <label for="co-billing-tax-number" class="form-label">{lang key='website/account/vat'}{if $guest_tax_number_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
-                                <input type="text" class="form-control" id="co-billing-tax-number" name="tax_number" autocomplete="off">
+                                <input type="text" class="form-control" id="co-billing-tax-number" name="tax_number" autocomplete="off" value="{$billing_prefill.tax_number|default:''}">
                             </div>
                             <div class="col-sm-6">
                                 <label for="co-billing-tax-office" class="form-label">{lang key='website/account/tax-office'}{if $guest_tax_office_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
-                                <input type="text" class="form-control" id="co-billing-tax-office" name="tax_office" autocomplete="off">
+                                <input type="text" class="form-control" id="co-billing-tax-office" name="tax_office" autocomplete="off" value="{$billing_prefill.tax_office|default:''}">
                             </div>
                         </div>
                     </div>
@@ -100,12 +100,12 @@
             <div class="row g-3 mb-3">
                 <div class="col-sm-6">
                     <label for="co-first" class="form-label">{lang key='website/sign/register-first-name'} <span class="text-danger" aria-hidden="true">*</span></label>
-                    <input type="text" class="form-control" id="co-first" name="first_name" autocomplete="given-name" required>
+                    <input type="text" class="form-control" id="co-first" name="first_name" autocomplete="given-name" value="{$billing_prefill.first_name|default:''}" required>
                     <div class="invalid-feedback">{lang key='website/checkout/error-first-name'}</div>
                 </div>
                 <div class="col-sm-6">
                     <label for="co-last" class="form-label">{lang key='website/sign/register-last-name'} <span class="text-danger" aria-hidden="true">*</span></label>
-                    <input type="text" class="form-control" id="co-last" name="last_name" autocomplete="family-name" required>
+                    <input type="text" class="form-control" id="co-last" name="last_name" autocomplete="family-name" value="{$billing_prefill.last_name|default:''}" required>
                     <div class="invalid-feedback">{lang key='website/checkout/error-last-name'}</div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                     <select class="form-select" id="co-country" name="country" autocomplete="country" data-wstyle-select data-flag-select required>
                         <option value="">{lang key='website/sign/register-country-placeholder'}</option>
                         {foreach $countries as $c}
-                        <option value="{$c.a2_iso}">{$c.name}</option>
+                        <option value="{$c.a2_iso}"{if $c.id == ($billing_prefill.country_id|default:0)} selected{/if}>{$c.name}</option>
                         {/foreach}
                     </select>
                     <div class="invalid-feedback">{lang key='website/checkout/error-country'}</div>

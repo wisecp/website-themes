@@ -20,30 +20,32 @@
                 <div class="plan-row-actions d-flex align-items-center gap-2">
                     {if $plan.in_stock}<a class="btn {if $plan.popular}btn-primary{else}btn-soft{/if} btn-sm" href="{$plan.link}"{if $plan.external|default:false} rel="nofollow noopener"{/if}>{if $plan.cta_label|default:''}{$plan.cta_label}{else}{lang key='website/products/category-configure'}{/if}</a>
                     {else}<button class="btn btn-soft btn-sm" type="button" disabled>{lang key='website/products/out-of-stock'}</button>{/if}
-                    <button class="btn btn-soft btn-sm billing-compare collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#planRow{$plan.id}" aria-expanded="false" aria-label="{lang key='website/products/category-show-details'}"><i class="bi bi-chevron-down"></i></button>
+                    <button class="btn btn-soft btn-sm billing-compare collapsed" type="button" data-wui-toggle data-wui-target="#planRow{$plan.id}" aria-expanded="false" aria-label="{lang key='website/products/category-show-details'}"><i class="bi bi-chevron-down"></i></button>
                 </div>
             </div>
             {hook name='ui:client.plan_card.footer'}
-            <div class="collapse" id="planRow{$plan.id}">
-                <div class="plan-row-details">
-                    {if $plan.chips}
-                    <div class="plan-row-chips d-flex flex-wrap align-content-start gap-2">
-                        {foreach $plan.chips as $chip}<span class="plan-chip"><i class="bi bi-check2"></i>{$chip}</span>{/foreach}
-                    </div>
-                    {/if}
-                    <div class="plan-row-billing">
-                        <div class="fs-8 fw-semibold text-body-secondary mb-1">{lang key='website/products/category-billing-options'}</div>
-                        <div class="table-responsive">
-                            <table class="table table-sm align-middle plan-billing-table fs-8 mb-0">
-                                <thead>
-                                    <tr><th scope="col">{lang key='website/products/category-th-cycle'}</th><th scope="col" class="text-end">{lang key='website/products/category-th-total'}</th><th scope="col" class="text-end">{lang key='website/products/category-th-permonth'}</th></tr>
-                                </thead>
-                                <tbody>
-                                    {foreach $billing_cycles as $c}
-                                    <tr data-cycle="{$c.key}"><td>{$c.label}</td><td class="num-tabular text-end" data-role="cycle-total"></td><td class="num-tabular text-end" data-role="cycle-mo"></td></tr>
-                                    {/foreach}
-                                </tbody>
-                            </table>
+            <div class="wui-collapse" id="planRow{$plan.id}">
+                <div class="wui-collapse-inner">
+                    <div class="plan-row-details">
+                        {if $plan.chips}
+                        <div class="plan-row-chips d-flex flex-wrap align-content-start gap-2">
+                            {foreach $plan.chips as $chip}<span class="plan-chip"><i class="bi bi-check2"></i>{$chip}</span>{/foreach}
+                        </div>
+                        {/if}
+                        <div class="plan-row-billing">
+                            <div class="fs-8 fw-semibold text-body-secondary mb-1">{lang key='website/products/category-billing-options'}</div>
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle plan-billing-table fs-8 mb-0">
+                                    <thead>
+                                        <tr><th scope="col">{lang key='website/products/category-th-cycle'}</th><th scope="col" class="text-end">{lang key='website/products/category-th-total'}</th><th scope="col" class="text-end">{lang key='website/products/category-th-permonth'}</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {foreach $billing_cycles as $c}
+                                        <tr data-cycle="{$c.key}"><td>{$c.label}</td><td class="num-tabular text-end" data-role="cycle-total"></td><td class="num-tabular text-end" data-role="cycle-mo"></td></tr>
+                                        {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
