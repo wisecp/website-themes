@@ -165,6 +165,50 @@
 
                 {hook name='ui:client.pay.card.after'}
 
+                {elseif $pay_mode == 'verifying'}
+                <div class="card" data-pay-verify="{$pay_verify_state}" data-check-url="{$pay_check_link}" data-slow-in="{$pay_verify_slow_in}" data-end-in="{$pay_verify_end_in}">
+                    <div class="card-body wcp-empty-state" role="status" aria-live="polite">
+                        <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                        <span class="fw-semibold">{lang key='website/payment/verify-title'}</span>
+                        <span class="fs-7{if $pay_verify_state == 'slow'} d-none{/if}" data-verify-when="wait">{lang key='website/payment/verify-text'}</span>
+                        <span class="fs-7{if $pay_verify_state != 'slow'} d-none{/if}" data-verify-when="slow">{lang key='website/payment/verify-slow-text'}</span>
+                        <div class="d-flex flex-wrap justify-content-center gap-2{if $pay_verify_state != 'slow'} d-none{/if}" data-verify-when="slow">
+                            <a class="btn btn-primary btn-sm" href="{$pay_check_link}"><i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>{lang key='website/payment/verify-check'}</a>
+                            <a class="btn btn-soft btn-sm" href="{$pay_retry_link}">{lang key='website/payment/verify-retry'}</a>
+                        </div>
+                    </div>
+                    <script nonce="{$csp_nonce}">
+                    (() => {
+                        const box = document.currentScript && document.currentScript.closest('[data-pay-verify]');
+                        if (!box || box.dataset.bound) return;
+                        box.dataset.bound = '1';
+                        const started = Date.now();
+                        const num = (k) => parseInt(box.dataset[k], 10) || 0;
+                        const slowIn = num('slowIn');
+                        const endIn = num('endIn');
+                        const showSlow = () => {
+                            box.dataset.payVerify = 'slow';
+                            box.querySelectorAll('[data-verify-when]').forEach((el) => el.classList.toggle('d-none', el.dataset.verifyWhen !== 'slow'));
+                        };
+                        const next = () => setTimeout(poll, box.dataset.payVerify === 'slow' ? 30000 : 5000);
+                        const poll = () => {
+                            const elapsed = Date.now() - started;
+                            if (box.dataset.payVerify !== 'slow' && elapsed >= slowIn) showSlow();
+                            if (elapsed >= endIn) return;
+                            fetch(box.dataset.checkUrl, { cache: 'no-store', credentials: 'same-origin' })
+                                .then((r) => {
+                                    if (r.redirected) return location.replace(r.url);
+                                    return r.text().then((html) => {
+                                        if (new DOMParser().parseFromString(html, 'text/html').querySelector('[data-pay-verify]')) next();
+                                    });
+                                })
+                                .catch(next);
+                        };
+                        next();
+                    })();
+                    </script>
+                </div>
+
                 {elseif $pay_mode == 'choices'}
                 <div class="card">
                     <div class="card-body p-4 p-sm-5 text-center">

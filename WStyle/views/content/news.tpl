@@ -46,6 +46,8 @@
                      data-news-noun-plural="{lang key='website/news/noun-plural'}"
                      data-news-count="{lang key='website/news/count-template'}"
                      data-news-count-empty="{lang key='website/news/count-empty'}"
+                     data-news-pager-prev="{lang key='website/news/pager-prev' attr=1}"
+                     data-news-pager-next="{lang key='website/news/pager-next' attr=1}"
                      data-news-page-size="{$page_size}">
                     {foreach $items as $item}
                     <a class="news-item" href="{$item.link}"{if $item@index == 0} data-pinned{/if}>

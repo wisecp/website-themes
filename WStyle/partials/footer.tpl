@@ -52,13 +52,14 @@
             {hook name='ui:client.footer.bottom'}
             <div class="footer-base-end">
                 <a class="footer-status fs-8" href="{if $setting.status_url}{$setting.status_url}{else}{link route='news'}{/if}"><span class="status-dot"></span>{lang key='footer_status'}</a>
+                {if $setting.footer_payment_logos|default:''}
                 <span class="visually-hidden">{lang key='website/index/footer-payment-methods'}</span>
-                <div class="d-flex align-items-center gap-2 fs-4" aria-hidden="true">
-                    <i class="fa-brands fa-cc-visa"></i>
-                    <i class="fa-brands fa-cc-mastercard"></i>
-                    <i class="fa-brands fa-cc-paypal"></i>
-                    <i class="fa-brands fa-cc-stripe"></i>
+                <div class="d-flex flex-wrap align-items-center gap-2 fs-4" aria-hidden="true">
+                    {foreach $setting.footer_payment_logos as $pay_logo}
+                    <i class="fa-brands fa-{$pay_logo}"></i>
+                    {/foreach}
                 </div>
+                {/if}
             </div>
         </div>
     </div>

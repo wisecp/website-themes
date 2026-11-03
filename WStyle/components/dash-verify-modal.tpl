@@ -14,5 +14,5 @@
         </div>
     </div>
 </div>
-{literal}<script>document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('modalVerifyAccount');if(m&&window.bootstrap){bootstrap.Modal.getOrCreateInstance(m).show();}});</script>{/literal}
+<script nonce="{$csp_nonce}">{literal}document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('modalVerifyAccount');if(m&&window.bootstrap){bootstrap.Modal.getOrCreateInstance(m).show();}});</script>{/literal}
 {/if}

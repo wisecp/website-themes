@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Padrão (1320px)',
     'opt_width_wide'         => 'Larga (1440px)',
     'opt_width_wider'        => 'Extra larga (1600px)',
+    'set_content_section_frame' => 'Moldura das seções de conteúdo',
+    'set_content_section_frame_desc' => 'Aplica-se às seções que exibem seu próprio conteúdo HTML, como a seção de conteúdo da página de domínios, as abas de conteúdo e o conteúdo da página das categorias e os blocos personalizados da página inicial. Moldura do tema mantém o fundo e a largura do tema. Sem moldura exibe o conteúdo em largura total e sem fundo, para que seu HTML defina o próprio layout.',
+    'opt_frame_theme' => 'Moldura do tema',
+    'opt_frame_none' => 'Sem moldura (largura total)',
     'set_default_mode'       => 'Modo de exibição padrão',
     'set_default_mode_desc'  => 'Define o modo de exibição que os visitantes veem até escolherem um. Os visitantes ainda podem trocá-lo, e a escolha fica salva no navegador. Automático segue a configuração do dispositivo.',
     'opt_mode_light'         => 'Claro',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Rodapé',
     'set_status_url'      => 'URL da página de status',
     'set_status_url_desc' => 'Endereço do link de status na barra do rodapé. Deixe em branco para direcionar à página de comunicados.',
+    'set_footer_payment_logos'      => 'Logotipos de pagamento',
+    'set_footer_payment_logos_desc' => 'Ícones de marcas exibidos no rodapé e na finalização da compra. Sem seleção, os logotipos ficam ocultos.',
 
     'grp_popup'              => 'Janela pop-up',
     'set_popup_enabled'      => 'Mostrar janela pop-up',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Uma vez por visitante',
     'opt_popup_daily'        => 'Uma vez por dia',
     'opt_popup_always'       => 'A cada carregamento da página',
+    'set_popup_delay'        => 'Atraso (segundos)',
+    'set_popup_delay_desc'   => 'O pop-up aparece após este número de segundos a partir do carregamento da página.',
 
     'topbar_support'         => 'Suporte',
     'footer_nav_aria'        => 'Rodapé',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Visão geral do programa',
     'rsp_metrics_title'     => 'Os números que importam',
+
+    'toast_copied'          => 'Copiado para a área de transferência.',
+    'toast_copy_failed'     => 'Não foi possível copiar para a área de transferência.',
+    'toast_dismiss'         => 'Dispensar',
+    'aria_carousel'         => 'carrossel',
+    'aria_slide'            => 'slide',
 ];

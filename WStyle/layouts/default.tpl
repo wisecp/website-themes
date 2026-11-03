@@ -8,22 +8,22 @@
     {if !empty($meta_keywords)}<meta name="keywords" content="{$meta_keywords}">{/if}
     {if !empty($meta_robots)}<meta name="robots" content="{$meta_robots}">{/if}
     {if !empty($canonical_link)}<link rel="canonical" href="{$canonical_link}">{/if}
-    {if !empty($lang_list)}{foreach $lang_list as $l}
-    <link rel="alternate" hreflang="{$l.key}" href="{$l.link}">{if $l.local}
-    <link rel="alternate" hreflang="x-default" href="{$l.link}">{/if}{/foreach}
+    {if !empty($lang_list)}{foreach $lang_list as $l}{if empty($l.no_hreflang)}
+    <link rel="alternate" hreflang="{$l.key}" href="{$l.href|default:$l.link}">{if $l.local}
+    <link rel="alternate" hreflang="x-default" href="{$l.href|default:$l.link}">{/if}{/if}{/foreach}
     {/if}
     <meta property="og:type" content="{$og_type|default:'website'}">
     {if !empty($company_name)}<meta property="og:site_name" content="{$company_name}">{/if}
     {if !empty($page_title)}<meta property="og:title" content="{$page_title}">{/if}
     {if !empty($meta_description)}<meta property="og:description" content="{$meta_description}">{/if}
     {if !empty($canonical_link)}<meta property="og:url" content="{$canonical_link}">{/if}
-    {if !empty($light_logo_link)}<meta property="og:image" content="{$light_logo_link}">{/if}
+    {if !empty($og_image) || !empty($light_logo_link)}<meta property="og:image" content="{$og_image|default:$light_logo_link}">{/if}
     <meta name="twitter:card" content="summary_large_image">
     {if !empty($page_title)}<meta name="twitter:title" content="{$page_title}">{/if}
     {if !empty($meta_description)}<meta name="twitter:description" content="{$meta_description}">{/if}
-    {if !empty($light_logo_link)}<meta name="twitter:image" content="{$light_logo_link}">{/if}
+    {if !empty($og_image) || !empty($light_logo_link)}<meta name="twitter:image" content="{$og_image|default:$light_logo_link}">{/if}
     {favicon}
-    <script>
+    <script nonce="{$csp_nonce}">
       var mc = document.cookie.split("; ").filter(function(c) {
         return c.indexOf("wcp_theme_mode=") === 0;
       });
@@ -51,6 +51,7 @@
     <link rel="stylesheet" href="{asset path='css/libs/fontawesome/css/all.min.css'}">
     <link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-latin.woff2'}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-latin-ext.woff2'}" as="font" type="font/woff2" crossorigin>
+    {if ($ui_lang|default:'') == 'el'}<link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-greek.woff2'}" as="font" type="font/woff2" crossorigin>{elseif ($ui_lang|default:'') == 'ru' || ($ui_lang|default:'') == 'uk'}<link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-cyrillic.woff2'}" as="font" type="font/woff2" crossorigin>{/if}
     <link rel="stylesheet" href="{asset path='css/libs/fonts/manrope.css'}">
     <link rel="stylesheet" href="{asset path='css/theme.css'}">
     <link rel="stylesheet" href="{asset path='css/default.css'}">
@@ -68,7 +69,7 @@
     {block name=head}{/block}
     {hook name='ui:client.head.css'}
     {hook name='ui:client.head.js'}
-    <script>
+    <script nonce="{$csp_nonce}">
         const wcp_cookie_domain = "{$cookie_domain|default:''|escape:'javascript'}";
 
         const wcp_password_chars = {$password_special_chars|default:'[]' nofilter};
@@ -93,9 +94,9 @@
     {block name=scripts}{/block}
     {if !empty($demo_mode)}{include file='partials/customizer-head.tpl'}{/if}
 </head>
-<body class="{block name=body_class}{/block}"{if $is_client_area} data-client-nav="sidebar"{/if}{if $dashboard_modal} data-dashboard-modal="{$dashboard_modal}"{/if}>
+<body class="{block name=body_class}{/block}"{if $is_client_area} data-client-nav="sidebar"{/if}{if $dashboard_modal} data-dashboard-modal="{$dashboard_modal}"{/if} data-txt-copied="{lang key='toast_copied' attr=1}" data-txt-copy-failed="{lang key='toast_copy_failed' attr=1}" data-txt-dismiss="{lang key='toast_dismiss' attr=1}" data-txt-error="{lang key='needs/an-error-occurred' attr=1}" data-txt-request-network-failed="{lang key='needs/request-network-failed' attr=1}" data-txt-request-server-failed="{lang key='needs/request-server-failed' attr=1}" data-txt-password-show="{lang key='website/sign/password-show' attr=1}" data-txt-password-hide="{lang key='website/sign/password-hide' attr=1}">
 {if $is_client_area}
-<script>
+<script nonce="{$csp_nonce}">
   try {
     if (localStorage.getItem("wstyle-sidebar") === "expanded") document.body.classList.add("is-sidebar-expanded");
   } catch (e) {
@@ -112,9 +113,6 @@
 {include file='partials/header.tpl'}
 {include file='partials/drawer.tpl'}
 {/if}
-{* Verification-gate banner: after the header of BOTH branches. verification_banner is only
-   raised on client-panel pages (the account page excepted, its settings view carries the gate
-   notice card), so it lands at the top of .client-main under the sidebar shell. *}
 {if $is_logged_in && !empty($verification_banner)}
 <div class="alert alert-warning border-0 rounded-0 mb-0 py-2 shadow-sm" role="alert" data-verify-gate-banner>
     <div class="container d-flex align-items-center justify-content-center flex-wrap gap-2 fs-8 mb-0">

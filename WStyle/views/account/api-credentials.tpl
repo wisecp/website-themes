@@ -7,6 +7,7 @@
 
 {block name=scripts}
     <script src="{asset path='js/libs/wcp-table/table.js'}" defer></script>
+    <script src="{asset path='js/reauth.js'}" defer></script>
     <script src="{asset path='js/api-credentials.js'}" defer></script>
 {/block}
 
@@ -43,7 +44,8 @@
          data-txt-delete-msg="{lang key='website/api/confirm-delete-msg' attr=1}"
          data-txt-delete-ok="{lang key='website/api/confirm-delete-ok'}"
          data-txt-log-error="{lang key='website/api/log-error'}"
-         data-txt-log-resp="{lang key='website/api/log-resp-body'}">
+         data-txt-log-resp="{lang key='website/api/log-resp-body'}"
+         data-txt-request-failed="{lang key='website/api/err-request-failed'}">
     <div class="container">
         {csrf form='api-credentials'}
 
@@ -171,7 +173,7 @@
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
-                                <option value="-1">All</option>
+                                <option value="-1">{lang key='website/api/logs-per-page-all'}</option>
                             </select>
                             {lang key='website/api/logs-per-page'}
                         </label>
@@ -213,7 +215,7 @@
                         </table>
                     </div>
                     <div class="wcp-table-footer">
-                        <div class="wcp-table-info fs-8 text-body-secondary" data-msg1="No requests out of _MAX_" data-msg2="(filtered from _MAX_ total)" data-msg3="Showing _START_-_END_ of _TOTAL_ requests"></div>
+                        <div class="wcp-table-info fs-8 text-body-secondary" data-msg1="{lang key='website/api/logs-info-none' attr=1}" data-msg2="{lang key='website/api/logs-info-filtered' attr=1}" data-msg3="{lang key='website/api/logs-info-showing' attr=1}"></div>
                         <nav class="wcp-table-pagination" aria-label="{lang key='website/api/log-pages-aria'}"></nav>
                     </div>
                 </div>
@@ -235,6 +237,7 @@
 {/block}
 
 {block name=body_end}
+{include file='components/reauth-modal.tpl'}
 <div class="modal fade" id="apik-modal" tabindex="-1" aria-labelledby="apik-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">

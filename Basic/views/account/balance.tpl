@@ -32,7 +32,7 @@
                 <div class="as-rail">
                     <ul class="nav as-vtabs" role="tablist" aria-orientation="vertical" data-basic-tabs="account-balance">
                         <li class="nav-item" role="presentation"><button class="nav-link active" id="bal-overview-tab" data-tab-hash="overview" data-bs-toggle="tab" data-bs-target="#bal-overview" type="button" role="tab" aria-controls="bal-overview" aria-selected="true"><i class="bi bi-wallet2"></i><span>{lang key='website/balance/tab-overview'}</span></button></li>
-                        <li class="nav-item" role="presentation"><button class="nav-link" id="bal-add-tab" data-tab-hash="add-funds" data-bs-toggle="tab" data-bs-target="#bal-add" type="button" role="tab" aria-controls="bal-add" aria-selected="false"><i class="bi bi-plus-circle"></i><span>{lang key='website/balance/tab-add-funds'}</span></button></li>
+                        {if $bal_topup}<li class="nav-item" role="presentation"><button class="nav-link" id="bal-add-tab" data-tab-hash="add-funds" data-bs-toggle="tab" data-bs-target="#bal-add" type="button" role="tab" aria-controls="bal-add" aria-selected="false"><i class="bi bi-plus-circle"></i><span>{lang key='website/balance/tab-add-funds'}</span></button></li>{/if}
                         {if $bal_autopay_available}
                         <li class="nav-item" role="presentation"><button class="nav-link" id="bal-autopay-tab" data-tab-hash="automatic-payments" data-bs-toggle="tab" data-bs-target="#bal-autopay" type="button" role="tab" aria-controls="bal-autopay" aria-selected="false"><i class="bi bi-arrow-repeat"></i><span>{lang key='website/balance/tab-autopay'}</span></button></li>
                         {/if}
@@ -60,7 +60,7 @@
                                 <span class="fw-semibold d-block">{lang key='website/balance/low-warning-title'}</span>
                                 <span class="fs-7">{lang key='website/balance/low-warning-text'}</span>
                             </div>
-                            <button type="button" class="btn btn-outline-warning btn-sm flex-shrink-0" data-action="bal-goto-add"><i class="bi bi-plus-circle me-1"></i>{lang key='website/balance/add-funds'}</button>
+                            {if $bal_topup}<button type="button" class="btn btn-outline-warning btn-sm flex-shrink-0" data-action="bal-goto-add"><i class="bi bi-plus-circle me-1"></i>{lang key='website/balance/add-funds'}</button>{/if}
                         </div>
                         {/if}
 
@@ -84,12 +84,13 @@
                         </div>
 
                         <div class="d-flex flex-wrap gap-2 mt-4">
-                            <button type="button" class="btn btn-primary" data-action="bal-goto-add"><i class="bi bi-plus-circle me-2"></i>{lang key='website/balance/add-funds'}</button>
+                            {if $bal_topup}<button type="button" class="btn btn-primary" data-action="bal-goto-add"><i class="bi bi-plus-circle me-2"></i>{lang key='website/balance/add-funds'}</button>{/if}
                             <button type="button" class="btn btn-soft" data-action="bal-goto-history"><i class="bi bi-clock-history me-2"></i>{lang key='website/balance/view-transactions'}</button>
                         </div>
                         {hook name='ui:client.balance_overview.bottom'}
                     </div>
 
+                    {if $bal_topup}
                     <div class="tab-pane fade" id="bal-add" role="tabpanel" aria-labelledby="bal-add-tab" tabindex="0">
                         <div class="as-pane-head">
                             <div>
@@ -201,6 +202,12 @@
                                                             <div class="bank-line">
                                                                 <span class="bank-line-label">SWIFT / BIC</span>
                                                                 <span class="bank-line-value num-tabular">{$b.swift}</span>
+                                                            </div>
+                                                            {/if}
+                                                            {if $b.link || $b.note}
+                                                            <div class="bank-line flex-column align-items-start">
+                                                                {if $b.link}<a class="btn btn-primary btn-sm" href="{$b.link}" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right me-1"></i>{lang key='website/checkout/bank-pay-link'}</a>{/if}
+                                                                {if $b.note}<p class="fs-8 text-body-secondary mb-0">{$b.note|escape|nl2br nofilter}</p>{/if}
                                                             </div>
                                                             {/if}
                                                         </div>
@@ -329,6 +336,9 @@
                         </form>
                         {hook name='ui:client.add_funds.bottom'}
                     </div>
+                    {else}
+                    {csrf form='account-balance'}
+                    {/if}
 
                     {if $bal_autopay_available}
                     <div class="tab-pane fade" id="bal-autopay" role="tabpanel" aria-labelledby="bal-autopay-tab" tabindex="0">
@@ -562,7 +572,7 @@
                             <i class="bi bi-wallet2" aria-hidden="true"></i>
                             <span class="fw-semibold">{lang key='website/balance/empty-title'}</span>
                             <span class="fs-7">{lang key='website/balance/empty-text'}</span>
-                            <button type="button" class="btn btn-primary btn-sm mt-2" data-action="bal-goto-add"><i class="bi bi-plus-circle me-1"></i>{lang key='website/balance/add-funds'}</button>
+                            {if $bal_topup}<button type="button" class="btn btn-primary btn-sm mt-2" data-action="bal-goto-add"><i class="bi bi-plus-circle me-1"></i>{lang key='website/balance/add-funds'}</button>{/if}
                         </div>
                         {/if}
                     </div>

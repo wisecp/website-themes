@@ -37,7 +37,7 @@
     </div>
     {/if}
 
-    <script>
+    <script nonce="{$csp_nonce}">
     (function () {
         var root = document.currentScript && document.currentScript.closest('[data-sub-pick]');
         if (!root || root.dataset.bound) return;

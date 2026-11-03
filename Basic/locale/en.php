@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Wide (1440px)',
     'opt_width_wider'        => 'Extra Wide (1600px)',
+    'set_content_section_frame' => 'Content Section Frame',
+    'set_content_section_frame_desc' => 'Applies to sections that show your own HTML content: the content section of the domain page, and category content tabs and page content. Theme Frame keeps the spacing, borders and width of the theme. No Frame shows the content full width with no frame, so your HTML sets its own layout.',
+    'opt_frame_theme' => 'Theme Frame',
+    'opt_frame_none' => 'No Frame (Full Width)',
     'set_default_mode'       => 'Default Display Mode',
     'set_default_mode_desc'  => "Sets the display mode visitors see until they choose one themselves. Visitors can still switch modes, and their choice is remembered in their browser. Auto follows the visitor's device setting.",
     'opt_mode_light'         => 'Light',
     'opt_mode_dark'          => 'Dark',
     'opt_mode_auto'          => 'Auto (Device Setting)',
+
+    'grp_footer'                    => 'Footer',
+    'set_footer_payment_logos'      => 'Payment Logos',
+    'set_footer_payment_logos_desc' => 'Brand icons shown in the footer and at checkout. With none selected, the logos are hidden.',
 
     'grp_checkout'              => 'Checkout',
     'set_checkout_sidebar'      => 'Order Summary Layout',
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => 'Try the Other Dashboard',
     'cz_nudge_checkout'  => 'Try Another Checkout Layout',
     'cz_nudge_explore'   => 'Explore Theme Options',
+
+    'toast_copied'       => 'Copied to clipboard.',
+    'toast_copy_failed'  => 'Could not copy to clipboard.',
+    'toast_dismiss'      => 'Dismiss',
+    'aria_carousel'      => 'carousel',
+    'aria_slide'         => 'slide',
 ];

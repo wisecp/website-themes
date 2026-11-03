@@ -47,6 +47,8 @@
                      data-news-noun-plural="{lang key='website/articles/noun-plural'}"
                      data-news-count="{lang key='website/articles/count-template'}"
                      data-news-count-empty="{lang key='website/articles/count-empty'}"
+                     data-news-pager-prev="{lang key='website/articles/pager-prev' attr=1}"
+                     data-news-pager-next="{lang key='website/articles/pager-next' attr=1}"
                      data-news-page-size="{$page_size}">
                     {foreach $items as $item}
                     <a class="news-item" href="{$item.link}"{if $item.category} data-cat="{$item.category.slug}"{/if}{if $item.category && $item.category.color} style="--cat-color: {$item.category.color}"{/if}{if $item@index == 0} data-pinned{/if}>

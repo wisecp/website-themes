@@ -41,6 +41,13 @@
                                         <input type="email" class="form-control" id="ct-email" name="email" autocomplete="email" placeholder="{lang key='website/contact/email-placeholder'}" required>
                                         <div class="invalid-feedback">{lang key='website/contact/email-invalid'}</div>
                                     </div>
+                                    {if $phone_mandatory}
+                                    <div class="col-12">
+                                        <label for="ct-phone" class="form-label">{lang key='website/contact/phone-label'} <span class="text-danger" aria-hidden="true">*</span></label>
+                                        <input type="tel" class="form-control" id="ct-phone" name="phone" autocomplete="tel" inputmode="tel" required>
+                                        <div class="invalid-feedback">{lang key='website/contact/error-phone'}</div>
+                                    </div>
+                                    {/if}
                                     <div class="col-12">
                                         <label for="ct-message" class="form-label">{lang key='website/contact/message-label'} <span class="text-danger" aria-hidden="true">*</span></label>
                                         <textarea class="form-control" id="ct-message" name="message" rows="6" placeholder="{lang key='website/contact/message-placeholder'}" required></textarea>

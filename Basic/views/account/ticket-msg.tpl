@@ -5,7 +5,7 @@
     </span>
     <div class="ticket-msg-main">
         <div class="ticket-msg-head">
-            <span class="ticket-msg-author">{$r.author}{if $r.is_staff} <span class="badge bg-primary-subtle text-primary-emphasis fw-semibold"><i class="bi bi-patch-check me-1"></i>{lang key='website/tickets/detail/agent'}</span>{elseif $r.is_you} <span class="ticket-msg-role">{lang key='website/tickets/by-you'}</span>{/if}</span>
+            <span class="ticket-msg-author">{$r.author}{if $r.is_staff} <span class="badge bg-primary-subtle text-primary-emphasis"><i class="bi bi-patch-check me-1"></i>{lang key='website/tickets/detail/agent'}</span>{elseif $r.is_you} <span class="ticket-msg-role">{lang key='website/tickets/by-you'}</span>{/if}</span>
             <time class="ticket-msg-time" datetime="{$r.datetime}" data-bs-toggle="tooltip" title="{$r.date_full}">{$r.time_ago}</time>
         </div>
         <div class="ticket-msg-text">

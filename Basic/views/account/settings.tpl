@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{asset path='css/account-settings.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
-    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
+    {if ($ui_lang|default:'en') != 'en'}<script type="module" nonce="{$csp_nonce}">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
     {if $show_activity || $show_messages}
     <link rel="stylesheet" href="{asset path='css/libs/wcp-table/table.css'}">
     <script src="{asset path='js/libs/wcp-table/table.js'}" defer></script>
@@ -14,7 +14,7 @@
 {/block}
 
 {block name=content}
-<section class="pt-4 pb-5" data-account-page data-account-url="{$account_url}" data-txt-busy="{lang key='website/account/busy-generic'}" data-txt-verified="{lang key='website/account/verify-verified'}" data-txt-resend-in="{lang key='website/account/resend-in'}" data-txt-rmavatar-title="{lang key='website/account/rmavatar-title'}" data-txt-rmavatar-msg="{lang key='website/account/rmavatar-msg'}" data-txt-rmavatar-ok="{lang key='website/account/remove'}" data-txt-cancel="{lang key='website/account/cancel'}" data-txt-check-all="{lang key='website/account/contacts-check-all'}" data-txt-uncheck-all="{lang key='website/account/contacts-uncheck-all'}" data-txt-del-title="{lang key='website/account/contacts-delete-title'}" data-txt-del-msg="{lang key='website/account/contacts-delete-msg'}" data-txt-del-ok="{lang key='website/account/contacts-delete'}" data-txt-default="{lang key='website/account/contacts-default'}" data-txt-set-default="{lang key='website/account/contacts-set-default'}" data-txt-edit="{lang key='website/account/contacts-edit'}" data-txt-delete="{lang key='website/account/contacts-delete'}" data-txt-more="{lang key='website/account/contacts-more'}" data-txt-msg-loading="{lang key='website/account/messages-loading'}" data-txt-act-col-activity="{lang key='website/account/activity-th-activity'}" data-txt-act-col-details="{lang key='website/account/activity-th-details'}" data-txt-act-col-date="{lang key='website/account/activity-th-date'}" data-txt-act-downloaded="{lang key='website/account/activity-downloaded'}" data-txt-revoke-title="{lang key='website/account/sessions-revoke-title'}" data-txt-revoke-msg="{lang key='website/account/sessions-revoke-msg'}" data-txt-revoke-ok="{lang key='website/account/sessions-revoke'}" data-txt-revokeall-title="{lang key='website/account/sessions-revokeall-title'}" data-txt-revokeall-msg="{lang key='website/account/sessions-revokeall-msg'}" data-txt-revokeall-ok="{lang key='website/account/sessions-signout-all'}" data-txt-trusted-revoke-title="{lang key='website/account/trusted-revoke-title'}" data-txt-trusted-revoke-msg="{lang key='website/account/trusted-revoke-msg'}" data-txt-trusted-revoke-ok="{lang key='website/account/trusted-revoke'}" data-txt-trusted-revokeall-title="{lang key='website/account/trusted-revokeall-title'}" data-txt-trusted-revokeall-msg="{lang key='website/account/trusted-revokeall-msg'}" data-txt-trusted-revokeall-ok="{lang key='website/account/trusted-revoke-all'}" data-txt-pd-pending-deletion="{lang key='website/account/pd-pending-deletion'}" data-txt-pd-pending-anonymization="{lang key='website/account/pd-pending-anonymization'}" data-txt-pd-declined-deletion="{lang key='website/account/pd-declined-deletion'}" data-txt-pd-declined-anonymization="{lang key='website/account/pd-declined-anonymization'}" data-txt-pd-pending-text="{lang key='website/account/pd-pending-text'}" data-txt-pd-consent-required="{lang key='website/account/pd-consent-required-error'}" data-txt-pd-del-title="{lang key='website/account/pd-confirm-delete-title'}" data-txt-pd-del-msg="{lang key='website/account/pd-confirm-delete-msg'}" data-txt-pd-del-ok="{lang key='website/account/pd-confirm-delete-ok'}" data-txt-pd-anon-title="{lang key='website/account/pd-confirm-anonymize-title'}" data-txt-pd-anon-msg="{lang key='website/account/pd-confirm-anonymize-msg'}" data-txt-pd-anon-ok="{lang key='website/account/pd-confirm-anonymize-ok'}">
+<section class="pt-4 pb-5" data-account-page data-account-url="{$account_url}" data-txt-busy="{lang key='website/account/busy-generic'}" data-txt-verified="{lang key='website/account/verify-verified'}" data-txt-resend-in="{lang key='website/account/resend-in'}" data-txt-phone-invalid="{lang key='website/account/err-phone-invalid' attr=1}" data-txt-rmavatar-title="{lang key='website/account/rmavatar-title'}" data-txt-rmavatar-msg="{lang key='website/account/rmavatar-msg'}" data-txt-rmavatar-ok="{lang key='website/account/remove'}" data-txt-cancel="{lang key='website/account/cancel'}" data-txt-check-all="{lang key='website/account/contacts-check-all'}" data-txt-uncheck-all="{lang key='website/account/contacts-uncheck-all'}" data-txt-del-title="{lang key='website/account/contacts-delete-title'}" data-txt-del-msg="{lang key='website/account/contacts-delete-msg'}" data-txt-del-ok="{lang key='website/account/contacts-delete'}" data-txt-default="{lang key='website/account/contacts-default'}" data-txt-set-default="{lang key='website/account/contacts-set-default'}" data-txt-edit="{lang key='website/account/contacts-edit'}" data-txt-delete="{lang key='website/account/contacts-delete'}" data-txt-more="{lang key='website/account/contacts-more'}" data-txt-msg-loading="{lang key='website/account/messages-loading'}" data-txt-act-col-activity="{lang key='website/account/activity-th-activity'}" data-txt-act-col-details="{lang key='website/account/activity-th-details'}" data-txt-act-col-date="{lang key='website/account/activity-th-date'}" data-txt-act-downloaded="{lang key='website/account/activity-downloaded'}" data-txt-revoke-title="{lang key='website/account/sessions-revoke-title'}" data-txt-revoke-msg="{lang key='website/account/sessions-revoke-msg'}" data-txt-revoke-ok="{lang key='website/account/sessions-revoke'}" data-txt-revokeall-title="{lang key='website/account/sessions-revokeall-title'}" data-txt-revokeall-msg="{lang key='website/account/sessions-revokeall-msg'}" data-txt-revokeall-ok="{lang key='website/account/sessions-signout-all'}" data-txt-trusted-revoke-title="{lang key='website/account/trusted-revoke-title'}" data-txt-trusted-revoke-msg="{lang key='website/account/trusted-revoke-msg'}" data-txt-trusted-revoke-ok="{lang key='website/account/trusted-revoke'}" data-txt-trusted-revokeall-title="{lang key='website/account/trusted-revokeall-title'}" data-txt-trusted-revokeall-msg="{lang key='website/account/trusted-revokeall-msg'}" data-txt-trusted-revokeall-ok="{lang key='website/account/trusted-revoke-all'}" data-txt-pd-pending-deletion="{lang key='website/account/pd-pending-deletion'}" data-txt-pd-pending-anonymization="{lang key='website/account/pd-pending-anonymization'}" data-txt-pd-declined-deletion="{lang key='website/account/pd-declined-deletion'}" data-txt-pd-declined-anonymization="{lang key='website/account/pd-declined-anonymization'}" data-txt-pd-pending-text="{lang key='website/account/pd-pending-text'}" data-txt-pd-consent-required="{lang key='website/account/pd-consent-required-error'}" data-txt-pd-del-title="{lang key='website/account/pd-confirm-delete-title'}" data-txt-pd-del-msg="{lang key='website/account/pd-confirm-delete-msg'}" data-txt-pd-del-ok="{lang key='website/account/pd-confirm-delete-ok'}" data-txt-pd-anon-title="{lang key='website/account/pd-confirm-anonymize-title'}" data-txt-pd-anon-msg="{lang key='website/account/pd-confirm-anonymize-msg'}" data-txt-pd-anon-ok="{lang key='website/account/pd-confirm-anonymize-ok'}">
     <div class="container">
         {csrf form='account-profile'}
 
@@ -140,11 +140,11 @@
                                                             <input type="text" class="form-control" id="as-company-name" name="company_name" autocomplete="organization" value="{$p_company_name}"{if $company_name_required} required{/if}>
                                                             <div class="invalid-feedback">{lang key='website/account/err-company-name'}</div>
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="{if $tax_office_visible}col-sm-6{else}col-12{/if}{if !$tax_number_visible} d-none{/if}">
                                                             <label for="as-vat" class="form-label">{lang key='website/account/vat'}{if $tax_number_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
                                                             <input type="text" class="form-control" id="as-vat" name="vat_number" autocomplete="off" value="{$p_tax_number}"{if $tax_number_required} required{/if}>
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="{if $tax_number_visible}col-sm-6{else}col-12{/if}{if !$tax_office_visible} d-none{/if}">
                                                             <label for="as-tax-office" class="form-label">{lang key='website/account/tax-office'}{if $tax_office_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
                                                             <input type="text" class="form-control" id="as-tax-office" name="tax_office" autocomplete="off" value="{$p_tax_office}"{if $tax_office_required} required{/if}>
                                                         </div>
@@ -597,7 +597,7 @@
                                             {if $s.current}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-broadcast me-1"></i>{lang key='website/account/sessions-this-device'}</span>{/if}
                                         </div>
                                         <div class="as-item-meta">
-                                            {if $s.location}<span class="list-chip"><i class="bi bi-geo-alt"></i>{$s.location}</span>{/if}
+                                            {if $s.location}<span class="list-chip"><i class="bi bi-geo-alt"></i><span class="list-chip-text">{$s.location}</span></span>{/if}
                                             {if $s.ip}<span class="as-item-dim num-tabular">{$s.ip}</span>{/if}
                                             <span class="as-item-dim">{$s.when}</span>
                                         </div>
@@ -636,7 +636,7 @@
                                             {if $d.current}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-broadcast me-1"></i>{lang key='website/account/trusted-this-device'}</span>{/if}
                                         </div>
                                         <div class="as-item-meta">
-                                            {if $d.location}<span class="list-chip"><i class="bi bi-geo-alt"></i>{$d.location}</span>{/if}
+                                            {if $d.location}<span class="list-chip"><i class="bi bi-geo-alt"></i><span class="list-chip-text">{$d.location}</span></span>{/if}
                                             {if $d.ip}<span class="as-item-dim num-tabular">{$d.ip}</span>{/if}
                                             {if $d.last}<span class="as-item-dim">{lang key='website/account/trusted-last'} {$d.last}</span>{/if}
                                             {if $d.expires}<span class="as-item-dim">{lang key='website/account/trusted-expires'} {$d.expires}</span>{/if}
@@ -1221,7 +1221,7 @@
                                 <div class="as-section-body">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch" id="as-gdpr-consent"{if $gdpr_consent} checked{/if}>
-                                        <label class="form-check-label" for="as-gdpr-consent">{lang key='website/account/pd-consent-label-pre'} <a href="{if $gdpr_contract_link}{$gdpr_contract_link}{else}#{/if}"{if $gdpr_contract_link} target="_blank" rel="noopener"{/if}>{lang key='website/account/pd-privacy-policy'}</a> {lang key='website/account/pd-consent-label-post'}</label>
+                                        <label class="form-check-label" for="as-gdpr-consent">{lang key='website/account/pd-consent-label-pre'} {if $gdpr_contract_link}<a href="{$gdpr_contract_link}" target="_blank" rel="noopener">{lang key='website/account/pd-privacy-policy'}</a>{else}{lang key='website/account/pd-privacy-policy'}{/if} {lang key='website/account/pd-consent-label-post'}</label>
                                     </div>
                                     <p class="fs-8 text-body-secondary mt-3 mb-0{if !$gdpr_consent} d-none{/if}" data-role="as-consent-given"><i class="bi bi-check-circle-fill text-success me-1"></i>{lang key='website/account/pd-consent-given'} <strong class="num-tabular" data-role="as-consent-date">{$gdpr_consent_at}</strong>.</p>
                                     <p class="fs-8 text-warning-emphasis mt-3 mb-0{if $gdpr_consent} d-none{/if}" data-role="as-consent-withdrawn"><i class="bi bi-exclamation-circle me-1"></i>{lang key='website/account/pd-consent-withdrawn'}</p>
@@ -1283,6 +1283,7 @@
 
 {block name=body_end}
     {include file='components/dash-twofa-modal.tpl' twofa_gate_inline=true}
+    {include file='components/reauth-modal.tpl'}
 
     {if $show_contacts}
     <div class="modal fade" id="as-profile-modal" tabindex="-1" aria-labelledby="as-profile-modal-title" aria-hidden="true">
@@ -1328,11 +1329,11 @@
                                                     <input type="text" class="form-control" id="as-prof-company-name" name="company_name" autocomplete="organization">
                                                     <div class="invalid-feedback">{lang key='website/account/err-contact-company'}</div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="{if $tax_office_visible}col-sm-6{else}col-12{/if}{if !$tax_number_visible} d-none{/if}">
                                                     <label for="as-prof-tax" class="form-label">{lang key='website/account/contacts-tax-id'} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span></label>
                                                     <input type="text" class="form-control" id="as-prof-tax" name="tax_id" autocomplete="off">
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="{if $tax_number_visible}col-sm-6{else}col-12{/if}{if !$tax_office_visible} d-none{/if}">
                                                     <label for="as-prof-tax-office" class="form-label">{lang key='website/account/contacts-tax-office'} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span></label>
                                                     <input type="text" class="form-control" id="as-prof-tax-office" name="tax_office" autocomplete="off">
                                                 </div>
@@ -1764,7 +1765,7 @@
                     <p>{lang key='website/account/pd-modal-body'}</p>
                     <div class="form-check mt-3">
                         <input class="form-check-input" type="checkbox" id="as-gdpr-modal-check">
-                        <label class="form-check-label" for="as-gdpr-modal-check">{lang key='website/account/pd-consent-label-pre'} <a href="{if $gdpr_contract_link}{$gdpr_contract_link}{else}#{/if}"{if $gdpr_contract_link} target="_blank" rel="noopener"{/if}>{lang key='website/account/pd-privacy-policy'}</a> {lang key='website/account/pd-consent-label-post'}</label>
+                        <label class="form-check-label" for="as-gdpr-modal-check">{lang key='website/account/pd-consent-label-pre'} {if $gdpr_contract_link}<a href="{$gdpr_contract_link}" target="_blank" rel="noopener">{lang key='website/account/pd-privacy-policy'}</a>{else}{lang key='website/account/pd-privacy-policy'}{/if} {lang key='website/account/pd-consent-label-post'}</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -1775,5 +1776,6 @@
         </div>
     </div>
     {/if}
+    <script src="{asset path='js/reauth.js'}" defer></script>
     <script src="{asset path='js/account-settings.js'}" defer></script>
 {/block}

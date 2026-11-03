@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Padrão (1320px)',
     'opt_width_wide'         => 'Larga (1440px)',
     'opt_width_wider'        => 'Extra larga (1600px)',
+    'set_content_section_frame' => 'Moldura das seções de conteúdo',
+    'set_content_section_frame_desc' => 'Aplica-se às seções que exibem seu próprio conteúdo HTML, como a seção de conteúdo da página de domínios e as abas de conteúdo e o conteúdo da página das categorias. Moldura do tema mantém os espaçamentos, as bordas e a largura do tema. Sem moldura exibe o conteúdo em largura total e sem moldura, para que seu HTML defina o próprio layout.',
+    'opt_frame_theme' => 'Moldura do tema',
+    'opt_frame_none' => 'Sem moldura (largura total)',
     'set_default_mode'       => 'Modo de exibição padrão',
     'set_default_mode_desc'  => 'Define o modo de exibição que os visitantes veem até escolherem um. Os visitantes ainda podem trocá-lo, e a escolha fica salva no navegador. Automático segue a configuração do dispositivo.',
     'opt_mode_light'         => 'Claro',
     'opt_mode_dark'          => 'Escuro',
     'opt_mode_auto'          => 'Automático (configuração do dispositivo)',
+
+    'grp_footer'                    => 'Rodapé',
+    'set_footer_payment_logos'      => 'Logotipos de pagamento',
+    'set_footer_payment_logos_desc' => 'Ícones de marcas exibidos no rodapé e na finalização da compra. Sem seleção, os logotipos ficam ocultos.',
 
     'grp_checkout'              => 'Finalização da compra',
     'set_checkout_sidebar'      => 'Layout do resumo do pedido',
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => 'Experimentar o outro painel',
     'cz_nudge_checkout'  => 'Experimentar outro layout de finalização da compra',
     'cz_nudge_explore'   => 'Explorar opções do tema',
+
+    'toast_copied'       => 'Copiado para a área de transferência.',
+    'toast_copy_failed'  => 'Não foi possível copiar para a área de transferência.',
+    'toast_dismiss'      => 'Dispensar',
+    'aria_carousel'      => 'carrossel',
+    'aria_slide'         => 'slide',
 ];

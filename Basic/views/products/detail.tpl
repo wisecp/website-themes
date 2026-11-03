@@ -23,7 +23,7 @@
             <div class="row g-4">
                 <div class="col-lg-8">
                     <div class="sw-gallery mb-4" data-role="gallery">
-                        <div class="sw-gallery-viewport rounded-3" data-role="gallery-viewport" tabindex="0" role="group" aria-roledescription="carousel" aria-label="{$product.title|escape}">
+                        <div class="sw-gallery-viewport rounded-3" data-role="gallery-viewport" tabindex="0" role="group" aria-roledescription="{lang key='aria_carousel' attr=1}" aria-label="{$product.title|escape}">
                             <div class="sw-gallery-track" data-role="gallery-track">
                                 {if $gallery}
                                 {foreach $gallery as $g}
@@ -147,7 +147,7 @@
                                     {/if}
                                 </div>
                                 <div class="d-flex flex-wrap gap-3 fs-8 text-body-secondary">
-                                    <span><i class="bi bi-eye me-1"></i><span class="num-tabular">{$views|number_format:0:'.':','}</span> {lang key='website/products/detail-views'}</span>
+                                    <span><i class="bi bi-eye me-1"></i>{capture assign=views_num}<span class="num-tabular">{$views|number_format:0:'.':','}</span>{/capture}{lang key='website/products/detail-views-count' plural=$views|default:0 count=$views_num raw='count'}</span>
                                 </div>
                                 {if $product.tagline}<p class="fs-8 text-body-secondary mb-0">{$product.tagline}</p>{/if}
                             </div>

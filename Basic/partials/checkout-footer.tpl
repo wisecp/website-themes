@@ -12,13 +12,14 @@
                 <span class="checkout-shell-copy">© {$current_year} {$company_name} {lang key='website/index/footer-rights'}</span>
             </div>
             <div class="checkout-shell-footer-mark ms-md-auto">
+                {if $setting.footer_payment_logos|default:''}
                 <span class="visually-hidden">{lang key='website/index/footer-payment-methods'}</span>
-                <span class="checkout-shell-pay" aria-hidden="true">
-                    <i class="fa-brands fa-cc-visa"></i>
-                    <i class="fa-brands fa-cc-mastercard"></i>
-                    <i class="fa-brands fa-cc-paypal"></i>
-                    <i class="fa-brands fa-cc-stripe"></i>
+                <span class="checkout-shell-pay flex-wrap" aria-hidden="true">
+                    {foreach $setting.footer_payment_logos as $pay_logo}
+                    <i class="fa-brands fa-{$pay_logo}"></i>
+                    {/foreach}
                 </span>
+                {/if}
                 {if $show_powered_by}
                     <span class="checkout-shell-powered">{lang key='website/index/footer-powered-by'} <a class="text-body-secondary text-decoration-none fw-semibold" href="https://www.wisecp.com">WISECP</a></span>
                 {/if}

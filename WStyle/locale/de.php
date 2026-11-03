@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Breit (1440px)',
     'opt_width_wider'        => 'Extra breit (1600px)',
+    'set_content_section_frame' => 'Rahmen für Inhaltsbereiche',
+    'set_content_section_frame_desc' => 'Gilt für Bereiche mit Ihrem eigenen HTML-Inhalt: den Inhaltsbereich der Domainseite, die Inhaltsreiter und den Seiteninhalt von Kategorien sowie eigene Blöcke der Startseite. Theme-Rahmen behält Hintergrund und Breite des Themes bei. Ohne Rahmen zeigt den Inhalt in voller Breite ohne Hintergrund, sodass Ihr HTML das Layout selbst bestimmt.',
+    'opt_frame_theme' => 'Theme-Rahmen',
+    'opt_frame_none' => 'Ohne Rahmen (volle Breite)',
     'set_default_mode'       => 'Standard-Darstellungsmodus',
     'set_default_mode_desc'  => 'Legt fest, welchen Darstellungsmodus Besucher sehen, bis sie selbst einen wählen. Besucher können den Modus weiterhin wechseln; ihre Wahl wird in ihrem Browser gespeichert. Automatisch folgt der Einstellung des Geräts.',
     'opt_mode_light'         => 'Hell',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => "Fu\xc3\x9fzeile",
     'set_status_url'      => 'URL der Statusseite',
     'set_status_url_desc' => "Adresse des Status-Links in der Fu\xc3\x9fzeile. Leer lassen, um auf die Ank\xc3\xbcndigungsseite zu verlinken.",
+    'set_footer_payment_logos'      => 'Zahlungslogos',
+    'set_footer_payment_logos_desc' => 'Markensymbole in der Fußzeile und im Bestellabschluss. Ohne Auswahl werden die Logos ausgeblendet.',
 
     'grp_popup'              => 'Pop-up-Fenster',
     'set_popup_enabled'      => 'Pop-up-Fenster anzeigen',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Einmal pro Besucher',
     'opt_popup_daily'        => "Einmal t\xc3\xa4glich",
     'opt_popup_always'       => 'Bei jedem Seitenaufruf',
+    'set_popup_delay'        => "Verz\xc3\xb6gerung (Sekunden)",
+    'set_popup_delay_desc'   => 'Das Pop-up-Fenster erscheint so viele Sekunden nach dem Laden der Seite.',
 
     'topbar_support'         => 'Support',
     'footer_nav_aria'        => "Fu\xc3\x9fzeile",
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Programm auf einen Blick',
     'rsp_metrics_title'     => 'Die entscheidenden Zahlen',
+
+    'toast_copied'          => 'In die Zwischenablage kopiert.',
+    'toast_copy_failed'     => 'Kopieren in die Zwischenablage fehlgeschlagen.',
+    'toast_dismiss'         => 'Ausblenden',
+    'aria_carousel'         => 'Karussell',
+    'aria_slide'            => 'Folie',
 ];

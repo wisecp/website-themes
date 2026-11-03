@@ -37,7 +37,7 @@
             <div class="rsp-step">
                 <span class="rsp-step-num num-tabular">1</span>
                 <h3 class="rsp-step-title">{lang key='website/reseller/prog-step1-title'}</h3>
-                <p class="rsp-step-text">{lang key='website/reseller/prog-step1-text'}</p>
+                <p class="rsp-step-text">{if $prog_auto == 'tier'}{lang key='website/reseller/prog-step1-text-auto'}{elseif $prog_auto == 'instant'}{lang key='website/reseller/prog-step1-text-auto-instant'}{else}{lang key='website/reseller/prog-step1-text'}{/if}{if $prog_auto_verify} {lang key='website/reseller/prog-auto-verify'}{/if}</p>
             </div>
             <div class="rsp-step">
                 <span class="rsp-step-num num-tabular">2</span>
@@ -61,6 +61,7 @@
             <span class="eyebrow">{lang key='website/reseller/prog-tiers-eyebrow'}</span>
             <h2 class="tracking-tight">{lang key='website/reseller/prog-tiers-title'}</h2>
             <p class="section-lead">{lang key='website/reseller/prog-tiers-lead'}</p>
+            {if $prog_cycles}<p class="text-body-secondary fs-7 mt-2 mb-0"><i class="bi bi-calendar-check me-1"></i>{lang key='website/reseller/prog-cycles-note' cycles=$prog_cycles}</p>{/if}
             {if $prog_tiers|@count > 1}
             <div class="rsp-product-wrap">
                 <div class="rsp-product-toggle" data-rsp-product-toggle role="group" aria-label="{lang key='website/reseller/prog-tiers-aria'}">
@@ -118,7 +119,7 @@
                     <span class="icon-disc"><i class="bi bi-lightning-charge"></i></span>
                     <div>
                         <h3 class="rsp-benefit-title">{lang key='website/reseller/prog-b3-title'}</h3>
-                        <p class="rsp-benefit-text">{lang key='website/reseller/prog-b3-text'}</p>
+                        <p class="rsp-benefit-text">{if $prog_conditions.min_balance}{lang key='website/reseller/prog-b3-text-floor' amount=$prog_conditions.min_balance}{else}{lang key='website/reseller/prog-b3-text'}{/if}</p>
                     </div>
                 </div>
             </div>
@@ -131,6 +132,7 @@
                     </div>
                 </div>
             </div>
+            {if $prog_api}
             <div class="col-md-6 col-xl-4">
                 <div class="rsp-benefit hover-lift">
                     <span class="icon-disc"><i class="bi bi-code-slash"></i></span>
@@ -140,6 +142,7 @@
                     </div>
                 </div>
             </div>
+            {/if}
             <div class="col-md-6 col-xl-4">
                 <div class="rsp-benefit hover-lift">
                     <span class="icon-disc"><i class="bi bi-shop"></i></span>
@@ -160,7 +163,7 @@
             <span class="eyebrow">{lang key='rsp_metrics_eyebrow'}</span>
             <h2 class="tracking-tight">{lang key='rsp_metrics_title'}</h2>
         </div>
-        <div class="rsp-metrics">
+        <div class="rsp-metrics{if !$prog_api} rsp-metrics-3{/if}">
             <div class="rsp-metric">
                 <span class="rsp-metric-ico"><i class="bi bi-percent"></i></span>
                 <span class="rsp-metric-value">{lang key='website/reseller/prog-m1-value'}</span>
@@ -176,11 +179,13 @@
                 <span class="rsp-metric-value">{lang key='website/reseller/prog-m3-value'}</span>
                 <span class="rsp-metric-label">{lang key='website/reseller/prog-m3-label'}</span>
             </div>
+            {if $prog_api}
             <div class="rsp-metric">
                 <span class="rsp-metric-ico"><i class="bi bi-code-slash"></i></span>
                 <span class="rsp-metric-value">{lang key='website/reseller/prog-m4-value'}</span>
                 <span class="rsp-metric-label">{lang key='website/reseller/prog-m4-label'}</span>
             </div>
+            {/if}
         </div>
     </div>
 </section>
@@ -222,7 +227,7 @@
                     <button class="accordion-button fw-semibold" type="button" data-wui-toggle data-wui-target="#rsp-faq-1" aria-expanded="true" aria-controls="rsp-faq-1">{lang key='website/reseller/prog-faq-q1'}</button>
                 </h3>
                 <div id="rsp-faq-1" class="wui-collapse wui-show" data-wui-parent="#reseller-faq"><div class="wui-collapse-inner">
-                    <div class="accordion-body">{lang key='website/reseller/prog-faq-a1'}</div>
+                    <div class="accordion-body">{if $prog_auto == 'tier'}{lang key='website/reseller/prog-faq-a1-auto'}{elseif $prog_auto == 'instant'}{lang key='website/reseller/prog-faq-a1-auto-instant'}{else}{lang key='website/reseller/prog-faq-a1'}{/if}{if $prog_auto_verify} {lang key='website/reseller/prog-auto-verify'}{/if}</div>
                 </div></div>
             </div>
             <div class="accordion-item">
@@ -238,7 +243,7 @@
                     <button class="accordion-button fw-semibold collapsed" type="button" data-wui-toggle data-wui-target="#rsp-faq-3" aria-expanded="false" aria-controls="rsp-faq-3">{lang key='website/reseller/prog-faq-q3'}</button>
                 </h3>
                 <div id="rsp-faq-3" class="wui-collapse" data-wui-parent="#reseller-faq"><div class="wui-collapse-inner">
-                    <div class="accordion-body">{lang key='website/reseller/prog-faq-a3'}</div>
+                    <div class="accordion-body">{if $prog_conditions.min_balance}{lang key='website/reseller/prog-faq-a3-floor' amount=$prog_conditions.min_balance}{else}{lang key='website/reseller/prog-faq-a3'}{/if}</div>
                 </div></div>
             </div>
             <div class="accordion-item">
@@ -246,7 +251,7 @@
                     <button class="accordion-button fw-semibold collapsed" type="button" data-wui-toggle data-wui-target="#rsp-faq-4" aria-expanded="false" aria-controls="rsp-faq-4">{lang key='website/reseller/prog-faq-q4'}</button>
                 </h3>
                 <div id="rsp-faq-4" class="wui-collapse" data-wui-parent="#reseller-faq"><div class="wui-collapse-inner">
-                    <div class="accordion-body">{lang key='website/reseller/prog-faq-a4'}</div>
+                    <div class="accordion-body">{if $prog_conditions.only_credit}{lang key='website/reseller/prog-faq-a4-credit'}{if $prog_conditions.min_credit} {lang key='website/reseller/prog-faq-a4-min' amount=$prog_conditions.min_credit}{/if}{else}{lang key='website/reseller/prog-faq-a4'}{/if}</div>
                 </div></div>
             </div>
             <div class="accordion-item">
@@ -257,6 +262,7 @@
                     <div class="accordion-body">{lang key='website/reseller/prog-faq-a5'}</div>
                 </div></div>
             </div>
+            {if $prog_api}
             <div class="accordion-item">
                 <h3 class="accordion-header">
                     <button class="accordion-button fw-semibold collapsed" type="button" data-wui-toggle data-wui-target="#rsp-faq-6" aria-expanded="false" aria-controls="rsp-faq-6">{lang key='website/reseller/prog-faq-q6'}</button>
@@ -265,6 +271,7 @@
                     <div class="accordion-body">{lang key='website/reseller/prog-faq-a6'}</div>
                 </div></div>
             </div>
+            {/if}
         </div>
     </div>
 </section>

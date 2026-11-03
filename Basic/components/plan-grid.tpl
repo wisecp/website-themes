@@ -1,7 +1,7 @@
 <div class="plan-grid pt-3">
     {foreach $plans as $plan}
     <div>
-        <div class="card plan-card h-100{if $plan.popular} plan-popular{/if}{if !$plan.in_stock} plan-soldout{/if}" data-currency="{$plan.currency}" data-monthly="{$plan.prices.monthly|default:''}" data-quarterly="{$plan.prices.quarterly|default:''}" data-semiannually="{$plan.prices.semiannually|default:''}" data-annual="{$plan.prices.annual|default:''}" data-biennial="{$plan.prices.biennial|default:''}" data-triennial="{$plan.prices.triennial|default:''}" data-onetime="{$plan.prices.onetime|default:''}">
+        <div class="card plan-card h-100{if $plan.popular} plan-popular{/if}{if !$plan.in_stock} plan-soldout{/if}" data-currency="{$plan.currency}" data-hourly="{$plan.prices.hourly|default:''}" data-daily="{$plan.prices.daily|default:''}" data-weekly="{$plan.prices.weekly|default:''}" data-monthly="{$plan.prices.monthly|default:''}" data-quarterly="{$plan.prices.quarterly|default:''}" data-semiannually="{$plan.prices.semiannually|default:''}" data-annual="{$plan.prices.annual|default:''}" data-biennial="{$plan.prices.biennial|default:''}" data-triennial="{$plan.prices.triennial|default:''}" data-onetime="{$plan.prices.onetime|default:''}"{foreach $plan.discounts|default:[] as $disc_cycle => $disc_rate} data-discount-{$disc_cycle}="{$disc_rate}"{/foreach} data-free-text="{lang key='needs/free-amount' attr=1}">
             {if $plan.popular}<div class="plan-badge"><span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-fire me-1"></i>{lang key='website/products/popular'}</span></div>{/if}
             <div class="card-body d-flex flex-column gap-3 p-4">
                 <div>
@@ -11,9 +11,11 @@
                 <div class="plan-price price-band">
                     <div class="wui-collapse" data-role="save-band"><div class="wui-collapse-inner"><div class="d-flex align-items-center justify-content-between column-gap-2">
                         <del class="price-was num-tabular fs-7 text-body-secondary fw-semibold d-none" data-role="price-was"></del>
-                        <span class="badge bg-success-subtle text-success-emphasis fw-semibold d-none" data-role="savings"></span>
+                        <span class="badge bg-success-subtle text-success-emphasis d-none" data-role="savings"></span>
                     </div></div></div>
-                    <div><span class="price-now num-tabular" data-role="price-now">{$plan.price_now|default:''}</span><span class="fs-7 text-body-secondary{if $plan.is_period} d-none{/if}" data-role="price-suffix">{lang key='website/products/category-per-month'}</span><span class="badge bg-secondary-subtle text-secondary-emphasis fs-8 ms-1{if !($plan.is_onetime|default:false)} d-none{/if}" data-role="price-onetime"><i class="bi bi-tag me-1"></i>{lang key='date/cycles/onetime'}</span></div>
+                    <div><span class="price-now num-tabular" data-role="price-now">{$plan.price_now|default:''}</span><span class="fs-7 text-body-secondary{if $plan.is_period|default:false} d-none{/if}" data-role="price-suffix">{lang key='website/products/category-per-month'}</span><span class="badge bg-secondary-subtle text-secondary-emphasis ms-1{if !($plan.is_onetime|default:false)} d-none{/if}" data-role="price-onetime"><i class="bi bi-tag me-1"></i>{lang key='date/cycles/onetime'}</span></div>
+                    {assign var=plan_terms value=0}{assign var=plan_term value=''}{foreach $billing_cycles as $c}{if isset($plan.prices[$c.key])}{assign var=plan_terms value=$plan_terms+1}{assign var=plan_term value=$c.key}{/if}{/foreach}
+                    {if $plan_terms > 1 || ($plan_terms == 1 && ($plan_term != 'monthly' || $plan.is_period|default:false))}
                     <button class="btn btn-link btn-sm p-0 mt-1 fs-8 fw-semibold text-decoration-none billing-compare collapsed" type="button" data-wui-toggle data-wui-target="#planBilling{$plan.id}" aria-expanded="false">{lang key='website/products/category-compare-billing'}<i class="bi bi-chevron-down ms-1"></i></button>
                     <div class="wui-collapse" id="planBilling{$plan.id}">
                         <div class="wui-collapse-inner">
@@ -31,6 +33,7 @@
                             </div>
                         </div>
                     </div>
+                    {/if}
                 </div>
                 {if $plan.features}
                 <ul class="plan-features fs-7">

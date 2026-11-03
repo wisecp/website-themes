@@ -14,7 +14,8 @@
 <section class="pt-4 pb-5" data-aff-page
          data-aff-url="{link route='affiliate'}"
          data-txt-copied="{lang key='website/affiliate/link-copied'}"
-         data-txt-cancel="{lang key='website/affiliate/cancel'}">
+         data-txt-cancel="{lang key='website/affiliate/cancel'}"
+         data-txt-request-failed="{lang key='website/affiliate/err-request-failed'}">
     <div class="container list-page">
         {csrf form='affiliate'}
 
@@ -51,7 +52,7 @@
                     {/if}
                     <div class="aff-perk">
                         <span class="aff-perk-ico"><i class="bi bi-clock-history"></i></span>
-                        <span><span class="aff-perk-title">{$aff_cookie_days}-{lang key='website/affiliate/perk-cookie'}</span><span class="aff-perk-text">{lang key='website/affiliate/perk-cookie-text'}</span></span>
+                        <span><span class="aff-perk-title">{lang key='website/affiliate/perk-cookie-count' plural=$aff_cookie_days count=$aff_cookie_days}</span><span class="aff-perk-text">{lang key='website/affiliate/perk-cookie-text'}</span></span>
                     </div>
                     <div class="aff-perk">
                         <span class="aff-perk-ico"><i class="bi bi-cash-stack"></i></span>
@@ -156,16 +157,16 @@
                                 <div class="progress progress-thin" role="progressbar" aria-label="{lang key='website/affiliate/progress-aria'}" aria-valuenow="{$aff_progress}" aria-valuemin="0" aria-valuemax="100">
                                     <div class="progress-bar" style="inline-size: {$aff_progress}%"></div>
                                 </div>
-                                {if $aff_ready}
+                                {if $aff_ready && !$aff_pending}
                                 <p class="aff-payout-helper is-ready mt-2 mb-0"><i class="bi bi-check-circle"></i>{lang key='website/affiliate/payout-ready'}</p>
-                                {else}
+                                {elseif !$aff_ready}
                                 <p class="aff-payout-helper is-below mt-2 mb-0"><i class="bi bi-hourglass-split"></i>{lang key='website/affiliate/payout-below'}</p>
                                 {/if}
                             </div>
                             {if $aff_can_manage}
                             <div class="aff-payout-action-area">
                                 <div class="aff-payout-actions">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#payoutModal"{if !$aff_ready} disabled{/if}><i class="bi bi-cash-stack me-1"></i>{lang key='website/affiliate/request-payout'}</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#payoutModal"{if !$aff_ready || $aff_pending} disabled{/if}><i class="bi bi-cash-stack me-1"></i>{lang key='website/affiliate/request-payout'}</button>
                                     <button type="button" class="btn btn-soft" data-bs-toggle="modal" data-bs-target="#payoutHistoryModal"><i class="bi bi-clock-history me-1"></i>{lang key='website/affiliate/payout-history'}</button>
                                 </div>
                                 <div class="wui-collapse{if $aff_pending} wui-show{/if}" data-role="payout-pending-strip">
@@ -182,7 +183,7 @@
                             {/if}
                             <ul class="aff-facts">
                                 <li class="aff-fact"><i class="bi bi-percent"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-rate'}</span><span class="aff-fact-value">{$aff_rate}%</span></li>
-                                <li class="aff-fact"><i class="bi bi-clock-history"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-cookie'}</span><span class="aff-fact-value">{$aff_cookie_days} {lang key='website/affiliate/days'}</span></li>
+                                <li class="aff-fact"><i class="bi bi-clock-history"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-cookie'}</span><span class="aff-fact-value">{lang key='website/affiliate/days-count' plural=$aff_cookie_days count=$aff_cookie_days}</span></li>
                                 {if $aff_min_fmt}<li class="aff-fact"><i class="bi bi-cash-stack"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-minimum'}</span><span class="aff-fact-value num-tabular">{$aff_min_fmt}</span></li>{/if}
                             </ul>
                         </div>
@@ -233,6 +234,8 @@
 
         <div class="list-rows" data-today="{$today_ymd}" data-noun="commissions"
             data-txt-count="{lang key='website/index/list-count'}"
+            data-txt-prev="{lang key='website/index/list-prev' attr=1}"
+            data-txt-next="{lang key='website/index/list-next' attr=1}"
             data-txt-nores="{lang key='website/index/list-nores'}"
             data-txt-noun="{lang key='website/affiliate/noun'}">
 
@@ -446,8 +449,8 @@
             <div class="modal-body">
                 <ul class="aff-facts mb-3">
                     <li class="aff-fact"><i class="bi bi-percent"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-rate'}</span><span class="aff-fact-value">{$aff_rate}%</span></li>
-                    <li class="aff-fact"><i class="bi bi-clock-history"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-cookie'}</span><span class="aff-fact-value">{$aff_cookie_days} {lang key='website/affiliate/days'}</span></li>
-                    <li class="aff-fact"><i class="bi bi-hourglass-split"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-clearing'}</span><span class="aff-fact-value">{$aff_clearing_days} {lang key='website/affiliate/days'}</span></li>
+                    <li class="aff-fact"><i class="bi bi-clock-history"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-cookie'}</span><span class="aff-fact-value">{lang key='website/affiliate/days-count' plural=$aff_cookie_days count=$aff_cookie_days}</span></li>
+                    <li class="aff-fact"><i class="bi bi-hourglass-split"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-clearing'}</span><span class="aff-fact-value">{lang key='website/affiliate/days-count' plural=$aff_clearing_days count=$aff_clearing_days}</span></li>
                     {if $aff_min_fmt}<li class="aff-fact"><i class="bi bi-cash-stack"></i><span class="aff-fact-label">{lang key='website/affiliate/fact-minimum'}</span><span class="aff-fact-value num-tabular">{$aff_min_fmt}</span></li>{/if}
                 </ul>
                 <p class="text-body-secondary fs-7 mb-0">{lang key='website/affiliate/terms-body'}</p>

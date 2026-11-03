@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Standart (1320px)',
     'opt_width_wide'         => 'Geniş (1440px)',
     'opt_width_wider'        => 'Çok Geniş (1600px)',
+    'set_content_section_frame' => 'İçerik Bölümü Çerçevesi',
+    'set_content_section_frame_desc' => 'Kendi HTML içeriğinizi gösteren bölümlere uygulanır: alan adı sayfasının içerik bölümü, kategori içerik sekmeleri ve sayfa içeriği, ana sayfa özel blokları. Tema Çerçevesi temanın zeminini ve genişliğini korur. Çerçevesiz seçeneğinde içerik zeminsiz ve tam genişlikte gösterilir, düzeni kendi HTML kodunuz belirler.',
+    'opt_frame_theme' => 'Tema Çerçevesi',
+    'opt_frame_none' => 'Çerçevesiz (Tam Genişlik)',
     'set_default_mode'       => 'Varsayılan Görünüm Modu',
     'set_default_mode_desc'  => 'Ziyaretçilerin kendileri seçim yapana kadar gördüğü görünüm modunu belirler. Ziyaretçiler modu yine değiştirebilir; seçimleri tarayıcılarında hatırlanır. Otomatik, ziyaretçinin cihaz ayarını izler.',
     'opt_mode_light'         => 'Açık',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Alt Bilgi',
     'set_status_url'      => 'Durum sayfası adresi',
     'set_status_url_desc' => 'Alt bilgi çubuğundaki durum bağlantısının adresi. Boş bırakılırsa duyurular sayfasına bağlanır.',
+    'set_footer_payment_logos'      => 'Ödeme Logoları',
+    'set_footer_payment_logos_desc' => 'Alt bilgide ve ödeme adımlarında gösterilen marka simgeleri. Hiçbiri seçili değilse logolar gizlenir.',
 
     'grp_popup'              => 'Açılır Pencere',
     'set_popup_enabled'      => 'Açılır pencere göster',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Ziyaretçi Başına Bir Kez',
     'opt_popup_daily'        => 'Günde Bir Kez',
     'opt_popup_always'       => 'Her Sayfa Açılışında',
+    'set_popup_delay'        => 'Gecikme (saniye)',
+    'set_popup_delay_desc'   => 'Açılır pencere, sayfa yüklendikten bu kadar saniye sonra görünür.',
 
     'topbar_support'         => 'Destek',
     'footer_nav_aria'        => 'Alt bilgi',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Programa Genel Bakış',
     'rsp_metrics_title'     => 'Önemli Rakamlar',
+
+    'toast_copied'          => 'Panoya kopyalandı.',
+    'toast_copy_failed'     => 'Panoya kopyalanamadı.',
+    'toast_dismiss'         => 'Kapat',
+    'aria_carousel'         => 'slayt gösterisi',
+    'aria_slide'            => 'slayt',
 ];

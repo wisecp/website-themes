@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Wide (1440px)',
     'opt_width_wider'        => 'Extra Wide (1600px)',
+    'set_content_section_frame' => 'Content Section Frame',
+    'set_content_section_frame_desc' => 'Applies to sections that show your own HTML content: the content section of the domain page, category content tabs and page content, and homepage custom blocks. Theme Frame keeps the background and width of the theme. No Frame shows the content full width with no background, so your HTML sets its own layout.',
+    'opt_frame_theme' => 'Theme Frame',
+    'opt_frame_none' => 'No Frame (Full Width)',
     'set_default_mode'       => 'Default Display Mode',
     'set_default_mode_desc'  => "Sets the display mode visitors see until they choose one themselves. Visitors can still switch modes, and their choice is remembered in their browser. Auto follows the visitor's device setting.",
     'opt_mode_light'         => 'Light',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Footer',
     'set_status_url'      => 'Status Page URL',
     'set_status_url_desc' => 'Address of the status link in the footer bar. Leave empty to link to the announcements page.',
+    'set_footer_payment_logos'      => 'Payment Logos',
+    'set_footer_payment_logos_desc' => 'Brand icons shown in the footer and at checkout. With none selected, the logos are hidden.',
 
     'grp_popup'              => 'Popup Window',
     'set_popup_enabled'      => 'Show Popup Window',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Once per Visitor',
     'opt_popup_daily'        => 'Once a Day',
     'opt_popup_always'       => 'Every Page Load',
+    'set_popup_delay'        => 'Delay (seconds)',
+    'set_popup_delay_desc'   => 'The popup appears this many seconds after the page loads.',
 
     'topbar_support'         => 'Support',
     'footer_nav_aria'        => 'Footer',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Program at a Glance',
     'rsp_metrics_title'     => 'The Numbers That Matter',
+
+    'toast_copied'          => 'Copied to clipboard.',
+    'toast_copy_failed'     => 'Could not copy to clipboard.',
+    'toast_dismiss'         => 'Dismiss',
+    'aria_carousel'         => 'carousel',
+    'aria_slide'            => 'slide',
 ];

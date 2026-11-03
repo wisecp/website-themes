@@ -1,5 +1,7 @@
 {extends file='layouts/default.tpl'}
 
+{block name=body_class}service-detail-page{/block}
+
 {block name=head}
     <link rel="stylesheet" href="{asset path='css/service-detail.css'}">
     {if $service.type == 'software'}<link rel="stylesheet" href="{asset path='css/service-detail-software.css'}">{/if}
@@ -8,10 +10,11 @@
 
 {block name=scripts}
     {if $metering.show}<script src="{$sadress}assets/plugins/apexcharts/js/apexcharts.min.js" defer></script>{/if}
+    <script src="{asset path='js/reauth.js'}" defer></script>
     <script src="{asset path='js/service-detail.js'}" defer></script>
     <script src="{asset path='js/service-transfer.js'}" defer></script>
     {if $service.can_manage}
-        <script>window.resources_url="{$sadress}";window.themeDarkMode=(document.documentElement.getAttribute('data-bs-theme')==='dark');</script>
+        <script nonce="{$csp_nonce}">window.resources_url="{$sadress}";window.themeDarkMode=(document.documentElement.getAttribute('data-bs-theme')==='dark');</script>
         <script src="{$badress}templates/admin/js/code-editor.js" defer></script>
         <script src="{asset path='js/libs/wcp-table/table.js'}" defer></script>
         <script src="{asset path='js/service-management.js'}" defer></script>
@@ -151,10 +154,13 @@
                         <dt>{lang key='website/services/f-created'}</dt>
                         <dd class="num-tabular">{if $s.created}{$s.created}{else}-{/if}</dd>
                     </div>
+                    {if !$s.lifetime}
                     <div class="sd-fact">
                         <dt>{lang key='website/services/f-autorenew'}</dt>
                         <dd>
-                            {if $s.sub_blocked}
+                            {if $s.renew_skipped}
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-dash-circle me-1"></i>{lang key='website/services/no-renewal'}</span>
+                            {elseif $s.sub_blocked}
                             <a href="{$s.subscriptions_link}" class="badge bg-success-subtle text-success-emphasis text-decoration-none" title="{lang key='website/services/autorenew-subscription-note'}"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/services/autorenew-subscription'}</a>
                             {elseif $s.actionable && $s.account_autopay}
                             <div class="form-check form-switch sd-switch-inline m-0" data-bs-toggle="tooltip" title="{lang key='website/account/autorenew-locked-account'}">
@@ -171,11 +177,12 @@
                             {/if}
                         </dd>
                     </div>
+                    {/if}
                 </dl>
-                {if $s.due_iso && $s.start_iso}
-                <div class="sd-renew" data-start="{$s.start_iso}" data-due="{$s.due_iso}" data-today="{$s.today_iso}">
+                {if ($s.due_iso || $s.ends_early) && $s.start_iso}
+                <div class="sd-renew" data-start="{$s.start_iso}" data-due="{if $s.ends_early}{$s.cancel_iso}{else}{$s.due_iso}{/if}" data-today="{$s.today_iso}">
                     <div class="sd-renew-head">
-                        <span class="sd-renew-label"><i class="bi bi-calendar-check me-1"></i>{lang key='website/services/renews-on'} {$s.expires}</span>
+                        <span class="sd-renew-label"><i class="bi bi-calendar-check me-1"></i>{if $s.ends_early || $s.renew_skipped}{lang key='website/services/ends-on'}{else}{lang key='website/services/renews-on'}{/if} {if $s.ends_early}{$s.cancel_on}{else}{$s.expires}{/if}</span>
                         <span class="sd-renew-rem num-tabular" data-role="renew-rem"></span>
                     </div>
                     <div class="progress progress-thin" role="progressbar" aria-label="{lang key='website/services/term-elapsed-aria'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -242,9 +249,13 @@
                                         <div class="sd-field sd-field-wide">
                                             <span class="sd-field-label">{lang key='website/services/sw/license-key'}</span>
                                             <div class="sd-field-val">
-                                                <span class="sd-mono num-tabular" data-role="license-key" data-key="{$s.sw.code}">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                                                <span class="sd-mono num-tabular" data-role="license-key"{if !$s.sw.code_locked} data-key="{$s.sw.code}"{/if}>&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                                                {if $s.sw.code_locked}
+                                                <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="reauth-reveal" aria-label="{lang key='website/account/reauth-reveal'}" data-bs-toggle="tooltip" title="{lang key='website/account/reauth-reveal'}"><i class="bi bi-eye"></i></button>
+                                                {else}
                                                 <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="license-toggle" aria-label="{lang key='website/services/sw/show-key'}" data-bs-toggle="tooltip" title="{lang key='website/services/sw/show-key'}"><i class="bi bi-eye"></i></button>
                                                 <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="copy" data-copy-text="{$s.sw.code}" aria-label="{lang key='website/services/copy'}" data-bs-toggle="tooltip" title="{lang key='website/services/copy'}"><i class="bi bi-clipboard"></i></button>
+                                                {/if}
                                             </div>
                                         </div>
                                         {/if}
@@ -495,6 +506,9 @@
                                                     <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="sd-pass-toggle" data-pass="{$f.value}" aria-label="{lang key='website/services/show-password'}" data-bs-toggle="tooltip" title="{lang key='website/services/show-password'}"><i class="bi bi-eye"></i></button>
                                                     <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="copy" data-copy-text="{$f.value}" aria-label="{lang key='website/services/copy'}" data-bs-toggle="tooltip" title="{lang key='website/services/copy'}"><i class="bi bi-clipboard"></i></button>
                                                     {if $f.chpass|default:false}<button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="sd-chpass" aria-label="{lang key='website/services/chpass-btn'}" data-bs-toggle="tooltip" title="{lang key='website/services/chpass-btn'}"><i class="bi bi-key"></i></button>{/if}
+                                                {elseif $f.kind == 'secret'}
+                                                    <span class="sd-mono">{$f.value}</span>
+                                                    <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="reauth-reveal" aria-label="{lang key='website/account/reauth-reveal'}" data-bs-toggle="tooltip" title="{lang key='website/account/reauth-reveal'}"><i class="bi bi-eye"></i></button>
                                                 {elseif $f.kind == 'copy'}
                                                     <span class="sd-mono">{$f.value}</span>
                                                     <button type="button" class="btn btn-ghost btn-sm sd-copy" data-action="copy" data-copy-text="{$f.value}" aria-label="{lang key='website/services/copy'}" data-bs-toggle="tooltip" title="{lang key='website/services/copy'}"><i class="bi bi-clipboard"></i></button>
@@ -552,6 +566,7 @@
                                         {if $s.cycle}<div class="sd-info-row"><dt>{lang key='website/services/f-cycle'}</dt><dd>{$s.cycle}</dd></div>{/if}
                                         <div class="sd-info-row"><dt>{lang key='website/services/f-created'}</dt><dd class="num-tabular">{if $s.created}{$s.created}{else}-{/if}</dd></div>
                                         {if $s.expires}<div class="sd-info-row"><dt>{lang key='website/services/next-due'}</dt><dd class="num-tabular">{$s.expires}</dd></div>{/if}
+                                        {if $s.cancel_on}<div class="sd-info-row"><dt>{lang key='website/services/f-cancel-date'}</dt><dd class="num-tabular">{$s.cancel_on}</dd></div>{/if}
                                     </dl>
                                     {/if}
                                     {if $updown.visible}
@@ -1141,12 +1156,18 @@
                                 <section class="sd-panel">
                                     <h2 class="sd-panel-title"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/services/bill-renewal'}</h2>
                                     <dl class="sd-info mb-3">
-                                        <div class="sd-info-row"><dt>{lang key='website/services/bill-next-due'}</dt><dd class="num-tabular">{if $s.expires}{$s.expires}{else}-{/if}</dd></div>
+                                        <div class="sd-info-row"><dt>{if $s.ends_early || $s.renew_skipped}{lang key='website/services/ends-on'}{else}{lang key='website/services/bill-next-due'}{/if}</dt><dd class="num-tabular">{if $s.ends_early}{$s.cancel_on}{elseif $s.expires}{$s.expires}{else}-{/if}</dd></div>
                                         <div class="sd-info-row"><dt>{lang key='website/services/bill-amount'}</dt><dd class="num-tabular">{if $s.renew_skipped}-{else}{$s.amount}{if $s.cycle_short}<span class="sd-fact-unit">/{$s.cycle_short}</span>{/if}{if $s.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}{/if}</dd></div>
                                         {if $s.cycle}<div class="sd-info-row"><dt>{lang key='website/services/f-cycle'}</dt><dd>{$s.cycle}</dd></div>{/if}
                                         {if $s.pay_method}<div class="sd-info-row"><dt>{lang key='website/services/bill-payment-method'}</dt><dd><span class="sd-card-brand"><i class="bi bi-credit-card-2-front me-1"></i>{$s.pay_method}</span></dd></div>{/if}
                                     </dl>
-                                    {if $s.sub_blocked}
+                                    {if !$s.lifetime}
+                                    {if $s.renew_skipped}
+                                    <div class="d-flex align-items-center justify-content-between gap-2">
+                                        <span class="fs-7">{lang key='website/services/bill-autorenew-label'}</span>
+                                        <span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-dash-circle me-1"></i>{lang key='website/services/no-renewal'}</span>
+                                    </div>
+                                    {elseif $s.sub_blocked}
                                     <div class="d-flex align-items-center justify-content-between gap-2">
                                         <span class="fs-7">{lang key='website/services/autorenew-subscription-note'}</span>
                                         <a href="{$s.subscriptions_link}" class="badge bg-success-subtle text-success-emphasis text-decoration-none"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/services/autorenew-subscription'}</a>
@@ -1172,6 +1193,7 @@
                                         <span class="fs-7">{lang key='website/services/bill-autorenew-label'}</span>
                                         <span class="badge {if $s.autorenew}bg-success-subtle text-success-emphasis{else}bg-secondary-subtle text-secondary-emphasis{/if}"><i class="bi {if $s.autorenew}bi-arrow-repeat{else}bi-dash-circle{/if} me-1"></i>{if $s.autorenew}{lang key='website/services/on'}{else}{lang key='website/services/off'}{/if}</span>
                                     </div>
+                                    {/if}
                                     {/if}
                                     {if $updown.visible}
                                     <div class="mt-3">
@@ -1616,6 +1638,7 @@
 {/block}
 
 {block name=body_end}
+{include file='components/reauth-modal.tpl'}
 {if $s.type == 'software' && $s.sw.can_change_domain}
 <div class="modal fade" id="sd-swdomain-modal" tabindex="-1" aria-labelledby="sd-swdomain-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -1714,6 +1737,8 @@
      data-txt-move-free="{lang key='website/services/updown/move-free'}"
      data-txt-move-charge="{lang key='website/services/updown/move-charge'}"
      data-txt-move-no-option="{lang key='website/services/updown/move-no-option'}"
+     data-txt-included="{lang key='website/services/updown/included-text' attr=1}"
+     data-txt-move-included="{lang key='website/services/updown/move-included' attr=1}"
      data-txt-done="{lang key='website/services/updown/pc-done'}"
      data-txt-save="{lang key='website/products/category-save'}"
      data-txt-scheduled="{lang key='website/services/updown/pc-scheduled-text'}">
@@ -1788,12 +1813,20 @@
                     </div>
                 </div>
 
+                <div class="alert alert-info d-flex align-items-start gap-2 d-none" role="note" data-role="pc-included">
+                    <i class="bi bi-patch-check flex-shrink-0 mt-1"></i>
+                    <div class="fs-7">
+                        <span class="fw-semibold d-block">{lang key='website/services/updown/included-title'}</span>
+                        <span data-role="pc-included-text"></span>
+                    </div>
+                </div>
+
                 {if $updown.addon_note}
                 <div class="alert alert-info d-flex align-items-start gap-2" role="note" data-role="pc-addon-note">
                     <i class="bi bi-puzzle flex-shrink-0 mt-1"></i>
                     <div class="fs-7">
                         <span class="fw-semibold d-block">{lang key='website/services/updown/addon-note-title'}</span>
-                        {lang key='website/services/updown/addon-note-text'} <span class="fw-semibold">{$updown.addon_note}</span>
+                        {lang key='website/services/updown/addon-note-text'} <span class="fw-semibold" data-role="pc-addon-note-names">{$updown.addon_note}</span>
                     </div>
                 </div>
                 {/if}

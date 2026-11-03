@@ -3,13 +3,13 @@
     <div class="invoice-pay-total">
         <div class="order-summary-line">
             <span class="summary-label" data-role="pay-base-label">{if !empty($pay_base_label)}{$pay_base_label}{else}{lang key='website/invoices/detail/balance-due'}{/if}</span>
-            <span class="summary-value num-tabular" data-role="pay-base-value">{$pay_due_fmt}</span>
+            <span class="summary-value num-tabular" data-role="pay-base-value">{$pay_bare_fmt}</span>
         </div>
-        <div class="wui-collapse" data-role="fee-collapse">
+        <div class="wui-collapse{if $pay_fee_fmt|default:''} wui-show{/if}" data-role="fee-collapse">
             <div class="wui-collapse-inner">
                 <div class="order-summary-line" data-role="fee-line">
-                    <span class="summary-label">{lang key='website/invoices/pay/fee-label'} <span class="text-body-secondary" data-role="fee-label"></span></span>
-                    <span class="summary-value num-tabular" data-role="fee-value"></span>
+                    <span class="summary-label">{lang key='website/invoices/pay/fee-label'} <span class="text-body-secondary" data-role="fee-label">{$pay_fee_label|default:''}</span></span>
+                    <span class="summary-value num-tabular" data-role="fee-value">{$pay_fee_fmt|default:''}</span>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
         </div>
         <div class="order-summary-line order-summary-total mb-0">
             <span class="summary-label">{lang key='website/invoices/detail/fact-amount-due'}</span>
-            <span class="summary-value num-tabular" data-role="grand-total" data-base-total="{$pay_bare_raw}" data-base-total-fmt="{$pay_bare_fmt}">{$pay_due_fmt}</span>
+            <span class="summary-value num-tabular" data-role="grand-total" data-base-total="{$pay_base_raw|default:$pay_bare_raw}" data-base-total-fmt="{$pay_base_fmt|default:$pay_bare_fmt}">{$pay_due_fmt}</span>
         </div>
     </div>
 
@@ -52,7 +52,7 @@
     {/if}
 
     {if $show_partial|default:true}
-    <div class="invoice-partial">
+    <div class="invoice-partial{if ($payment_default|default:'') == 'BankTransfer'} d-none{/if}">
         <div class="invoice-partial-panel">
             <button class="invoice-partial-head collapsed" type="button" data-wui-toggle data-wui-target="#invPartial" aria-expanded="false" aria-controls="invPartial">
                 <span class="invoice-partial-title"><i class="bi bi-sliders" aria-hidden="true"></i>{lang key='website/invoices/pay/partial-title'}</span>
@@ -85,7 +85,7 @@
     </div>
 
     <div class="d-grid">
-        <button class="btn btn-primary btn-lg" type="submit" data-checkout-submit data-busy-text="{lang key='website/invoices/pay/paying'}"><i class="bi bi-lock-fill me-2"></i><span data-role="pay-label">{if !empty($pay_button_label)}{$pay_button_label}{else}{lang key='website/invoices/pay/pay-button'}{/if}</span><span class="invoice-pay-btn-amount num-tabular" data-role="pay-amount">{$pay_due_fmt}</span></button>
+        <button class="btn btn-primary btn-lg" type="submit" data-checkout-submit data-busy-text="{lang key='website/invoices/pay/paying'}"><i class="bi bi-lock-fill me-2"></i><span data-role="pay-label">{if ($payment_default|default:'') == 'BankTransfer'}{lang key='website/invoices/pay/bank-button'}{elseif !empty($pay_button_label)}{$pay_button_label}{else}{lang key='website/invoices/pay/pay-button'}{/if}</span><span class="invoice-pay-btn-amount num-tabular" data-role="pay-amount">{$pay_due_fmt}</span></button>
     </div>
     <p class="invoice-pay-secure"><i class="bi bi-shield-lock me-1"></i>{lang key='website/invoices/pay/secure-note'}</p>
 </div>

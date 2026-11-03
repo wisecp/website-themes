@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{asset path='css/configure.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
-    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
+    <script src="{asset path='js/geo-country.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module" nonce="{$csp_nonce}">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
 {/block}
 
 {block name=scripts}

@@ -27,6 +27,20 @@
             </a>
         </div>
     </div>
+    {if $rate_ticker|default:[]}
+    <div class="dropdown client-rate-ticker d-none d-lg-block">
+        <button class="btn btn-soft client-rate-ticker-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{lang key='website/index/rate-ticker-title' attr=1}"><i class="bi bi-currency-exchange"></i>{foreach $rate_ticker.items as $rt}{if $rt@iteration <= 2}<span class="client-rate-ticker-pair"><b>{$rt.code}</b>{$rt.short}</span>{/if}{/foreach}</button>
+        <div class="dropdown-menu nav-dropdown client-rate-ticker-menu">
+            <div class="client-topbar-menu-head"><span class="client-topbar-menu-title">{lang key='website/index/rate-ticker-title'}</span><span class="client-rate-ticker-base">{$rate_ticker.base}</span></div>
+            <div class="client-rate-ticker-list">
+                {foreach $rate_ticker.items as $rt}
+                <div class="client-rate-ticker-row"><span class="client-rate-ticker-name"><b>1 {$rt.code}</b><span>{$rt.name}</span></span><span class="client-rate-ticker-val">{$rt.long}</span></div>
+                {/foreach}
+            </div>
+            {if $rate_ticker.updated}<div class="client-rate-ticker-foot" title="{$rate_ticker.updated.full}"><i class="bi bi-clock-history"></i>{lang key='website/index/rate-ticker-updated' time=$rate_ticker.updated.ago}</div>{/if}
+        </div>
+    </div>
+    {/if}
     <div class="client-topbar-end">
         {if !empty($switch_accounts) && $switch_accounts|@count > 1}
         {$active_acc = $switch_accounts[0]}
@@ -78,9 +92,6 @@
                 <div class="notif-list" data-role="notif-list"></div>
                 <a class="notif-foot" href="{link route='info'}#notifications">{lang key='website/dashboard/notif-view-all'}<i class="bi bi-arrow-right"></i></a>
             </div>
-            {* First page of the feed, rendered WITH the shell: the dropdown used to fetch it on
-               first open and show skeleton rows for the length of the round trip. Read by
-               client-nav.js, which hands it to the same renderer the scroll paging uses. *}
             {if $notification_seed_json}<script type="application/json" data-notif-seed>{$notification_seed_json nofilter}</script>{/if}
             {csrf form='notifications'}
         </div>

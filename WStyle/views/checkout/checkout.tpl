@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{asset path='js/libs/intl-tel-input/css/intlTelInput.min.css'}">
     <link rel="stylesheet" href="{asset path='css/checkout.css'}">
 <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
+<script src="{asset path='js/geo-country.js'}" defer></script>
 {/block}
 
 {block name=scripts}
@@ -106,7 +107,7 @@
                                                 <button class="btn btn-primary" type="button" data-action="checkout-login"><i class="bi bi-box-arrow-in-right me-2"></i>{lang key='website/sign/login-submit'}</button>
                                                 <a class="fs-7 text-decoration-none fw-semibold" href="{link route='sign-forget'}">{lang key='website/sign/login-forgot'}</a>
                                             </div>
-                                            <p class="fs-7 text-body-secondary mt-3 mb-0">{lang key='website/checkout/need-account'} <button class="btn btn-link p-0 ms-1 align-baseline text-decoration-none fw-semibold" type="button" data-account-switch="create">{lang key='website/checkout/create-one'}</button></p>
+                                            <p class="fs-7 text-body-secondary mt-3 mb-0">{lang key='website/checkout/need-account'} <button class="btn btn-link p-0 ms-1 fs-7 align-baseline text-decoration-none fw-semibold" type="button" data-account-switch="create">{lang key='website/checkout/create-one'}</button></p>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +149,7 @@
                                             <p class="fs-8 text-body-secondary mt-3 mb-0"><i class="bi bi-info-circle me-1"></i>{lang key='website/checkout/create-note'}</p>
 
                                             {if $login_enabled}
-                                            <p class="fs-7 text-body-secondary mt-3 mb-0">{lang key='website/sign/register-have-account'} <button class="btn btn-link p-0 ms-1 align-baseline text-decoration-none fw-semibold" type="button" data-account-switch="login">{lang key='website/sign/register-login'}</button></p>
+                                            <p class="fs-7 text-body-secondary mt-3 mb-0">{lang key='website/sign/register-have-account'} <button class="btn btn-link p-0 ms-1 fs-7 align-baseline text-decoration-none fw-semibold" type="button" data-account-switch="login">{lang key='website/sign/register-login'}</button></p>
                                             {/if}
                                         </div>
                                     </div>
@@ -158,7 +159,7 @@
                                             {if $passkey_enabled || $jetpass_enabled || $social_providers}
                                             <div class="col-lg-5">
                                                 <span class="fs-8 fw-semibold text-body-secondary text-uppercase d-block mb-2">{lang key='website/checkout/or-continue'}</span>
-                                                <div class="d-grid gap-2">
+                                                <div class="d-grid gap-2" data-social-providers>
                                                     {foreach $social_providers as $p}{$p.button nofilter}{/foreach}
                                                     {if $passkey_enabled}
                                                     <button class="btn btn-soft d-inline-flex align-items-center justify-content-center" type="button" data-action="checkout-passkey"><i class="bi bi-fingerprint me-2"></i>{lang key='website/sign/login-passkey-cta'}</button>

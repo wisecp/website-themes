@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Padrão (1320px)',
     'opt_width_wide'         => 'Largo (1440px)',
     'opt_width_wider'        => 'Muito largo (1600px)',
+    'set_content_section_frame' => 'Moldura das secções de conteúdo',
+    'set_content_section_frame_desc' => 'Aplica-se às secções que mostram o seu próprio conteúdo HTML, como a secção de conteúdo da página de domínios, os separadores de conteúdo e o conteúdo da página das categorias e os blocos personalizados da página inicial. Moldura do tema mantém o fundo e a largura do tema. Sem moldura mostra o conteúdo em largura total e sem fundo, para que o seu HTML defina o próprio esquema.',
+    'opt_frame_theme' => 'Moldura do tema',
+    'opt_frame_none' => 'Sem moldura (largura total)',
     'set_default_mode'       => 'Modo de visualização predefinido',
     'set_default_mode_desc'  => 'Define o modo de visualização que os visitantes veem até escolherem um. Os visitantes podem continuar a alterá-lo, e a escolha fica guardada no navegador. Automático segue a definição do dispositivo.',
     'opt_mode_light'         => 'Claro',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Rodapé',
     'set_status_url'      => 'URL da página de estado',
     'set_status_url_desc' => 'Endereço da ligação de estado no rodapé. Deixe em branco para ligar à página de anúncios.',
+    'set_footer_payment_logos'      => 'Logótipos de pagamento',
+    'set_footer_payment_logos_desc' => 'Ícones de marcas apresentados no rodapé e na finalização da compra. Sem seleção, os logótipos ficam ocultos.',
 
     'grp_popup'              => 'Janela emergente',
     'set_popup_enabled'      => 'Mostrar janela emergente',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Uma vez por visitante',
     'opt_popup_daily'        => 'Uma vez por dia',
     'opt_popup_always'       => 'Em cada carregamento de página',
+    'set_popup_delay'        => 'Atraso (segundos)',
+    'set_popup_delay_desc'   => 'A janela aparece este número de segundos após o carregamento da página.',
 
     'topbar_support'         => 'Apoio',
     'footer_nav_aria'        => 'Rodapé',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Resumo do programa',
     'rsp_metrics_title'     => 'Os números que importam',
+
+    'toast_copied'          => 'Copiado para a área de transferência.',
+    'toast_copy_failed'     => 'Não foi possível copiar para a área de transferência.',
+    'toast_dismiss'         => 'Dispensar',
+    'aria_carousel'         => 'carrossel',
+    'aria_slide'            => 'diapositivo',
 ];

@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="{asset path='js/libs/intl-tel-input/css/intlTelInput.min.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
-    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
+    {if ($ui_lang|default:'en') != 'en'}<script type="module" nonce="{$csp_nonce}">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
     {/if}
 {/block}
 
 {block name=scripts}
+    {if $plural_js|default:''}<script src="{$plural_js}" defer></script>{/if}
     <script src="{asset path='js/domain-detail.js'}" defer></script>
     <script src="{asset path='js/service-transfer.js'}" defer></script>
 {/block}
@@ -28,6 +29,8 @@
 {assign var=dnsRecordsUpsell value=($canAct && $caps.dns_records && $d.dns_upsell)}
 {assign var=dnsRecordsPending value=($canAct && $caps.dns_records && $d.dns_pending)}
 {assign var=dnssecManage value=($canAct && $caps.dnssec)}
+{assign var=dnssecFormat value=$dns_config.dnssec_format|default:'ds'}
+{assign var=dnssecKeyForm value=($dnssecFormat != 'ds')}
 {assign var=showDnsTab value=($dnsRecordsActive || $dnsRecordsUpsell || $dnsRecordsPending || $dnssecManage)}
 {assign var=contactsManage value=($canAct && $caps.whois)}
 {assign var=wpVisible value=($canAct && $d.wp_offered)}
@@ -52,7 +55,7 @@
         data-txt-on="{lang key='website/domains/on'}" data-txt-off="{lang key='website/domains/off'}" data-txt-retry="{lang key='website/domain/retry'}"
         {if $cnsManage}data-txt-cns-del-title="{lang key='website/domains/cns-del-title'}" data-txt-cns-del-msg="{lang key='website/domains/cns-del-msg'}" data-txt-cns-del-action="{lang key='website/domains/cns-del-action'}" data-txt-cns-failed="{lang key='website/domains/err-cns-failed'}"{/if}
         {if $dnsRecordsActive}data-txt-dns-del-title="{lang key='website/domains/dns-del-title'}" data-txt-dns-del-msg="{lang key='website/domains/dns-del-msg'}" data-txt-dns-del-action="{lang key='website/domains/dns-del-action'}" data-txt-dns-edit="{lang key='website/domains/dns-edit'}" data-txt-dns-add-title="{lang key='website/domains/dns-add-title'}" data-txt-dns-edit-title="{lang key='website/domains/dns-edit-title'}" data-txt-dns-failed="{lang key='website/domains/err-dns-failed'}"{/if}
-        {if $dnssecManage}data-txt-dnssec-del-title="{lang key='website/domains/dnssec-del-title'}" data-txt-dnssec-del-msg="{lang key='website/domains/dnssec-del-msg'}" data-txt-dnssec-del-action="{lang key='website/domains/dnssec-del-action'}" data-txt-dnssec-failed="{lang key='website/domains/err-dnssec-failed'}"{/if}
+        {if $dnssecManage}data-txt-dnssec-del-title="{lang key='website/domains/dnssec-del-title'}" data-txt-dnssec-del-msg="{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-del-msg' attr=1}{else}{lang key='website/domains/dnssec-del-msg' attr=1}{/if}" data-txt-dnssec-del-action="{lang key='website/domains/dnssec-del-action'}" data-txt-dnssec-failed="{lang key='website/domains/err-dnssec-failed'}"{/if}
         {if $efwdManage}data-txt-efwd-del-title="{lang key='website/domains/efwd-del-title'}" data-txt-efwd-del-msg="{lang key='website/domains/efwd-del-msg'}" data-txt-efwd-del-action="{lang key='website/domains/efwd-del-action'}" data-txt-efwd-failed="{lang key='website/domains/err-efwd-failed'}"{/if}
         {if $ufwdManage}data-txt-ufwd-failed="{lang key='website/domains/err-ufwd-failed'}"{/if}
         {if $contactsManage}data-txt-whois-registrant="{lang key='website/domains/whois-role-registrant'}" data-txt-whois-administrative="{lang key='website/domains/whois-role-administrative'}" data-txt-whois-technical="{lang key='website/domains/whois-role-technical'}" data-txt-whois-billing="{lang key='website/domains/whois-role-billing'}" data-txt-whois-all="{lang key='website/domains/whois-role-all'}"{/if}
@@ -96,10 +99,17 @@
                         </div>
                     </div>
                 </div>
-                {if $d.can_manage && (($d.renewable && ($d.renew_open_invoice || $d.renew_terms || $d.renew_at_cap)) || $heroMenu)}
+                {if $d.can_manage && (($d.renewable && ($d.renew_open_invoice || $d.renew_terms || $d.renew_at_cap)) || $d.renew_closed || $heroMenu)}
                 <div class="sd-hero-actions">
                     {if $d.renewable && $d.renew_open_invoice}
                     <a href="{$d.renew_open_invoice}" class="btn btn-secondary btn-sm"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/renew'}</a>
+                    {elseif $d.renew_closed}
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/renew'}</button>
+                        <ul class="dropdown-menu dropdown-menu-end sd-menu sd-renew-menu">
+                            <li><span class="dropdown-item-text fs-8 text-body-secondary"><i class="bi bi-info-circle me-1"></i>{lang key='website/domains/renew-closed-note'}</span></li>
+                        </ul>
+                    </div>
                     {elseif $d.renewable && ($d.renew_terms || $d.renew_at_cap)}
                     <div class="dropdown">
                         <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/renew'}</button>
@@ -109,8 +119,11 @@
                             <li><span class="dropdown-item-text fs-8 text-body-secondary"><i class="bi bi-info-circle me-1"></i>{lang key='website/domains/renew-at-cap'}</span></li>
                             {else}
                             {foreach $d.renew_terms as $term}
-                            <li><button type="button" class="dropdown-item sd-renew-opt" data-action="renew-period" data-years="{$term.years}"><span class="sd-renew-opt-label">{$term.label}{if $term.save_label}<span class="sd-renew-save">{$term.save_label}</span>{/if}</span><span class="sd-renew-opt-price num-tabular">{$term.total_fmt}</span></button></li>
+                            <li><button type="button" class="dropdown-item sd-renew-opt" data-action="renew-period" data-years="{$term.years}"><span class="sd-renew-opt-label">{$term.label}{if $term.save_label}<span class="sd-renew-save">{$term.save_label}</span>{/if}{if $term.free}<span class="sd-renew-save">{lang key='website/domains/renew-free'}</span>{/if}</span><span class="sd-renew-opt-price num-tabular">{$term.total_fmt}</span></button></li>
                             {/foreach}
+                            {if $d.renew_free}
+                            <li><span class="dropdown-item-text fs-8 text-body-secondary"><i class="bi bi-gift me-1"></i>{lang key='website/domains/renew-free-note'}</span></li>
+                            {/if}
                             {/if}
                         </ul>
                     </div>
@@ -145,12 +158,14 @@
                     </div>
                     <div class="sd-fact">
                         <dt>{lang key='website/domains/renewal-price'}</dt>
-                        <dd class="num-tabular">{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}{if $d.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}</dd>
+                        <dd class="num-tabular">{if $d.renew_closed}-{else}{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}{if $d.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}{/if}</dd>
                     </div>
                     <div class="sd-fact">
                         <dt>{lang key='website/domains/auto-renew'}</dt>
                         <dd>
-                            {if $d.sub_blocked}
+                            {if $d.renew_closed}
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-dash-circle me-1"></i>{lang key='website/domains/no-renewal'}</span>
+                            {elseif $d.sub_blocked}
                             <a href="{$d.subscriptions_link}" class="badge bg-success-subtle text-success-emphasis text-decoration-none" title="{lang key='website/domains/autorenew-subscription-note'}"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/autorenew-subscription'}</a>
                             {elseif $canAct && $d.account_autopay}
                             <div class="form-check form-switch sd-switch-inline m-0" data-bs-toggle="tooltip" title="{lang key='website/account/autorenew-locked-account'}">
@@ -171,7 +186,7 @@
                 {if $d.due_iso && $d.start_iso}
                 <div class="sd-renew" data-start="{$d.start_iso}" data-due="{$d.due_iso}" data-today="{$d.today_iso}">
                     <div class="sd-renew-head">
-                        <span class="sd-renew-label"><i class="bi bi-calendar-check me-1"></i>{lang key='website/domains/renews-on'} {$d.expires}</span>
+                        <span class="sd-renew-label"><i class="bi bi-calendar-check me-1"></i>{if $d.renew_closed}{lang key='website/domains/expires'}{else}{lang key='website/domains/renews-on'}{/if} {$d.expires}</span>
                         <span class="sd-renew-rem num-tabular" data-role="renew-rem"></span>
                     </div>
                     <div class="progress progress-thin" role="progressbar" aria-label="{lang key='website/domains/term-elapsed-aria'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -262,7 +277,9 @@
                                         {/if}
                                         <li class="dd-toggle-row">
                                             <span class="dd-toggle-text"><span class="dd-toggle-name">{lang key='website/domains/auto-renew'}</span><span class="dd-toggle-sub fs-7">{lang key='website/domains/auto-renew-sub'}</span></span>
-                                            {if $d.sub_blocked}
+                                            {if $d.renew_closed}
+                                            <span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-dash-circle me-1"></i>{lang key='website/domains/no-renewal'}</span>
+                                            {elseif $d.sub_blocked}
                                             <a href="{$d.subscriptions_link}" class="badge bg-success-subtle text-success-emphasis text-decoration-none" title="{lang key='website/domains/autorenew-subscription-note'}"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/autorenew-subscription'}</a>
                                             {elseif $canAct && $d.account_autopay}
                                             <div class="form-check form-switch sd-switch-inline m-0" data-bs-toggle="tooltip" title="{lang key='website/account/autorenew-locked-account'}">
@@ -303,7 +320,7 @@
                                     <h2 class="sd-panel-title"><i class="bi bi-card-list me-1"></i>{lang key='website/domains/dns-records-title'}</h2>
                                     {if $dnsRecordsActive}
                                     <p class="fs-7 text-body-secondary mb-3">{lang key='website/domains/dns-ov-active-text'}</p>
-                                    <div class="dd-stat" data-role="dns-ov-stat">
+                                    <div class="dd-stat" data-role="dns-ov-stat" data-plural-forms="{lang key='website/domains/dns-ov-records-count' forms=1}">
                                         <span class="dd-stat-value num-tabular" data-role="dns-ov-count"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></span>
                                         <span class="dd-stat-label">{lang key='website/domains/dns-ov-records'}</span>
                                     </div>
@@ -472,9 +489,9 @@
                         <section class="sd-panel{if $dnsRecordsActive || $dnsRecordsUpsell} mt-3{/if}" data-dnssec-panel>
                             <div class="sd-panel-head">
                                 <h2 class="sd-panel-title"><i class="bi bi-shield-lock me-1"></i>{lang key='website/domains/dnssec-title'}</h2>
-                                <button type="button" class="btn btn-soft btn-sm" data-bs-toggle="modal" data-bs-target="#ddDnssecModal"><i class="bi bi-plus-lg me-1"></i>{lang key='website/domains/dnssec-add'}</button>
+                                <button type="button" class="btn btn-soft btn-sm" data-bs-toggle="modal" data-bs-target="#ddDnssecModal"><i class="bi bi-plus-lg me-1"></i>{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-add'}{else}{lang key='website/domains/dnssec-add'}{/if}</button>
                             </div>
-                            <p class="fs-7 text-body-secondary mb-3">{lang key='website/domains/dnssec-intro'}</p>
+                            <p class="fs-7 text-body-secondary mb-3">{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-intro'}{else}{lang key='website/domains/dnssec-intro'}{/if}</p>
                             <div class="text-center py-4" data-role="dnssec-loading">
                                 <span class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
                                 <span class="visually-hidden">{lang key='website/domains/dnssec-loading'}</span>
@@ -485,8 +502,8 @@
                             <div class="wstyle-empty-state d-none" data-role="dnssec-empty">
                                 <i class="bi bi-shield-lock" aria-hidden="true"></i>
                                 <span class="fw-semibold">{lang key='website/domains/dnssec-empty-title'}</span>
-                                <span class="fs-7">{lang key='website/domains/dnssec-empty-text'}</span>
-                                <button type="button" class="btn btn-soft btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#ddDnssecModal"><i class="bi bi-plus-lg me-1"></i>{lang key='website/domains/dnssec-add'}</button>
+                                <span class="fs-7">{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-empty-text'}{else}{lang key='website/domains/dnssec-empty-text'}{/if}</span>
+                                <button type="button" class="btn btn-soft btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#ddDnssecModal"><i class="bi bi-plus-lg me-1"></i>{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-add'}{else}{lang key='website/domains/dnssec-add'}{/if}</button>
                             </div>
                         </section>
                         {/if}
@@ -750,11 +767,16 @@
                                 <section class="sd-panel h-100">
                                     <h2 class="sd-panel-title"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/bill-renewal'}</h2>
                                     <dl class="sd-info mb-3">
-                                        <div class="sd-info-row"><dt>{lang key='website/domains/bill-next-due'}</dt><dd class="num-tabular">{if $d.expires}{$d.expires}{else}-{/if}</dd></div>
-                                        <div class="sd-info-row"><dt>{lang key='website/domains/bill-renewal-price'}</dt><dd class="num-tabular">{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}{if $d.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}</dd></div>
+                                        <div class="sd-info-row"><dt>{if $d.renew_closed}{lang key='website/domains/expires'}{else}{lang key='website/domains/bill-next-due'}{/if}</dt><dd class="num-tabular">{if $d.expires}{$d.expires}{else}-{/if}</dd></div>
+                                        <div class="sd-info-row"><dt>{lang key='website/domains/bill-renewal-price'}</dt><dd class="num-tabular">{if $d.renew_closed}-{else}{$d.amount}{if $d.cycle_short}<span class="sd-fact-unit">/{$d.cycle_short}</span>{/if}{if $d.tax_inclusive}<span class="sd-fact-unit d-block" data-tax-incl>{lang key='website/services/updown/pc-tax-included'}</span>{/if}{/if}</dd></div>
                                         {if $d.pay_method}<div class="sd-info-row"><dt>{lang key='website/domains/bill-payment-method'}</dt><dd><span class="sd-card-brand"><i class="bi bi-credit-card-2-front me-1"></i>{$d.pay_method}</span></dd></div>{/if}
                                     </dl>
-                                    {if $d.sub_blocked}
+                                    {if $d.renew_closed}
+                                    <div class="d-flex align-items-center justify-content-between gap-2">
+                                        <span class="fs-7">{lang key='website/domains/bill-autorenew-label'}</span>
+                                        <span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-dash-circle me-1"></i>{lang key='website/domains/no-renewal'}</span>
+                                    </div>
+                                    {elseif $d.sub_blocked}
                                     <div class="d-flex align-items-center justify-content-between gap-2">
                                         <span class="fs-7">{lang key='website/domains/autorenew-subscription-note'}</span>
                                         <a href="{$d.subscriptions_link}" class="badge bg-success-subtle text-success-emphasis text-decoration-none"><i class="bi bi-arrow-repeat me-1"></i>{lang key='website/domains/autorenew-subscription'}</a>
@@ -925,7 +947,7 @@
                 <span class="modal-icon"><i class="bi bi-key"></i></span>
                 <div class="modal-titles">
                     <h2 class="modal-title h5" id="eppCodeTitle">{lang key='website/domains/epp-title'}</h2>
-                    <span class="modal-sub" data-role="epp-domain">{$d.name}</span>
+                    <span class="modal-subtitle" data-role="epp-domain">{$d.name}</span>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
@@ -955,7 +977,7 @@
                 <span class="modal-icon"><i class="bi bi-diagram-3"></i></span>
                 <div class="modal-titles">
                     <h2 class="modal-title h5" id="ddGlueTitle">{lang key='website/domains/cns-modal-title'}</h2>
-                    <span class="modal-sub">{$d.name}</span>
+                    <span class="modal-subtitle">{$d.name}</span>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
@@ -994,7 +1016,7 @@
                 <span class="modal-icon"><i class="bi bi-card-list"></i></span>
                 <div class="modal-titles">
                     <h2 class="modal-title h5" id="ddDnsTitle" data-role="dns-modal-title">{lang key='website/domains/dns-add-title'}</h2>
-                    <span class="modal-sub">{$d.name}</span>
+                    <span class="modal-subtitle">{$d.name}</span>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
@@ -1054,41 +1076,41 @@
             <div class="modal-header">
                 <span class="modal-icon"><i class="bi bi-shield-lock"></i></span>
                 <div class="modal-titles">
-                    <h2 class="modal-title h5" id="ddDnssecTitle">{lang key='website/domains/dnssec-add-title'}</h2>
-                    <span class="modal-sub">{$d.name}</span>
+                    <h2 class="modal-title h5" id="ddDnssecTitle">{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-add-title'}{else}{lang key='website/domains/dnssec-add-title'}{/if}</h2>
+                    <span class="modal-subtitle">{$d.name}</span>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
             <div class="modal-body">
-                <p class="text-body-secondary fs-7 mb-3">{lang key='website/domains/dnssec-modal-intro'}</p>
+                <p class="text-body-secondary fs-7 mb-3">{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-modal-intro'}{else}{lang key='website/domains/dnssec-modal-intro'}{/if}</p>
                 <div class="row g-3">
                     <div class="col-sm-4">
-                        <label for="ddDsKeyTag" class="form-label">{lang key='website/domains/dnssec-f-keytag'}</label>
-                        <input type="number" class="form-control num-tabular" id="ddDsKeyTag" min="0" placeholder="34505" inputmode="numeric">
-                        <div class="invalid-feedback">{lang key='website/domains/dnssec-f-keytag-invalid'}</div>
+                        <label for="ddDsKeyTag" class="form-label">{$dns_config.dnssec_labels.key_tag}</label>
+                        <input type="number" class="form-control num-tabular" id="ddDsKeyTag" min="0" placeholder="{if $dnssecFormat == 'dnskey-keytag-flags'}257{else}34505{/if}" inputmode="numeric">
+                        <div class="invalid-feedback">{if $dnssecFormat == 'dnskey-keytag-flags'}{lang key='website/domains/dnssec-f-flags-invalid'}{else}{lang key='website/domains/dnssec-f-keytag-invalid'}{/if}</div>
                     </div>
                     <div class="col-sm-4">
-                        <label for="ddDsAlgorithm" class="form-label">{lang key='website/domains/dnssec-f-algorithm'}</label>
+                        <label for="ddDsAlgorithm" class="form-label">{$dns_config.dnssec_labels.algorithm}</label>
                         <select class="form-select" id="ddDsAlgorithm">
                             {foreach $dns_config.algorithms as $ak => $av}<option value="{$ak}">{$av}</option>{/foreach}
                         </select>
                     </div>
                     <div class="col-sm-4">
-                        <label for="ddDsDigestType" class="form-label">{lang key='website/domains/dnssec-f-digesttype'}</label>
+                        <label for="ddDsDigestType" class="form-label">{$dns_config.dnssec_labels.digest_type}</label>
                         <select class="form-select" id="ddDsDigestType">
                             {foreach $dns_config.digest_types as $dk => $dv}<option value="{$dk}">{$dv}</option>{/foreach}
                         </select>
                     </div>
                     <div class="col-12">
-                        <label for="ddDsDigest" class="form-label">{lang key='website/domains/dnssec-f-digest'}</label>
-                        <input type="text" class="form-control" id="ddDsDigest" placeholder="{lang key='website/domains/dnssec-f-digest-ph'}">
-                        <div class="invalid-feedback">{lang key='website/domains/dnssec-f-digest-invalid'}</div>
+                        <label for="ddDsDigest" class="form-label">{$dns_config.dnssec_labels.digest}</label>
+                        <input type="text" class="form-control" id="ddDsDigest" placeholder="{if $dnssecKeyForm}{lang key='website/domains/dnssec-f-publickey-ph' attr=1}{else}{lang key='website/domains/dnssec-f-digest-ph' attr=1}{/if}">
+                        <div class="invalid-feedback">{if $dnssecKeyForm}{lang key='website/domains/dnssec-f-publickey-invalid'}{else}{lang key='website/domains/dnssec-f-digest-invalid'}{/if}</div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-soft" data-bs-dismiss="modal">{lang key='website/domains/cancel'}</button>
-                <button type="button" class="btn btn-primary" data-action="dnssec-save" data-busy-text="{lang key='website/domains/dnssec-saving'}"><i class="bi bi-check-lg me-1"></i>{lang key='website/domains/dnssec-add-btn'}</button>
+                <button type="button" class="btn btn-primary" data-action="dnssec-save" data-busy-text="{lang key='website/domains/dnssec-saving'}"><i class="bi bi-check-lg me-1"></i>{if $dnssecKeyForm}{lang key='website/domains/dnssec-dnskey-add'}{else}{lang key='website/domains/dnssec-add-btn'}{/if}</button>
             </div>
         </div>
     </div>
@@ -1103,7 +1125,7 @@
                 <span class="modal-icon"><i class="bi bi-envelope-at"></i></span>
                 <div class="modal-titles">
                     <h2 class="modal-title h5" id="efwdTitle">{lang key='website/domains/efwd-modal-title'}</h2>
-                    <span class="modal-sub">{$d.name}</span>
+                    <span class="modal-subtitle">{$d.name}</span>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/domains/close'}"></button>
             </div>
@@ -1182,6 +1204,10 @@
                     <div class="col-12">
                         <label for="ddCAddress" class="form-label">{lang key='website/domains/whois-street'}</label>
                         <input type="text" class="form-control" id="ddCAddress" autocomplete="address-line1">
+                    </div>
+                    <div class="col-12">
+                        <label for="ddCAddress2" class="form-label">{lang key='website/domains/whois-street2'} <span class="text-body-secondary">{lang key='website/domains/whois-optional'}</span></label>
+                        <input type="text" class="form-control" id="ddCAddress2" autocomplete="address-line2">
                     </div>
                     <div class="col-sm-6">
                         <label for="ddCCity" class="form-label">{lang key='website/domains/whois-city'}</label>

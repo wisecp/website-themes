@@ -3,8 +3,8 @@
     <div class="container">
         <div class="section-head">
             <span class="eyebrow">{lang key='home_why_eyebrow'}</span>
-            <h2 class="tracking-tight">{lang key='home_why_title'}</h2>
-            <p class="section-lead">{lang key='home_why_lead'}</p>
+            <h2 class="tracking-tight">{if $feature_heading.title|default:''}{$feature_heading.title}{else}{lang key='home_why_title'}{/if}</h2>
+            <p class="section-lead">{if $feature_heading.description|default:''}{$feature_heading.description}{else}{lang key='home_why_lead'}{/if}</p>
         </div>
         <div class="row g-4 why-grid">
             {foreach $feature_blocks as $fb}

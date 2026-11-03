@@ -61,3 +61,70 @@
     {hook name='ui:client.home.sections.end'}
 
 {/block}
+
+{block name=body_end}
+{if $testimonials.send_opinion|default:false}
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{link route='home'}" method="post" novalidate data-feedback-form data-msg-invalid="{lang key='website/index/customer-feedback/error-invalid' attr=1}">
+                <div class="modal-header">
+                    <span class="modal-icon"><i class="bi bi-chat-quote"></i></span>
+                    <div class="modal-titles">
+                        <h2 class="modal-title h5" id="feedbackModalTitle">{lang key='website/index/customer-feedback/modal-title'}</h2>
+                        <p class="modal-subtitle">{lang key='website/index/customer-feedback/modal-subtitle'}</p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{lang key='website/index/customer-feedback/close' attr=1}"></button>
+                </div>
+                <div class="modal-body" data-feedback-step="form">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="fb-name" class="form-label">{lang key='website/index/customer-feedback/name-label'} <span class="text-danger" aria-hidden="true">*</span></label>
+                            <input type="text" class="form-control" id="fb-name" name="full_name" autocomplete="name" maxlength="100" required>
+                            <div class="invalid-feedback">{lang key='website/index/customer-feedback/error-name'}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="fb-company" class="form-label">{lang key='website/index/customer-feedback/company-label'}</label>
+                            <input type="text" class="form-control" id="fb-company" name="company_name" autocomplete="organization" maxlength="100">
+                        </div>
+                        <div class="col-12">
+                            <label for="fb-email" class="form-label">{lang key='website/index/customer-feedback/email-label'} <span class="text-danger" aria-hidden="true">*</span></label>
+                            <input type="email" class="form-control" id="fb-email" name="email" autocomplete="email" maxlength="200" required>
+                            <div class="form-text">{lang key='website/index/customer-feedback/email-help'}</div>
+                            <div class="invalid-feedback">{lang key='website/index/customer-feedback/error-email'}</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="fb-message" class="form-label">{lang key='website/index/customer-feedback/message-label'} <span class="text-danger" aria-hidden="true">*</span></label>
+                            <textarea class="form-control" id="fb-message" name="message" rows="5" minlength="10" maxlength="500" placeholder="{lang key='website/index/customer-feedback/message-placeholder' attr=1}" required></textarea>
+                            <div class="invalid-feedback">{lang key='website/index/customer-feedback/error-message'}</div>
+                        </div>
+                    </div>
+                    {csrf form='customer-feedback'}
+                    <div class="mt-3">{captcha area='customer-feedback'}</div>
+                    <div class="wui-collapse" data-role="fb-alert">
+                        <div class="wui-collapse-inner">
+                            <div class="pt-3">
+                                <div class="alert alert-danger d-flex align-items-center mb-0" role="alert" aria-live="assertive">
+                                    <i class="bi bi-exclamation-circle me-2 flex-shrink-0" aria-hidden="true"></i>
+                                    <div class="text-break"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body d-none" data-feedback-step="done">
+                    <div class="alert alert-success d-flex align-items-center mb-0" role="status">
+                        <i class="bi bi-check-circle me-2 flex-shrink-0" aria-hidden="true"></i>
+                        <div class="text-break" data-role="fb-done-text">{lang key='website/index/customer-feedback/done-body'}</div>
+                    </div>
+                </div>
+                <div class="modal-footer" data-feedback-step="form">
+                    <button type="button" class="btn btn-soft" data-bs-dismiss="modal">{lang key='website/index/customer-feedback/cancel'}</button>
+                    <button type="submit" class="btn btn-primary" data-busy-text="{lang key='website/index/customer-feedback/sending' attr=1}"><i class="bi bi-send me-1"></i>{lang key='website/index/customer-feedback/submit'}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/if}
+{/block}

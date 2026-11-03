@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Standaard (1320px)',
     'opt_width_wide'         => 'Breed (1440px)',
     'opt_width_wider'        => 'Extra breed (1600px)',
+    'set_content_section_frame' => 'Kader van inhoudssecties',
+    'set_content_section_frame_desc' => 'Geldt voor secties met uw eigen HTML-inhoud, zoals de inhoudssectie van de domeinpagina en de inhoudstabbladen en de pagina-inhoud van categorieën. Themakader behoudt de witruimte, randen en breedte van het thema. Zonder kader toont de inhoud over de volle breedte zonder kader, zodat uw HTML de eigen indeling bepaalt.',
+    'opt_frame_theme' => 'Themakader',
+    'opt_frame_none' => 'Zonder kader (volledige breedte)',
     'set_default_mode'       => 'Standaard weergavemodus',
     'set_default_mode_desc'  => 'Bepaalt welke weergavemodus bezoekers zien totdat ze er zelf een kiezen. Bezoekers kunnen de modus nog steeds wijzigen; hun keuze wordt in hun browser onthouden. Automatisch volgt de instelling van het apparaat.',
     'opt_mode_light'         => 'Licht',
     'opt_mode_dark'          => 'Donker',
     'opt_mode_auto'          => 'Automatisch (apparaatinstelling)',
+
+    'grp_footer'                    => 'Footer',
+    'set_footer_payment_logos'      => 'Betaallogo\'s',
+    'set_footer_payment_logos_desc' => 'Merkpictogrammen in de footer en bij het afrekenen. Zonder selectie worden de logo\'s verborgen.',
 
     'grp_checkout'              => 'Afrekenen',
     'set_checkout_sidebar'      => 'Indeling van het besteloverzicht',
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => 'Probeer het andere dashboard',
     'cz_nudge_checkout'  => 'Probeer een andere indeling voor afrekenen',
     'cz_nudge_explore'   => 'Ontdek de themaopties',
+
+    'toast_copied'       => 'Gekopieerd naar het klembord.',
+    'toast_copy_failed'  => 'Kopiëren naar het klembord is mislukt.',
+    'toast_dismiss'      => 'Sluiten',
+    'aria_carousel'      => 'carrousel',
+    'aria_slide'         => 'dia',
 ];

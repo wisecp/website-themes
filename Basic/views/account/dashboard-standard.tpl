@@ -31,7 +31,7 @@
                                     <span class="dashx-balance-value num-tabular">{$dash_balance}</span>
                                 </div>
                             </div>
-                            <a class="btn btn-primary" href="{link route='balance'}#add-funds"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>{lang key='website/dashboard/balance-add'}</a>
+                            {if $account_info.balance_topup}<a class="btn btn-primary" href="{link route='balance'}#add-funds"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i>{lang key='website/dashboard/balance-add'}</a>{/if}
                         </div>{/if}
 
                         {if $order_service_link || !empty($show_domains) || !empty($show_support) || !empty($show_invoices)}
@@ -67,12 +67,8 @@
 
                         <header class="dashx-head dash-rise dash-rise-1">
                             <div class="dashx-head-lead">
-                                <span class="dash-eyebrow">{lang key='website/dashboard/eyebrow'}</span>
                                 <h1 class="dashx-greeting">{$dash_greeting}</h1>
                             </div>
-                            <p class="dash-health">
-                                {if $dash_health}<span class="dash-pulse dash-pulse-{$dash_health.tone}" aria-hidden="true"></span>{$dash_health.text}{else}<span class="dash-pulse" aria-hidden="true"></span>{lang key='website/dashboard/health-ok'}{/if}
-                            </p>
                         </header>
 
                         {if $dash_stats}

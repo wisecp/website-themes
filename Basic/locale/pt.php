@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Padrão (1320px)',
     'opt_width_wide'         => 'Largo (1440px)',
     'opt_width_wider'        => 'Muito largo (1600px)',
+    'set_content_section_frame' => 'Moldura das secções de conteúdo',
+    'set_content_section_frame_desc' => 'Aplica-se às secções que mostram o seu próprio conteúdo HTML, como a secção de conteúdo da página de domínios e os separadores de conteúdo e o conteúdo da página das categorias. Moldura do tema mantém os espaçamentos, os contornos e a largura do tema. Sem moldura mostra o conteúdo em largura total e sem moldura, para que o seu HTML defina o próprio esquema.',
+    'opt_frame_theme' => 'Moldura do tema',
+    'opt_frame_none' => 'Sem moldura (largura total)',
     'set_default_mode'       => 'Modo de visualização predefinido',
     'set_default_mode_desc'  => 'Define o modo de visualização que os visitantes veem até escolherem um. Os visitantes podem continuar a alterá-lo, e a escolha fica guardada no navegador. Automático segue a definição do dispositivo.',
     'opt_mode_light'         => 'Claro',
     'opt_mode_dark'          => 'Escuro',
     'opt_mode_auto'          => 'Automático (definição do dispositivo)',
+
+    'grp_footer'                    => 'Rodapé',
+    'set_footer_payment_logos'      => 'Logótipos de pagamento',
+    'set_footer_payment_logos_desc' => 'Ícones de marcas apresentados no rodapé e na finalização da compra. Sem seleção, os logótipos ficam ocultos.',
 
     'grp_checkout'              => 'Finalização da compra',
     'set_checkout_sidebar'      => 'Disposição do resumo da encomenda',
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => 'Experimentar o outro painel',
     'cz_nudge_checkout'  => 'Experimentar outra disposição da compra',
     'cz_nudge_explore'   => 'Explorar opções do tema',
+
+    'toast_copied'       => 'Copiado para a área de transferência.',
+    'toast_copy_failed'  => 'Não foi possível copiar para a área de transferência.',
+    'toast_dismiss'      => 'Dispensar',
+    'aria_carousel'      => 'carrossel',
+    'aria_slide'         => 'diapositivo',
 ];

@@ -14,11 +14,7 @@
             <div class="dash-hero dash-rise">
                 <div class="dash-hero-inner">
                     <div class="dash-hero-lead">
-                        <span class="dash-eyebrow">{lang key='website/dashboard/eyebrow'}</span>
                         <h1 class="dash-greeting">{$dash_greeting}</h1>
-                        <p class="dash-health">
-                            {if $dash_health}<span class="dash-pulse dash-pulse-{$dash_health.tone}" aria-hidden="true"></span>{$dash_health.text}{else}<span class="dash-pulse" aria-hidden="true"></span>{lang key='website/dashboard/health-ok'}{/if}
-                        </p>
                         <div class="dash-hero-actions">
                             {if !empty($show_domains)}<a class="dash-btn-glass" href="{link route='domain'}"><i class="bi bi-search" aria-hidden="true"></i>{lang key='website/dashboard/act-register-domain'}</a>{/if}
                             {if $order_service_link}<a class="dash-btn-light" href="{$order_service_link}"><i class="bi bi-plus-lg" aria-hidden="true"></i>{lang key='website/dashboard/act-order-service'}</a>{/if}
@@ -30,7 +26,7 @@
                             <span class="dash-balance-value num-tabular">{$dash_balance}</span>
                             <span class="dash-balance-note">{lang key='website/dashboard/balance-note'}</span>
                         </div>
-                        <a class="dash-btn-light" href="{link route='balance'}#add-funds"><i class="bi bi-wallet2" aria-hidden="true"></i>{lang key='website/dashboard/balance-add'}</a>
+                        {if $account_info.balance_topup}<a class="dash-btn-light" href="{link route='balance'}#add-funds"><i class="bi bi-wallet2" aria-hidden="true"></i>{lang key='website/dashboard/balance-add'}</a>{/if}
                     </div>{/if}
                 </div>
             </div>

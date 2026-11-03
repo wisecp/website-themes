@@ -68,6 +68,12 @@
                                     <button class="btn btn-ghost btn-sm ms-auto" type="button" data-action="copy" data-copy-text="{$b.swift}" data-bs-toggle="tooltip" title="{lang key='website/invoices/complete/copy'}"><i class="bi bi-clipboard"></i></button>
                                 </div>
                                 {/if}
+                                {if $b.link || $b.note}
+                                <div class="pay-detail flex-column align-items-start">
+                                    {if $b.link}<a class="btn btn-primary btn-sm" href="{$b.link}" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right me-1"></i>{lang key='website/checkout/bank-pay-link'}</a>{/if}
+                                    {if $b.note}<p class="fs-8 text-body-secondary text-start mb-0">{$b.note|escape|nl2br nofilter}</p>{/if}
+                                </div>
+                                {/if}
                             </div>
                             {/foreach}
 

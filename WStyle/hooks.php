@@ -12,6 +12,10 @@
 Hook::add("filter:template.variables", 1, function ($template, $data) {
     $data["support_enabled"] = (int) (Config::get("options/ticket-system") ?? 0) === 1;
 
+    $tpl = str_replace('\\', '/', (string) $template);
+    if (str_ends_with($tpl, '/domain.php') || str_ends_with($tpl, '/account/sms.php') || str_ends_with($tpl, '/account/domain-detail.php') || str_ends_with($tpl, '/content/blog-detail.php'))
+        $data["plural_js"] = Utility::asset('templates/admin/js/plural.js');
+
     if (!empty($data["is_logged_in"]) && !empty($data["show_client_subnav"])) {
         $last_login = User::getLastLogin((int) ($data["client_id"] ?? 0));
         $ll_ip      = (string) ($last_login["ip"] ?? '');

@@ -9,6 +9,7 @@
                     <input class="form-check-input" type="radio" name="ns_mode" value="default"{if ($ds.ns_mode|default:'default') != 'custom'} checked{/if}>
                     <span class="d-flex align-items-center gap-2"><span class="option-media"><i class="bi bi-hdd-network"></i></span><span class="fw-semibold">{lang key='website/configure/domain/ns-default'}</span></span>
                     <span class="fs-8 text-body-secondary d-block mt-1">{lang key='website/configure/domain/ns-default-desc'}</span>
+                    {if $ds.ns_preview|default:[]}<span class="wui-collapse{if !($hosting_preset|default:0)} wui-show{/if}" data-ns-preview><span class="wui-collapse-inner"><span class="ns-list d-block mt-2">{foreach $ds.ns_preview as $nsh}<span class="ns-item"><span class="ns-badge">NS{$nsh@iteration}</span><span class="ns-host">{$nsh}</span></span>{/foreach}</span></span></span>{/if}
                 </label>
             </div>
             <div class="col-sm-6">
@@ -138,7 +139,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="cfg-wc-{$ct}-phone" class="form-label d-block">{lang key='website/configure/domain/reg-phone'} <span class="text-danger" aria-hidden="true">*</span></label>
-                                <input type="tel" class="form-control w-100" id="cfg-wc-{$ct}-phone" name="wc[{$ct}][phone]" autocomplete="off" value="{$sel.phone|default:''}" data-wc-phone required>
+                                <input type="tel" class="form-control w-100" id="cfg-wc-{$ct}-phone" name="wc[{$ct}][phone]" autocomplete="off" value="{$sel.phone|default:''}" data-wc-phone="{$ct}" required>
                             </div>
                             <div class="col-12">
                                 <label for="cfg-wc-{$ct}-address" class="form-label">{lang key='website/configure/domain/reg-address'} <span class="text-danger" aria-hidden="true">*</span></label>
@@ -161,7 +162,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="cfg-wc-{$ct}-country" class="form-label">{lang key='website/configure/domain/reg-country'} <span class="text-danger" aria-hidden="true">*</span></label>
-                                <select class="form-select" id="cfg-wc-{$ct}-country" name="wc[{$ct}][country]" data-wstyle-select data-flag-select required>
+                                <select class="form-select" id="cfg-wc-{$ct}-country" name="wc[{$ct}][country]" data-wstyle-select data-flag-select data-wc-country="{$ct}"{if ($sel.country|default:'') == ''} data-wc-prime="{$whois_only_country|default:''}"{/if} required>
                                     {foreach $countries as $c}
                                     <option value="{$c.a2_iso}"{if ($sel.country|default:'') == $c.a2_iso} selected{/if}>{$c.name}</option>
                                     {/foreach}

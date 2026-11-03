@@ -51,6 +51,13 @@
                                                         <li{if $spec.role|default:''} data-role="{$spec.role}"{/if}><i class="bi {$spec.icon}"></i>{$spec.text}</li>
                                                         {/foreach}
                                                     </ul>
+                                                    {if $item.hosting_offer|default:false}
+                                                    <div class="wui-collapse{if $item.hosting_offer_open} wui-show{/if}" data-role="hosting-offer"><div class="wui-collapse-inner">
+                                                        <ul class="cart-item-specs pt-1">
+                                                            <li><i class="bi bi-hdd-stack"></i><a class="fw-semibold" href="{$item.edit_link}#hostingOffer">{lang key='website/cart/add-hosting'}</a></li>
+                                                        </ul>
+                                                    </div></div>
+                                                    {/if}
                                                 </div>
                                                 {if $item.qty.allowed}
                                                 <div class="cart-item-control align-self-center">

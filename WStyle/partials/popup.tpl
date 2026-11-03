@@ -4,12 +4,12 @@
      data-popup-delay="{$setting.popup_delay|default:0}">
     <div class="modal-dialog modal-dialog-centered" style="max-width:{$setting.popup_width|default:500}px;">
         <div class="modal-content border-0 shadow" style="min-height:{$setting.popup_height|default:400}px;">
-            <button type="button" class="btn-close position-absolute end-0 top-0 m-3" style="z-index:5;" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close position-absolute end-0 top-0 m-3" style="z-index:5;" data-bs-dismiss="modal" aria-label="{lang key='needs/close' attr=1}"></button>
             <div class="modal-body p-4">{content var=$setting.popup_content}</div>
         </div>
     </div>
 </div>
-<script>{literal}
+<script nonce="{$csp_nonce}">{literal}
 document.addEventListener('DOMContentLoaded', function () {
     var el = document.getElementById('themePopup');
     if (!el || typeof bootstrap === 'undefined') return;

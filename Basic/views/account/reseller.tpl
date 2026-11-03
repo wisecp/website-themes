@@ -26,7 +26,7 @@
             <div class="rs-head-actions nav" aria-label="{lang key='website/reseller/views-aria'}">
                 <button class="btn btn-soft btn-sm fw-semibold d-none active" id="rs-tab-dashboard" data-bs-toggle="tab" data-bs-target="#rs-pane-dashboard" type="button" role="tab" aria-controls="rs-pane-dashboard" aria-selected="true" data-rs-trigger="dashboard"><i class="bi bi-chevron-double-left me-1"></i>{lang key='website/index/subnav-dashboard'}</button>
                 <button class="btn btn-soft btn-sm fw-semibold" id="rs-tab-rates" data-bs-toggle="tab" data-bs-target="#rs-pane-rates" type="button" role="tab" aria-controls="rs-pane-rates" aria-selected="false" data-rs-trigger="rates"><i class="bi bi-info-circle me-1"></i>{lang key='website/reseller/rates-conditions'}</button>
-                <a class="btn btn-soft btn-sm fw-semibold" href="{$api_link}"><i class="bi bi-code-slash me-1"></i>{lang key='website/reseller/api-access'}</a>
+                {if $prog_api}<a class="btn btn-soft btn-sm fw-semibold" href="{$api_link}"><i class="bi bi-code-slash me-1"></i>{lang key='website/reseller/api-access'}</a>{/if}
             </div>
         </div>
 
@@ -35,6 +35,13 @@
             <div class="tab-pane fade show active" id="rs-pane-dashboard" role="tabpanel" aria-labelledby="rs-tab-dashboard" tabindex="0">
 
                 {hook name='ui:client.reseller_dashboard.top'}
+
+                {if $below_floor}
+                <div class="alert alert-warning d-flex align-items-center mb-4" role="alert">
+                    <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>
+                    <div>{lang key='website/reseller/cond-below-floor' amount=$below_floor}{if $balance_link} <a href="{$balance_link}">{lang key='website/balance/add-funds'}</a>{/if}</div>
+                </div>
+                {/if}
 
                 <div class="rs-kpis mb-4">
                     <div class="rs-kpi">
@@ -106,6 +113,8 @@
 
                 <div class="list-rows" data-noun="orders" data-today="{$today_ymd}"
                     data-txt-count="{lang key='website/index/list-count'}"
+                    data-txt-prev="{lang key='website/index/list-prev' attr=1}"
+                    data-txt-next="{lang key='website/index/list-next' attr=1}"
                     data-txt-nores="{lang key='website/index/list-nores'}"
                     data-txt-noun="{lang key='website/reseller/noun'}">
                     {foreach $orders as $o}
@@ -174,6 +183,10 @@
             <div class="tab-pane fade" id="rs-pane-rates" role="tabpanel" aria-labelledby="rs-tab-rates" tabindex="0">
 
                 <p class="text-body-secondary mb-4">{lang key='website/reseller/rates-intro'}</p>
+                {if $prog_cycles}<p class="text-body-secondary fs-7 mt-n2 mb-4"><i class="bi bi-calendar-check me-1"></i>{lang key='website/reseller/prog-cycles-note' cycles=$prog_cycles}</p>{/if}
+                {if $conditions.min_balance}<p class="text-body-secondary fs-7 mt-n2 mb-4"><i class="bi bi-wallet2 me-1"></i>{lang key='website/reseller/cond-min-balance' amount=$conditions.min_balance}</p>{/if}
+                {if $conditions.min_credit}<p class="text-body-secondary fs-7 mt-n2 mb-4"><i class="bi bi-plus-circle me-1"></i>{lang key='website/reseller/cond-min-credit' amount=$conditions.min_credit}</p>{/if}
+                {if $conditions.only_credit}<p class="text-body-secondary fs-7 mt-n2 mb-4"><i class="bi bi-credit-card-2-front me-1"></i>{lang key='website/reseller/cond-only-credit'}</p>{/if}
 
                 {if $tiers}
                 <div class="card rs-card mb-4">

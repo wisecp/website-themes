@@ -82,7 +82,7 @@
                     {hook name='ui:client.software_store.grid.after'}
 
                     <div class="list-foot mt-4" data-role="software-foot">
-                        <nav class="list-pagination d-none" aria-label="{lang key='website/products/software-pagination-label'}" data-role="software-pagination">
+                        <nav class="list-pagination d-none" aria-label="{lang key='website/products/software-pagination-label'}" data-role="software-pagination" data-label-prev="{lang key='website/products/software-page-prev' attr=1}" data-label-next="{lang key='website/products/software-page-next' attr=1}">
                             <ul class="pagination pagination-sm m-0"></ul>
                         </nav>
                     </div>
@@ -114,6 +114,12 @@
     <section class="py-5 bg-surface" data-reveal>
         <div class="container">
             <div class="category-content">{content var=$category.content}</div>
+        </div>
+    </section>
+    {elseif !$category && $group_content|default:''}
+    <section class="py-5 bg-surface" data-reveal>
+        <div class="container">
+            <div class="category-content">{content var=$group_content}</div>
         </div>
     </section>
     {/if}
@@ -173,5 +179,35 @@
             </div>
         </div>
     </section>
+
+    {if $faq|default:[]}
+    <section class="py-5 bg-surface" data-reveal>
+        <div class="container">
+            <div class="row g-4 g-lg-5">
+                <div class="col-lg-4">
+                    <div class="section-head section-head-start mb-3">
+                        <span class="eyebrow">{lang key='website/products/category-faq-eyebrow'}</span>
+                        <h2 class="tracking-tight">{lang key='website/products/category-faq-heading'}</h2>
+                    </div>
+                    <a class="link-arrow fs-7" href="{link route='kbase'}">{lang key='website/products/category-faq-kb'}<i class="bi bi-arrow-right"></i></a>
+                </div>
+                <div class="col-lg-8">
+                    <div class="accordion" id="category-faq">
+                        {foreach $faq as $i => $f}
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button fw-semibold{if $i > 0} collapsed{/if}" type="button" data-wui-toggle data-wui-target="#faq-{$i}" aria-expanded="{if $i == 0}true{else}false{/if}" aria-controls="faq-{$i}">{$f.title}</button>
+                            </h3>
+                            <div id="faq-{$i}" class="wui-collapse{if $i == 0} wui-show{/if}" data-wui-parent="#category-faq"><div class="wui-collapse-inner">
+                                <div class="accordion-body">{$f.description nofilter}</div>
+                            </div></div>
+                        </div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {/if}
 
 {/block}

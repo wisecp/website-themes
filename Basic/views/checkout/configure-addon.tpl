@@ -195,7 +195,6 @@
                                 {elseif $req.type == 'radio'}
                                 <span class="form-label d-flex align-items-center gap-2">{if $req.icon}<span class="label-media">{if $req.icon.type == 'image'}<img src="{$req.icon.value}" alt="">{else}<i class="{$req.icon.value}"></i>{/if}</span>{/if}{$req.name}{if $req.required} <span class="text-danger" aria-hidden="true">*</span>{/if}</span>
                                 {if $req.description}<span class="fs-8 text-body-secondary d-block mb-2">{$req.description nofilter}</span>{/if}
-                                {* Grouped choices: family card (no input) + version grid below the row, same as configure.tpl *}
                                 <div class="{if $req.list_template == 1}option-grid{else}d-grid gap-2{/if}" data-req-choices="{$req.id}">
                                     {foreach $req.groups as $grp}
                                     {if $grp.multi}

@@ -1,7 +1,3 @@
-{* Guest only (never in the member fragment render — the controller passes
-   guest_account_fields on the guest page render alone): the account the
-   deferred registration creates is Individual or Company; company reveals
-   the billing company + tax fields Auth::register persists. *}
 {if $guest_account_fields}
 <div class="mb-3">
     <span class="form-label d-block mb-2">{lang key='website/account/type-title'}</span>
@@ -21,11 +17,11 @@
                     <input type="text" class="form-control" id="co-company-name" name="company_name" autocomplete="organization" required>
                     <div class="invalid-feedback">{lang key='website/account/err-company-name'}</div>
                 </div>
-                <div class="col-sm-6">
+                <div class="{if $guest_tax_office_visible}col-sm-6{else}col-12{/if}{if !$guest_tax_number_visible} d-none{/if}">
                     <label for="co-tax-number" class="form-label">{lang key='website/account/vat'}{if $guest_tax_number_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
                     <input type="text" class="form-control" id="co-tax-number" name="tax_number" autocomplete="off"{if $guest_tax_number_required} required{/if}>
                 </div>
-                <div class="col-sm-6">
+                <div class="{if $guest_tax_number_visible}col-sm-6{else}col-12{/if}{if !$guest_tax_office_visible} d-none{/if}">
                     <label for="co-tax-office" class="form-label">{lang key='website/account/tax-office'}{if $guest_tax_office_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
                     <input type="text" class="form-control" id="co-tax-office" name="tax_office" autocomplete="off"{if $guest_tax_office_required} required{/if}>
                 </div>
@@ -84,11 +80,11 @@
                                 <input type="text" class="form-control" id="co-billing-company-name" name="company_name" autocomplete="organization" value="{$billing_prefill.company_name|default:''}">
                                 <div class="invalid-feedback">{lang key='website/account/err-company-name'}</div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="{if $guest_tax_office_visible}col-sm-6{else}col-12{/if}{if !$guest_tax_number_visible} d-none{/if}">
                                 <label for="co-billing-tax-number" class="form-label">{lang key='website/account/vat'}{if $guest_tax_number_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
                                 <input type="text" class="form-control" id="co-billing-tax-number" name="tax_number" autocomplete="off" value="{$billing_prefill.tax_number|default:''}">
                             </div>
-                            <div class="col-sm-6">
+                            <div class="{if $guest_tax_number_visible}col-sm-6{else}col-12{/if}{if !$guest_tax_office_visible} d-none{/if}">
                                 <label for="co-billing-tax-office" class="form-label">{lang key='website/account/tax-office'}{if $guest_tax_office_required} <span class="text-danger" aria-hidden="true">*</span>{else} <span class="text-body-secondary fw-normal">{lang key='website/account/optional'}</span>{/if}</label>
                                 <input type="text" class="form-control" id="co-billing-tax-office" name="tax_office" autocomplete="off" value="{$billing_prefill.tax_office|default:''}">
                             </div>

@@ -132,7 +132,7 @@
                                 <section class="sd-panel h-100 d-flex flex-column">
                                     <div class="sd-panel-head">
                                         <h2 class="sd-panel-title"><i class="bi bi-wallet2 me-1"></i>{lang key='website/sms/panel/ov-credit-title'}</h2>
-                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#sd-addcredit"><i class="bi bi-coin me-1"></i>{lang key='website/sms/panel/ov-add-credit'}</button>
+                                        {if $account_info.balance_topup}<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#sd-addcredit"><i class="bi bi-coin me-1"></i>{lang key='website/sms/panel/ov-add-credit'}</button>{/if}
                                     </div>
                                     <div class="sms-credit">
                                         <span class="sms-credit-amount num-tabular" data-role="credit-balance">{$credit_balance}</span>
@@ -217,7 +217,7 @@
                                     <div class="mb-3">
                                         <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
                                             <label class="form-label mb-0" for="sms-send-message">{lang key='website/sms/panel/sn-message'} <span class="text-danger">*</span></label>
-                                            <span class="sms-msgmeta fs-8 text-body-secondary"><span class="num-tabular"><span data-role="send-charcount">0</span> {lang key='website/sms/panel/sn-characters'} &middot; <span data-role="send-smscount">1</span> {lang key='website/sms/panel/sn-sms'}</span><span class="badge bg-secondary-subtle text-secondary-emphasis" data-role="send-encoding"><i class="bi bi-type me-1"></i>GSM-7</span></span>
+                                            <span class="sms-msgmeta fs-8 text-body-secondary"><span class="num-tabular"><span data-count-for="send-charcount" data-plural-forms="{lang key='website/sms/panel/sn-characters-count' forms=1}">{capture assign=sms_n}<span data-role="send-charcount">0</span>{/capture}{lang key='website/sms/panel/sn-characters-count' plural=0 count=$sms_n raw='count'}</span> &middot; <span data-count-for="send-smscount" data-plural-forms="{lang key='website/sms/panel/sn-sms-count' forms=1}">{capture assign=sms_n}<span data-role="send-smscount">1</span>{/capture}{lang key='website/sms/panel/sn-sms-count' plural=1 count=$sms_n raw='count'}</span></span><span class="badge bg-secondary-subtle text-secondary-emphasis" data-role="send-encoding"><i class="bi bi-type me-1"></i>GSM-7</span></span>
                                         </div>
                                         <textarea class="form-control" id="sms-send-message" rows="5" placeholder="{lang key='website/sms/panel/sn-message-ph'}" data-role="send-message"></textarea>
                                     </div>
@@ -241,7 +241,7 @@
                                     </div>
 
                                     <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                                        <span class="sms-reccount" data-role="send-reccount"><i class="bi bi-people"></i><span><span class="num-tabular" data-role="send-numcount">0</span> {lang key='website/sms/panel/sn-reccount'}</span></span>
+                                        <span class="sms-reccount" data-role="send-reccount"><i class="bi bi-people"></i><span data-count-for="send-numcount" data-plural-forms="{lang key='website/sms/panel/sn-reccount-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="send-numcount">0</span>{/capture}{lang key='website/sms/panel/sn-reccount-count' plural=0 count=$sms_n raw='count'}</span></span>
                                         <span class="d-inline-block" data-role="send-btn-wrap" data-managed-tooltip>
                                             <button type="button" class="btn btn-secondary" data-action="send-sms"><i class="bi bi-send me-1"></i>{lang key='website/sms/panel/sn-review'}</button>
                                         </span>
@@ -265,7 +265,7 @@
                                     </div>
                                     <div class="wui-collapse" data-role="send-lowbalance-wrap">
                                         <div class="wui-collapse-inner">
-                                            <div class="sms-lowbalance pt-2"><i class="bi bi-exclamation-triangle me-1"></i>{lang key='website/sms/panel/sn-lowbalance'}<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#sd-addcredit">{lang key='website/sms/panel/ov-add-credit'}</button></div>
+                                            <div class="sms-lowbalance pt-2"><i class="bi bi-exclamation-triangle me-1"></i>{lang key='website/sms/panel/sn-lowbalance'}{if $account_info.balance_topup}<button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#sd-addcredit">{lang key='website/sms/panel/ov-add-credit'}</button>{/if}</div>
                                         </div>
                                     </div>
                                     <div class="wui-collapse" data-role="send-blocked-wrap">
@@ -292,10 +292,10 @@
                                         <span class="badge bg-secondary-subtle text-secondary-emphasis" data-role="send-encoding-badge"><i class="bi bi-type me-1"></i>GSM-7</span>
                                     </div>
                                     <ul class="sms-charguide fs-7 mb-0">
-                                        <li><span>{lang key='website/sms/panel/sn-upto'} <span class="num-tabular" data-role="len-1">{$sms_limits.gsm.single}</span> {lang key='website/sms/panel/sn-characters'}</span><span class="num-tabular">1 {lang key='website/sms/panel/sn-sms'}</span></li>
-                                        <li><span>{lang key='website/sms/panel/sn-upto'} <span class="num-tabular" data-role="len-2">{$sms_limits.gsm.multi*2}</span> {lang key='website/sms/panel/sn-characters'}</span><span class="num-tabular">2 {lang key='website/sms/panel/sn-sms'}</span></li>
-                                        <li><span>{lang key='website/sms/panel/sn-upto'} <span class="num-tabular" data-role="len-3">{$sms_limits.gsm.multi*3}</span> {lang key='website/sms/panel/sn-characters'}</span><span class="num-tabular">3 {lang key='website/sms/panel/sn-sms'}</span></li>
-                                        <li><span>{lang key='website/sms/panel/sn-each'} +<span class="num-tabular" data-role="len-step">{$sms_limits.gsm.multi}</span> {lang key='website/sms/panel/sn-characters'}</span><span class="num-tabular">+1 {lang key='website/sms/panel/sn-sms'}</span></li>
+                                        <li><span>{lang key='website/sms/panel/sn-upto'} <span data-count-for="len-1" data-plural-forms="{lang key='website/sms/panel/sn-characters-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="len-1">{$sms_limits.gsm.single}</span>{/capture}{lang key='website/sms/panel/sn-characters-count' plural=$sms_limits.gsm.single count=$sms_n raw='count'}</span></span><span class="num-tabular">{lang key='website/sms/panel/sn-sms-count' plural=1 count=1}</span></li>
+                                        <li><span>{lang key='website/sms/panel/sn-upto'} <span data-count-for="len-2" data-plural-forms="{lang key='website/sms/panel/sn-characters-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="len-2">{$sms_limits.gsm.multi*2}</span>{/capture}{lang key='website/sms/panel/sn-characters-count' plural=$sms_limits.gsm.multi*2 count=$sms_n raw='count'}</span></span><span class="num-tabular">{lang key='website/sms/panel/sn-sms-count' plural=2 count=2}</span></li>
+                                        <li><span>{lang key='website/sms/panel/sn-upto'} <span data-count-for="len-3" data-plural-forms="{lang key='website/sms/panel/sn-characters-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="len-3">{$sms_limits.gsm.multi*3}</span>{/capture}{lang key='website/sms/panel/sn-characters-count' plural=$sms_limits.gsm.multi*3 count=$sms_n raw='count'}</span></span><span class="num-tabular">{lang key='website/sms/panel/sn-sms-count' plural=3 count=3}</span></li>
+                                        <li><span>{lang key='website/sms/panel/sn-each'} +<span data-count-for="len-step" data-plural-forms="{lang key='website/sms/panel/sn-characters-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="len-step">{$sms_limits.gsm.multi}</span>{/capture}{lang key='website/sms/panel/sn-characters-count' plural=$sms_limits.gsm.multi count=$sms_n raw='count'}</span></span><span class="num-tabular">{lang key='website/sms/panel/sn-sms-count' plural=1 count='+1'}</span></li>
                                     </ul>
                                     <p class="fs-8 text-body-secondary mb-0 mt-2"><i class="bi bi-info-circle me-1"></i>{lang key='website/sms/panel/sn-unicode-note'}</p>
                                 </section>
@@ -599,6 +599,7 @@
 {/block}
 
 {block name=body_end}
+    {if $account_info.balance_topup}
     <div class="modal fade" id="sd-addcredit" tabindex="-1" aria-labelledby="sd-addcredit-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -642,6 +643,7 @@
             </div>
         </div>
     </div>
+    {/if}
 
     <div class="modal fade" id="sd-batch-modal" tabindex="-1" aria-labelledby="sd-batch-title" aria-hidden="true"
          data-txt-delivered="{lang key='website/sms/panel/hist-status-delivered'}"
@@ -678,7 +680,7 @@
                     </div>
                     <div class="sd-panel-head">
                         <h3 class="sd-panel-title fs-6 mb-0"><i class="bi bi-people me-1"></i>{lang key='website/sms/panel/batch-per-recipient'}</h3>
-                        <span class="fs-8 text-body-secondary">{lang key='website/sms/panel/batch-sample'} <span class="num-tabular" data-role="batch-rec-total">0</span> {lang key='website/sms/panel/batch-sample-suffix'}</span>
+                        <span class="fs-8 text-body-secondary"><span data-count-for="batch-rec-total" data-plural-forms="{lang key='website/sms/panel/batch-sample-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="batch-rec-total">0</span>{/capture}{lang key='website/sms/panel/batch-sample-count' plural=0 count=$sms_n raw='count'}</span></span>
                     </div>
                     <div class="sms-rec-filter" role="group" aria-label="{lang key='website/sms/panel/batch-filter-aria'}">
                         <button type="button" class="sms-rec-tab is-active" data-action="rec-filter" data-rec-filter="all">{lang key='website/sms/panel/batch-all'} <span class="num-tabular" data-role="rec-count-all">0</span></button>
@@ -818,7 +820,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label" for="sms-country-search">{lang key='website/sms/panel/ac-countries'} <span class="text-danger">*</span> <span class="fw-normal text-body-secondary">(<span class="num-tabular" data-role="addcountry-count">0</span> {lang key='website/sms/panel/ac-selected'})</span></label>
+                        <label class="form-label" for="sms-country-search">{lang key='website/sms/panel/ac-countries'} <span class="text-danger">*</span> <span class="fw-normal text-body-secondary">(<span data-count-for="addcountry-count" data-plural-forms="{lang key='website/sms/panel/ac-selected-count' forms=1}">{capture assign=sms_n}<span class="num-tabular" data-role="addcountry-count">0</span>{/capture}{lang key='website/sms/panel/ac-selected-count' plural=0 count=$sms_n raw='count'}</span>)</span></label>
                         <div class="input-group mb-2">
                             <span class="input-group-text"><i class="bi bi-search"></i></span>
                             <input type="text" class="form-control" id="sms-country-search" placeholder="{lang key='website/sms/panel/ac-filter'}" autocomplete="off" data-role="addcountry-filter">
@@ -930,5 +932,6 @@
 
 {block name=scripts}
     <script src="{asset path='js/libs/wcp-table/table.js'}" defer></script>
+    {if $plural_js|default:''}<script src="{$plural_js}" defer></script>{/if}
     <script src="{asset path='js/service-detail-sms.js'}" defer></script>
 {/block}

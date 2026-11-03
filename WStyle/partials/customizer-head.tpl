@@ -1,4 +1,4 @@
-<script>
+<script nonce="{$csp_nonce}">
     window.czDefaults = {
         primary: '{$setting.primary_color|default:'#095174'}',
         secondary: '{$setting.secondary_color|default:'#0d9488'}',

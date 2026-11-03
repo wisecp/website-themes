@@ -1,3 +1,4 @@
+{function name=basic_drawer_tag item=[]}{if $item.extra.tag ?? false}<span class="badge ms-2" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color|default:'#ffffff'}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}{/function}
 <div class="offcanvas offcanvas-start site-drawer" tabindex="-1" id="site-menu" aria-labelledby="site-menu-title">
     <div class="offcanvas-header">
         <span class="visually-hidden" id="site-menu-title">{lang key='website/index/nav-aria-main'}</span>
@@ -12,18 +13,18 @@
         <nav class="drawer-nav mb-4" aria-label="{lang key='website/index/nav-aria-main'}">
             {foreach $mobile_menu as $item}
                 {if $item.children}
-            <button class="drawer-link" type="button" data-wui-toggle data-wui-target="#drawer-m-{$item.id}" aria-expanded="false" aria-controls="drawer-m-{$item.id}">{if $item.icon}<i class="{$item.icon}"></i>{/if}{$item.title}<i class="bi bi-chevron-down drawer-caret"></i></button>
+            <button class="drawer-link" type="button" data-wui-toggle data-wui-target="#drawer-m-{$item.id}" aria-expanded="false" aria-controls="drawer-m-{$item.id}">{if $item.icon}<i class="{$item.icon}"></i>{/if}{$item.title}{call name=basic_drawer_tag item=$item}<i class="bi bi-chevron-down drawer-caret"></i></button>
             <div class="wui-collapse" id="drawer-m-{$item.id}">
                 <div class="wui-collapse-inner">
                     <div class="drawer-sub">
                         {foreach $item.children as $child}
-                        <a class="drawer-sublink"{if $child.link} href="{$child.link}"{/if}>{$child.title}</a>
+                        <a class="drawer-sublink"{if $child.link} href="{$child.link}"{/if}>{if $child.icon}<i class="{$child.icon} me-2"></i>{/if}{$child.title}{call name=basic_drawer_tag item=$child}</a>
                         {/foreach}
                     </div>
                 </div>
             </div>
                 {else}
-            <a class="drawer-link"{if $item.link} href="{$item.link}"{/if}>{if $item.icon}<i class="{$item.icon}"></i>{/if}{$item.title}</a>
+            <a class="drawer-link"{if $item.link} href="{$item.link}"{/if}>{if $item.icon}<i class="{$item.icon}"></i>{/if}{$item.title}{call name=basic_drawer_tag item=$item}</a>
                 {/if}
             {/foreach}
             {hook name='ui:client.drawer.items'}

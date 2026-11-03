@@ -6,6 +6,7 @@
 
 {block name=scripts}
 <script src="{asset path='js/libs/wcp-table/table.js'}" defer></script>
+{if $plural_js|default:''}<script src="{$plural_js}" defer></script>{/if}
 <script src="{asset path='js/domain.js'}" defer></script>
 {/block}
 
@@ -149,9 +150,9 @@
                                             </div>
                                         </li>
                                     </template>
-                                    <div class="card selection-summary d-none mt-2" data-role="selection-summary" data-label-singular="{lang key='website/domain/summary-singular'}" data-label-plural="{lang key='website/domain/summary-plural'}" data-cart-url="{link route='cart'}" data-configure-url="{link route='configure-edit' p1='__KEY__'}" data-txt-view-cart="{lang key='website/domain/view-cart'}" data-txt-configure="{lang key='website/domain/configure'}">
+                                    <div class="card selection-summary d-none mt-2" data-role="selection-summary" data-plural-forms="{lang key='website/domain/summary-count' forms=1}" data-label-singular="{lang key='website/domain/summary-singular'}" data-label-plural="{lang key='website/domain/summary-plural'}" data-cart-url="{link route='cart'}" data-configure-url="{link route='configure-edit' p1='__KEY__'}" data-txt-view-cart="{lang key='website/domain/view-cart'}" data-txt-configure="{lang key='website/domain/configure'}">
                                         <div class="card-body d-flex flex-wrap align-items-center gap-2 p-3">
-                                            <span class="fw-semibold"><span class="num-tabular" data-role="summary-count">0</span> <span data-role="summary-label">{lang key='website/domain/summary-plural'}</span></span>
+                                            <span class="fw-semibold" data-role="summary-text"><span class="num-tabular" data-role="summary-count">0</span> <span data-role="summary-label">{lang key='website/domain/summary-plural'}</span></span>
                                             <span class="fs-7 text-body-secondary" data-role="summary-domains"></span>
                                             <span class="ms-auto fw-bold num-tabular"><span data-role="summary-total">$0.00</span><span class="fs-8 text-body-secondary fw-normal">{lang key='website/domain/per-year'}</span></span>
                                             <a class="btn btn-primary btn-sm" href="{link route='cart'}" data-role="summary-action"><i class="bi bi-cart3 me-1"></i>{lang key='website/domain/view-cart'}</a>
@@ -363,6 +364,9 @@
         </div>
     </section>
 
+    {if $includes_content && ($setting.content_section_frame|default:'theme') == 'none'}
+    {content var=$includes_content}
+    {else}
     <section class="band-dark chrome-dark py-5" data-reveal>
         <div class="container">
             {if $includes_content}{content var=$includes_content}{else}
@@ -420,6 +424,7 @@
             {/if}
         </div>
     </section>
+    {/if}
 
     {if $faqs}
     <section class="py-5" data-reveal>

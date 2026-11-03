@@ -16,7 +16,7 @@
         </div>
         {if $account_info.support_pin}
         <div class="account-menu-balance">
-            <span data-bs-toggle="tooltip" title="{lang key='website/index/account-pin-hint'}"><i class="bi bi-shield-lock me-1"></i>{lang key='website/index/account-support-pin'}</span>
+            <span data-bs-toggle="tooltip" title="{lang key='website/index/account-pin-hint'}"><i class="bi bi-shield-lock"></i>{lang key='website/index/account-support-pin'}</span>
             <span class="num-tabular fw-bold" data-role="pin-value">{$account_info.support_pin}</span>
         </div>
         {/if}

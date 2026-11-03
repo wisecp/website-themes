@@ -86,12 +86,12 @@
                     <div class="invoice-doc-stack">
                         <span class="invoice-doc-label">{lang key='website/invoices/detail/invoice-label'}</span>
                         <span class="invoice-doc-no num-tabular">{$inv.number}</span>
-                        {if $inv.badge == 'paid'}<span class="badge bg-success-subtle text-success-emphasis fw-semibold"><i class="bi bi-check-circle me-1"></i>{lang key='website/invoices/st-paid'}</span>
-                        {elseif $inv.badge == 'overdue'}<span class="badge bg-danger-subtle text-danger-emphasis fw-semibold"><i class="bi bi-exclamation-circle me-1"></i>{lang key='website/invoices/st-overdue'}</span>
-                        {elseif $inv.badge == 'refunded'}<span class="badge bg-info-subtle text-info-emphasis fw-semibold"><i class="bi bi-arrow-counterclockwise me-1"></i>{lang key='website/invoices/st-refunded'}</span>
-                        {elseif $inv.badge == 'cancelled'}<span class="badge bg-secondary-subtle text-secondary-emphasis fw-semibold"><i class="bi bi-x-circle me-1"></i>{lang key='website/invoices/st-cancelled'}</span>
-                        {elseif $inv.badge == 'waiting'}<span class="badge bg-info-subtle text-info-emphasis fw-semibold"><i class="bi bi-clock me-1"></i>{lang key='website/invoices/st-waiting'}</span>
-                        {else}<span class="badge bg-warning-subtle text-warning-emphasis fw-semibold"><i class="bi bi-hourglass-split me-1"></i>{lang key='website/invoices/st-unpaid'}</span>{/if}
+                        {if $inv.badge == 'paid'}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-check-circle me-1"></i>{lang key='website/invoices/st-paid'}</span>
+                        {elseif $inv.badge == 'overdue'}<span class="badge bg-danger-subtle text-danger-emphasis"><i class="bi bi-exclamation-circle me-1"></i>{lang key='website/invoices/st-overdue'}</span>
+                        {elseif $inv.badge == 'refunded'}<span class="badge bg-info-subtle text-info-emphasis"><i class="bi bi-arrow-counterclockwise me-1"></i>{lang key='website/invoices/st-refunded'}</span>
+                        {elseif $inv.badge == 'cancelled'}<span class="badge bg-secondary-subtle text-secondary-emphasis"><i class="bi bi-x-circle me-1"></i>{lang key='website/invoices/st-cancelled'}</span>
+                        {elseif $inv.badge == 'waiting'}<span class="badge bg-info-subtle text-info-emphasis"><i class="bi bi-clock me-1"></i>{lang key='website/invoices/st-waiting'}</span>
+                        {else}<span class="badge bg-warning-subtle text-warning-emphasis"><i class="bi bi-hourglass-split me-1"></i>{lang key='website/invoices/st-unpaid'}</span>{/if}
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                 {/if}
                 <div class="invoice-fact">
                     <dt>{lang key='website/invoices/detail/fact-amount-due'}</dt>
-                    <dd class="num-tabular invoice-fact-due">{$inv.amount_due}</dd>
+                    <dd class="num-tabular invoice-fact-due" data-role="summary-due">{$inv.amount_due}</dd>
                 </div>
             </dl>
 
@@ -214,16 +214,33 @@
                         <span class="summary-value num-tabular text-success-emphasis">-{$summary.promo_fmt}</span>
                     </div>
                     {/if}
-                    {if $summary.tax_show}
-                    <div class="order-summary-line">
-                        <span class="summary-label">{lang key='website/invoices/detail/vat'} ({$summary.tax_rate}%)</span>
-                        <span class="summary-value num-tabular">{$summary.tax_fmt}</span>
+                    {if $summary.tax_present|default:$summary.tax_show}
+                    <div class="wui-collapse{if $summary.tax_show} wui-show{/if}" data-role="summary-tax-line">
+                        <div class="wui-collapse-inner">
+                            {if $summary.tax_rows}
+                            {foreach $summary.tax_rows as $tr}
+                            <div class="order-summary-line">
+                                <span class="summary-label">{$tr.name} ({$tr.rate}%)</span>
+                                <span class="summary-value num-tabular">{$tr.amount_fmt}</span>
+                            </div>
+                            {/foreach}
+                            {else}
+                            <div class="order-summary-line">
+                                <span class="summary-label">{lang key='website/invoices/detail/vat'} ({$summary.tax_rate}%)</span>
+                                <span class="summary-value num-tabular">{$summary.tax_fmt}</span>
+                            </div>
+                            {/if}
+                        </div>
                     </div>
                     {/if}
-                    {if $summary.fee_show}
-                    <div class="order-summary-line">
-                        <span class="summary-label">{lang key='website/invoices/pay/fee-label'}{if $summary.fee_rate > 0} ({$summary.fee_rate}%){/if}</span>
-                        <span class="summary-value num-tabular">{$summary.fee_fmt}</span>
+                    {if $summary.fee_show || ($inv.payable && !$inv.sub_locked)}
+                    <div class="wui-collapse{if $summary.fee_show} wui-show{/if}" data-role="summary-fee-line">
+                        <div class="wui-collapse-inner">
+                            <div class="order-summary-line">
+                                <span class="summary-label">{lang key='website/invoices/pay/fee-label'}<span data-role="summary-fee-rate">{if $summary.fee_rate > 0} ({$summary.fee_rate}%){/if}</span></span>
+                                <span class="summary-value num-tabular" data-role="summary-fee-value">{$summary.fee_fmt}</span>
+                            </div>
+                        </div>
                     </div>
                     {/if}
                     {if $summary.inst_show}
@@ -234,7 +251,7 @@
                     {/if}
                     <div class="order-summary-line">
                         <span class="summary-label">{lang key='website/invoices/detail/total'}</span>
-                        <span class="summary-value num-tabular">{$summary.total_fmt}</span>
+                        <span class="summary-value num-tabular" data-role="summary-total">{$summary.total_fmt}</span>
                     </div>
                     {if $summary.paid_show}
                     <div class="order-summary-line">
@@ -244,7 +261,7 @@
                     {/if}
                     <div class="order-summary-line order-summary-total mb-0">
                         <span class="summary-label">{lang key='website/invoices/detail/balance-due'}</span>
-                        <span class="summary-value num-tabular">{$summary.balance_fmt}</span>
+                        <span class="summary-value num-tabular" data-role="summary-balance">{$summary.balance_fmt}</span>
                     </div>
                 </div>
             </div>
@@ -309,8 +326,13 @@
             <div class="invoice-status-lead">
                 <span class="icon-disc invoice-status-disc-info"><i class="bi bi-clock"></i></span>
                 <div class="me-auto">
+                    {if $waiting_kind == 'pending'}
+                    <h3 class="h6 fw-semibold mb-0">{lang key='website/invoices/complete/pending-title'}</h3>
+                    <p class="fs-8 text-body-secondary mb-0">{lang key='website/invoices/complete/pending-body' number=$inv.number}</p>
+                    {else}
                     <h3 class="h6 fw-semibold mb-0">{lang key='website/invoices/pay/status-waiting-title'}</h3>
                     <p class="fs-8 text-body-secondary mb-0">{lang key='website/invoices/pay/status-waiting-desc'}</p>
+                    {/if}
                     {if $bank_info}
                     <p class="fs-8 text-body-secondary mb-0 mt-1">
                         {if $bank_info.sender_name}{lang key='website/invoices/pay/bank-sender-label'}: <span class="fw-semibold">{$bank_info.sender_name}</span>{/if}
@@ -355,8 +377,7 @@
                 </div>
 
                 {if $payment_methods}
-                {include file='components/payment-methods.tpl'}
-                {include file='components/invoice-pay-footer.tpl'}
+                {include file='components/payment-methods.tpl' pay_footer=true}
                 {else}
                 <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
                     <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>

@@ -94,6 +94,7 @@
                             <span class="summary-label">{lang key='website/invoices/bulk/total-label'} (<span data-role="bulk-count">{$bulk_count_text}</span>)</span>
                             <span class="summary-value num-tabular" data-role="bulk-total">{$bulk_total_fmt}</span>
                         </div>
+                        <div class="wui-collapse{if $bulk_tax_waived_text} wui-show{/if}" data-role="bulk-tax-waived"><div class="wui-collapse-inner"><span class="fs-8 text-body-secondary d-block mt-1"><i class="bi bi-info-circle me-1"></i><span data-role="bulk-tax-waived-text">{$bulk_tax_waived_text}</span></span></div></div>
                     </div>
                 </div>
             </div>
@@ -110,8 +111,7 @@
                 </div>
 
                 {if $payment_methods}
-                {include file='components/payment-methods.tpl'}
-                {include file='components/invoice-pay-footer.tpl' show_partial=false}
+                {include file='components/payment-methods.tpl' pay_footer=true show_partial=false}
                 {else}
                 <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
                     <i class="bi bi-exclamation-circle me-2" aria-hidden="true"></i>

@@ -12,8 +12,8 @@
 
     <section class="page-hero text-center">
         <div class="container">
-            <h1 class="page-hero-title reveal mb-3">{lang key='website/sms/hero-title'}</h1>
-            <p class="page-hero-lead text-body-secondary reveal reveal-2 mb-4">{lang key='website/sms/hero-lead'}</p>
+            <h1 class="page-hero-title reveal mb-3">{if $sms_group_title|default:''}{$sms_group_title}{else}{lang key='website/sms/hero-title'}{/if}</h1>
+            <p class="page-hero-lead text-body-secondary reveal reveal-2 mb-4">{if $sms_group_lead|default:''}{$sms_group_lead}{else}{lang key='website/sms/hero-lead'}{/if}</p>
             <div class="d-flex flex-wrap justify-content-center gap-4 fs-8 text-body-secondary reveal reveal-3">
                 <span><i class="bi bi-globe-americas me-1 text-success"></i>{lang key='website/sms/hero-badge-countries'}</span>
                 <span><i class="bi bi-send me-1 text-success"></i>{lang key='website/sms/hero-badge-speed'}</span>
@@ -172,7 +172,13 @@
         </div>
     </section>
 
-    {if $faqs}
+    {if $sms_group_content|default:''}<section class="py-5 border-bottom">
+        <div class="container">
+            <div class="category-content">{content var=$sms_group_content}</div>
+        </div>
+    </section>
+
+    {/if}{if $faqs}
     <section class="py-5">
         <div class="container">
             <div class="text-center mb-5">

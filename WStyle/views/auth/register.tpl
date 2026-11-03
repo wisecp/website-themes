@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{asset path='js/libs/intl-tel-input/css/intlTelInput.min.css'}">
 <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
 <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
-{if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
+{if ($ui_lang|default:'en') != 'en'}<script type="module" nonce="{$csp_nonce}">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
 <script src="{asset path='js/geo-country.js'}" defer></script>
 {/block}
 
@@ -53,12 +53,12 @@
                             <input type="text" class="form-control" id="reg-company" name="company_name" autocomplete="organization">
                             <div class="invalid-feedback">{lang key='website/sign/register-company-name-invalid'}</div>
                         </div>
-                        <div class="row g-3">
-                            <div class="col-sm-6">
+                        <div class="row g-3{if !$registration.tax_number_visible && !$registration.tax_office_visible} d-none{/if}">
+                            <div class="{if $registration.tax_office_visible}col-sm-6{else}col-12{/if}{if !$registration.tax_number_visible} d-none{/if}">
                                 <label for="reg-tax" class="form-label">{lang key='website/sign/register-tax'} {if $registration.tax_number_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
                                 <input type="text" class="form-control" id="reg-tax" name="tax_number" autocomplete="off"{if $registration.tax_number_required} data-required="1"{/if}>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="{if $registration.tax_number_visible}col-sm-6{else}col-12{/if}{if !$registration.tax_office_visible} d-none{/if}">
                                 <label for="reg-tax-office" class="form-label">{lang key='website/sign/register-tax-office'} {if $registration.tax_office_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
                                 <input type="text" class="form-control" id="reg-tax-office" name="tax_office" autocomplete="off"{if $registration.tax_office_required} data-required="1"{/if}>
                             </div>
@@ -148,6 +148,7 @@
                             <option value="">{lang key='website/sign/register-city-placeholder'}</option>
                         </select>
                         <input type="text" class="form-control d-none" id="reg-city-text" name="city_text" autocomplete="address-level2" placeholder="{lang key='website/sign/register-city'}"{if $registration.address_required} data-required="1"{/if}>
+                        <div class="invalid-feedback">{lang key='website/sign/register-city-invalid'}</div>
                     </div>
                     <div class="col-sm-6">
                         <label for="reg-postal" class="form-label">{lang key='website/sign/register-postal'} {if $registration.address_required}<span class="text-danger" aria-hidden="true">*</span>{else}<span class="text-body-secondary fw-normal">{lang key='website/sign/register-optional'}</span>{/if}</label>
@@ -228,7 +229,8 @@
                         <span class="strength-bar"></span><span class="strength-bar"></span>
                     </div>
                     <small class="text-body-secondary" data-role="strength-label"></small>
-                    <div class="invalid-feedback">{lang key='website/sign/register-password-invalid'}</div>
+                    <div class="invalid-feedback">{lang key='website/account/err-password-min' min=$registration.password_min_length}</div>
+                    <small class="text-body-secondary d-block">{if $registration.password_chars}{lang key='website/account/password-rule-chars' min=$registration.password_min_length chars=$registration.password_chars}{else}{lang key='website/account/password-rule' min=$registration.password_min_length}{/if}</small>
                 </div>
             </section>
 

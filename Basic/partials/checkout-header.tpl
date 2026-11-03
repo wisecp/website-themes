@@ -10,7 +10,7 @@
         <div class="checkout-shell-zone checkout-shell-zone-center">
             {if empty($result_back_link)}
             <div class="checkout-steps">
-                <span class="checkout-step {if $checkout_step > 1}is-done{else}is-active{/if}"><span class="checkout-step-num">{if $checkout_step > 1}<i class="bi bi-check-lg"></i>{else}1{/if}</span>{lang key='website/index/checkout-step-configure'}</span>
+                <span class="checkout-step {if $checkout_step > 1 && empty($cart_has_unconfigured)}is-done{elseif $checkout_step == 1}is-active{/if}"><span class="checkout-step-num">{if $checkout_step > 1 && empty($cart_has_unconfigured)}<i class="bi bi-check-lg"></i>{else}1{/if}</span>{lang key='website/index/checkout-step-configure'}</span>
                 <span class="checkout-step-sep" aria-hidden="true"></span>
                 <span class="checkout-step {if $checkout_step > 2}is-done{elseif $checkout_step == 2}is-active{/if}"><span class="checkout-step-num">{if $checkout_step > 2}<i class="bi bi-check-lg"></i>{else}2{/if}</span>{lang key='website/index/checkout-step-cart'}</span>
                 <span class="checkout-step-sep" aria-hidden="true"></span>

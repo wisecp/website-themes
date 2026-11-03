@@ -1,4 +1,4 @@
-{if $testimonials.items|default:false}
+{if $testimonials.items|default:false || $testimonials.send_opinion|default:false}
 <section class="py-5 border-top{if $testimonials.background.image || $testimonials.background.video} chrome-dark has-band-bg{else} bg-surface{/if}" data-reveal>
     {include file='components/band-bg.tpl' bg=$testimonials.background}
     <div class="container">
@@ -28,9 +28,15 @@
                     <a class="btn btn-soft" href="{$testimonials.review.url}" target="_blank" rel="noopener"><i class="bi bi-chat-left-text me-1"></i>{lang key='home_quote_send'}</a>
                 </div>
                 {/if}
+                {if $testimonials.send_opinion|default:false}
+                <div{if $testimonials.review.enabled|default:false} class="mt-2"{/if}>
+                    <button class="btn btn-soft" type="button" data-bs-toggle="modal" data-bs-target="#feedbackModal"><i class="bi bi-pencil-square me-1"></i>{lang key='website/index/customer-feedback/open-button'}</button>
+                </div>
+                {/if}
             </div>
+            {if $testimonials.items|default:false}
             <div class="col-lg-8">
-                <div class="quote-stage carousel carousel-fade slide" id="quoteSlider" data-wstyle-autoplay="8000" role="region" aria-roledescription="carousel" aria-label="{lang key='home_quote_aria'}">
+                <div class="quote-stage carousel carousel-fade slide" id="quoteSlider" data-wstyle-autoplay="8000" role="region" aria-roledescription="{lang key='aria_carousel' attr=1}" aria-label="{lang key='home_quote_aria'}">
                     <div class="carousel-inner">
                         {foreach $testimonials.items as $quote}
                         <div class="carousel-item{if $quote@first} active{/if}">
@@ -54,6 +60,7 @@
                     </div>
                 </div>
             </div>
+            {/if}
         </div>
     </div>
 </section>

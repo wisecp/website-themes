@@ -43,13 +43,14 @@
             <span class="fs-8 text-body-secondary">© {$current_year} {$company_name} {lang key='website/index/footer-rights'}</span>
             {if $cookie_notice}<a class="footer-link d-inline fs-8" href="#" data-cookie-open>{lang key='website/index/cookie-settings'}</a>{/if}
             {hook name='ui:client.footer.bottom'}
+            {if $setting.footer_payment_logos|default:''}
             <span class="visually-hidden">{lang key='website/index/footer-payment-methods'}</span>
-            <div class="d-flex align-items-center gap-2 ms-auto fs-4 text-body-secondary" aria-hidden="true">
-                <i class="fa-brands fa-cc-visa"></i>
-                <i class="fa-brands fa-cc-mastercard"></i>
-                <i class="fa-brands fa-cc-paypal"></i>
-                <i class="fa-brands fa-cc-stripe"></i>
+            <div class="d-flex flex-wrap align-items-center gap-2 ms-auto fs-4 text-body-secondary" aria-hidden="true">
+                {foreach $setting.footer_payment_logos as $pay_logo}
+                <i class="fa-brands fa-{$pay_logo}"></i>
+                {/foreach}
             </div>
+            {/if}
         </div>
     </div>
 </footer>

@@ -50,9 +50,9 @@
                 </ul>
                 {if $billing_cycles|@count > 1}
                 <div class="text-center text-lg-end">
-                    <div class="billing-toggle" data-billing-toggle role="group" aria-label="{lang key='website/products/category-billing-cycle'}">
+                    <div class="billing-toggle{if $billing_toggle_hidden|default:false} d-none{/if}" data-billing-toggle role="group" aria-label="{lang key='website/products/category-billing-cycle'}">
                         {foreach $billing_cycles as $c}
-                        <button class="billing-option{if $c.key == $default_cycle} active{/if}" type="button" data-action="set-billing" data-cycle="{$c.key}">{$c.label}</button>
+                        <button class="billing-option{if $c.key == $default_cycle} active{/if}{if $c.hidden|default:false} d-none{/if}" type="button" data-action="set-billing" data-cycle="{$c.key}">{$c.label}</button>
                         {/foreach}
                     </div>
                 </div>
@@ -63,7 +63,7 @@
 
             <div class="tab-content">
                 {foreach $tabs as $tab}
-                <div class="tab-pane fade{if $tab.active} show active{/if}" id="pane-{$tab.id}" role="tabpanel" aria-labelledby="tab-{$tab.id}" tabindex="0">
+                <div class="tab-pane fade{if $tab.active} show active{/if}" id="pane-{$tab.id}" role="tabpanel" aria-labelledby="tab-{$tab.id}" tabindex="0" data-cycles="{$tab.cycle_keys|default:''}">
                     {if $tab.plans}
                     {if ($tab.layout|default:'grid') == 'rows'}
                     {include file='components/plan-rows.tpl' plans=$tab.plans}
@@ -87,6 +87,11 @@
     </section>
 
     {if $has_content}
+    {if ($setting.content_section_frame|default:'theme') == 'none'}
+    {foreach $tabs as $tab}
+    {if $tab.content}<div class="category-content" data-tab-content="{$tab.id}"{if !$tab.active} hidden{/if}>{content var=$tab.content}</div>{/if}
+    {/foreach}
+    {else}
     <section class="py-5 border-top border-bottom">
         <div class="container">
             {foreach $tabs as $tab}
@@ -94,6 +99,7 @@
             {/foreach}
         </div>
     </section>
+    {/if}
     {/if}
 
     {if $has_faq}
@@ -192,7 +198,19 @@
     </section>
     {/if}
 
-    {if $show_extras && $included}
+    {if $page_content}
+    {if ($setting.content_section_frame|default:'theme') == 'none'}
+    <div class="category-content">{content var=$page_content}</div>
+    {else}
+    <section class="py-5 border-top border-bottom">
+        <div class="container">
+            <div class="category-content">{content var=$page_content}</div>
+        </div>
+    </section>
+    {/if}
+    {/if}
+
+    {if $show_extras && $included && !$page_content}
     <section class="py-5 border-top border-bottom">
         <div class="container">
             <div class="text-center mb-5">
@@ -250,120 +268,123 @@
         cta_secondary_key='website/products/category-cta-secondary'}
 
 {if $mode == 'tabs'}
+    <script nonce="{$csp_nonce}">
     {literal}
-    <script>
-      (function() {
+    (function () {
         var tabBtns = document.querySelectorAll('[data-bs-toggle="tab"][data-bs-target^="#pane-"]');
         function syncTab(id) {
-          document.querySelectorAll("[data-tab-content],[data-tab-faq]").forEach(function(el) {
-            var t = el.getAttribute("data-tab-content") || el.getAttribute("data-tab-faq");
-            el.hidden = t !== id;
-          });
+            document.querySelectorAll('[data-tab-content],[data-tab-faq]').forEach(function (el) {
+                var t = el.getAttribute('data-tab-content') || el.getAttribute('data-tab-faq');
+                el.hidden = (t !== id);
+            });
+        }
+        function syncCycles(id) {
+            var pane = document.getElementById('pane-' + id), group = pane ? pane.closest('[data-billing]') : null,
+                toggle = group ? group.querySelector('[data-billing-toggle]') : null;
+            if (!toggle || !pane.hasAttribute('data-cycles')) return;
+            var keys = pane.getAttribute('data-cycles').split(' ').filter(Boolean),
+                btns = toggle.querySelectorAll('[data-action="set-billing"]'), keep = false, want, pick = null;
+            btns.forEach(function (b) {
+                var on = keys.indexOf(b.getAttribute('data-cycle')) > -1;
+                b.classList.toggle('d-none', !on);
+                if (on && b.classList.contains('active')) keep = true;
+            });
+            toggle.classList.toggle('d-none', keys.length < 2);
+            if (keep || !keys.length) return;
+            want = keys.indexOf('annual') > -1 ? 'annual' : keys[0];
+            btns.forEach(function (b) { if (b.getAttribute('data-cycle') === want) pick = b; });
+            if (pick) pick.click();
         }
         function tabPath(btn) {
-          try {
-            return new URL(btn.getAttribute("data-tab-url"), location.origin).pathname;
-          } catch (e) {
-            return null;
-          }
+            try { return new URL(btn.getAttribute('data-tab-url'), location.origin).pathname; } catch (e) { return null; }
         }
         function upsertMeta(attr, name, value) {
-          if (value == null) return;
-          var el = document.head.querySelector("meta[" + attr + '="' + name + '"]');
-          if (!el) {
-            el = document.createElement("meta");
-            el.setAttribute(attr, name);
-            document.head.appendChild(el);
-          }
-          el.setAttribute("content", value);
+            if (value == null) return;
+            var el = document.head.querySelector('meta[' + attr + '="' + name + '"]');
+            if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
+            el.setAttribute('content', value);
         }
         function metaContent(attr, name) {
-          var el = document.head.querySelector("meta[" + attr + '="' + name + '"]');
-          return el ? el.getAttribute("content") || "" : "";
+            var el = document.head.querySelector('meta[' + attr + '="' + name + '"]');
+            return el ? el.getAttribute('content') || '' : '';
         }
-        var headLayout = (function() {
-          var bare = metaContent("property", "og:title"), at = bare ? document.title.indexOf(bare) : -1;
-          return at < 0 ? null : [document.title.slice(0, at), document.title.slice(at + bare.length)];
+        var headLayout = (function () {
+            var bare = metaContent('property', 'og:title'), at = bare ? document.title.indexOf(bare) : -1;
+            return at < 0 ? null : [document.title.slice(0, at), document.title.slice(at + bare.length)];
         })();
         function applyMeta(btn) {
-          var t = btn.getAttribute("data-meta-title"), d = btn.getAttribute("data-meta-desc"), k = btn.getAttribute("data-meta-keys"), u = btn.getAttribute("data-tab-url"), head = btn.getAttribute("data-head-title");
-          if (head) document.title = head;
-          else if (t) document.title = headLayout ? headLayout[0] + t + headLayout[1] : t;
-          upsertMeta("name", "description", d);
-          upsertMeta("name", "keywords", k);
-          upsertMeta("property", "og:title", t);
-          upsertMeta("property", "og:description", d);
-          upsertMeta("property", "og:url", u);
-          upsertMeta("name", "twitter:title", t);
-          upsertMeta("name", "twitter:description", d);
-          if (u) {
-            var c = document.head.querySelector('link[rel="canonical"]');
-            if (!c) {
-              c = document.createElement("link");
-              c.setAttribute("rel", "canonical");
-              document.head.appendChild(c);
+            var t = btn.getAttribute('data-meta-title'), d = btn.getAttribute('data-meta-desc'),
+                k = btn.getAttribute('data-meta-keys'), u = btn.getAttribute('data-tab-url'),
+                head = btn.getAttribute('data-head-title');
+            if (head) document.title = head;
+            else if (t) document.title = headLayout ? headLayout[0] + t + headLayout[1] : t;
+            upsertMeta('name', 'description', d);
+            upsertMeta('name', 'keywords', k);
+            upsertMeta('property', 'og:title', t);
+            upsertMeta('property', 'og:description', d);
+            upsertMeta('property', 'og:url', u);
+            upsertMeta('name', 'twitter:title', t);
+            upsertMeta('name', 'twitter:description', d);
+            if (u) {
+                var c = document.head.querySelector('link[rel="canonical"]');
+                if (!c) { c = document.createElement('link'); c.setAttribute('rel', 'canonical'); document.head.appendChild(c); }
+                c.setAttribute('href', u);
             }
-            c.setAttribute("href", u);
-          }
         }
         var home = null, homeTab = null, atHome = false, quiet = false;
-        if (!Array.prototype.some.call(tabBtns, function(b) {
-          return tabPath(b) === location.pathname;
-        })) {
-          var can = document.head.querySelector('link[rel="canonical"]'), own = {
-            "data-head-title": document.title,
-            "data-meta-title": metaContent("property", "og:title"),
-            "data-meta-desc": metaContent("name", "description"),
-            "data-meta-keys": metaContent("name", "keywords"),
-            "data-tab-url": can ? can.getAttribute("href") : location.href
-          };
-          home = { getAttribute: function(n) {
-            return own[n] == null ? null : own[n];
-          } };
-          homeTab = document.querySelector('[data-bs-toggle="tab"][data-bs-target^="#pane-"].active');
-          atHome = true;
+        if (!Array.prototype.some.call(tabBtns, function (b) { return tabPath(b) === location.pathname; })) {
+            var can = document.head.querySelector('link[rel="canonical"]'),
+                own = {
+                    'data-head-title': document.title,
+                    'data-meta-title': metaContent('property', 'og:title'),
+                    'data-meta-desc': metaContent('name', 'description'),
+                    'data-meta-keys': metaContent('name', 'keywords'),
+                    'data-tab-url': can ? can.getAttribute('href') : location.href
+                };
+            home = { getAttribute: function (n) { return own[n] == null ? null : own[n]; } };
+            homeTab = document.querySelector('[data-bs-toggle="tab"][data-bs-target^="#pane-"].active');
+            atHome = true;
         }
         function openTab(btn) {
-          atHome = false;
-          applyMeta(btn);
-          var path = tabPath(btn);
-          if (path && path !== location.pathname) history.pushState(null, "", btn.getAttribute("data-tab-url"));
+            atHome = false;
+            applyMeta(btn);
+            var path = tabPath(btn);
+            if (path && path !== location.pathname) history.pushState(null, '', btn.getAttribute('data-tab-url'));
         }
-        tabBtns.forEach(function(b) {
-          b.addEventListener("shown.bs.tab", function(e) {
-            var btn = e.target;
-            syncTab(btn.getAttribute("data-bs-target").replace("#pane-", ""));
-            if (quiet) return;
-            openTab(btn);
-          });
-          b.addEventListener("click", function() {
-            if (atHome && b.classList.contains("active")) openTab(b);
-          });
+        tabBtns.forEach(function (b) {
+            b.addEventListener('shown.bs.tab', function (e) {
+                var btn = e.target, id = btn.getAttribute('data-bs-target').replace('#pane-', '');
+                syncTab(id);
+                syncCycles(id);
+                if (quiet) return;
+                openTab(btn);
+            });
+            b.addEventListener('click', function () {
+                if (atHome && b.classList.contains('active')) openTab(b);
+            });
         });
-        window.addEventListener("popstate", function() {
-          var match = null;
-          tabBtns.forEach(function(b) {
-            if (tabPath(b) === location.pathname) match = b;
-          });
-          if (!match && home) {
-            if (homeTab && !homeTab.classList.contains("active") && window.bootstrap && bootstrap.Tab) {
-              quiet = true;
-              bootstrap.Tab.getOrCreateInstance(homeTab).show();
-              quiet = false;
+        window.addEventListener('popstate', function () {
+            var match = null;
+            tabBtns.forEach(function (b) { if (tabPath(b) === location.pathname) match = b; });
+            if (!match && home) {
+                if (homeTab && !homeTab.classList.contains('active') && window.bootstrap && bootstrap.Tab) {
+                    quiet = true;
+                    bootstrap.Tab.getOrCreateInstance(homeTab).show();
+                    quiet = false;
+                }
+                atHome = true;
+                applyMeta(home);
+                return;
             }
-            atHome = true;
-            applyMeta(home);
-            return;
-          }
-          var target = match || tabBtns[0];
-          if (!target) return;
-          if (target.classList.contains("active")) {
-            if (atHome) openTab(target);
-            return;
-          }
-          if (window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
+            var target = match || tabBtns[0];
+            if (!target) return;
+            if (target.classList.contains('active')) {
+                if (atHome) openTab(target);
+                return;
+            }
+            if (window.bootstrap && bootstrap.Tab) bootstrap.Tab.getOrCreateInstance(target).show();
         });
-      })();
+    })();
     </script>
     {/literal}
 {/if}

@@ -1,5 +1,5 @@
 {assign var=hcShell value=$shell|default:true}
-{if $hcShell}<div class="card" data-hosting-crosssell>
+{if $hcShell}<div class="card" id="hostingOffer" data-hosting-crosssell>
     <div class="card-body p-4">{/if}
         <div class="{if $hcShell}config-section-head{else}addon-row-head{/if} hosting-head">
             {if $hcShell}

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{asset path='js/libs/intl-tel-input/css/intlTelInput.min.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
-    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
+    {if ($ui_lang|default:'en') != 'en'}<script type="module" nonce="{$csp_nonce}">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
     <script src="{asset path='js/list.js'}" defer></script>
 {/block}
 
@@ -125,6 +125,8 @@
 
         <div class="list-rows" data-noun="domains" data-today="{$today_ymd}"{if $table_ajax} data-ajax="{$table_ajax}"{/if}
             data-txt-count="{lang key='website/index/list-count'}"
+            data-txt-prev="{lang key='website/index/list-prev' attr=1}"
+            data-txt-next="{lang key='website/index/list-next' attr=1}"
             data-txt-nores="{lang key='website/index/list-nores'}"
             data-txt-noun="{lang key='website/domains/noun'}"{if $can_manage}
             data-op-url="{link route='domains'}"
@@ -457,9 +459,13 @@
                                     <label for="wpPhone" class="form-label">{lang key='website/domains/wp-f-phone'}</label>
                                     <input type="tel" class="form-control" id="wpPhone" placeholder="+1 555 000 0000" autocomplete="tel">
                                 </div>
-                                <div class="col-sm-8">
+                                <div class="col-12">
                                     <label for="wpAddress" class="form-label">{lang key='website/domains/wp-f-address'}</label>
-                                    <input type="text" class="form-control" id="wpAddress" autocomplete="street-address">
+                                    <input type="text" class="form-control" id="wpAddress" autocomplete="address-line1">
+                                </div>
+                                <div class="col-sm-8">
+                                    <label for="wpAddress2" class="form-label">{lang key='website/domains/whois-street2'} <span class="text-body-secondary">{lang key='website/domains/optional'}</span></label>
+                                    <input type="text" class="form-control" id="wpAddress2" autocomplete="address-line2">
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="wpPostal" class="form-label">{lang key='website/domains/wp-f-postal'}</label>

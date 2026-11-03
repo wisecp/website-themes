@@ -14,7 +14,7 @@
 
     <section class="container py-4 py-lg-5">
 
-        <nav aria-label="Breadcrumb">
+        <nav aria-label="{lang key='website/index/breadcrumb-aria' attr=1}">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{$kb_link}">{lang key='website/knowledgebase/breadcrumb-knowledgebase'}</a></li>
                 {foreach $breadcrumb as $c}<li class="breadcrumb-item"><a href="{$c.link}">{$c.title}</a></li>{/foreach}
@@ -34,7 +34,7 @@
                             <h1 class="kb-doc-title">{$article.title}</h1>
                             <div class="kb-doc-meta">
                                 {if $article_category}<a class="kb-meta-chip" href="{$article_category.link}"><i class="bi bi-folder2 me-1"></i>{$article_category.title}</a>{/if}
-                                <span><i class="bi bi-eye me-1"></i>{$article.views_display} {lang key='website/knowledgebase/views'}</span>
+                                <span><i class="bi bi-eye me-1"></i>{lang key='website/knowledgebase/count-views' plural=$article.visit_count|default:0 count=$article.views_display}</span>
                                 {if !empty($canonical_link)}<a class="kb-meta-chip" href="{$canonical_link}.md" target="_blank" rel="noopener" title="{lang key='website/knowledgebase/markdown-title'}"><i class="bi bi-markdown me-1"></i>{lang key='website/knowledgebase/markdown'}</a>{/if}
                             </div>
                         </header>

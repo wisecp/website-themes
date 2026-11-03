@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{asset path='css/news.css'}">
 <link rel="stylesheet" href="{asset path='css/blog.css'}">
 <script src="{asset path='js/news.js'}" defer></script>
+{if $plural_js|default:''}<script src="{$plural_js}" defer></script>{/if}
 <script src="{asset path='js/blog.js'}" defer></script>
 {/block}
 

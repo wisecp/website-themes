@@ -1,5 +1,5 @@
 {if $payment_methods}
-<div class="card">
+<div class="card" data-payment-state="methods">
     <div class="card-body p-4">
         <div class="checkout-head">
             <span class="icon-disc"><i class="bi bi-credit-card"></i></span>
@@ -16,8 +16,9 @@
         {include file='components/checkout-pay-footer.tpl'}
     </div>
 </div>
-{elseif $payment_country_pending|default:false}
-<div class="card">
+{elseif $payment_country_pending|default:false || ($payment_state|default:'') == 'member' || ($payment_state|default:'') == 'none'}
+{assign var=pay_note value=$payment_state|default:'pending'}
+<div class="card" data-payment-state="{$pay_note}">
     <div class="card-body p-4">
         <div class="checkout-head">
             <span class="icon-disc"><i class="bi bi-credit-card"></i></span>
@@ -30,13 +31,19 @@
         <div class="pay-detail-list" role="status">
             <div class="pay-detail">
                 <i class="bi bi-info-circle text-body-secondary" aria-hidden="true"></i>
+                {if $pay_note == 'member'}
+                <span>{lang key='website/checkout/payment-member-only'} <button class="btn btn-link p-0 ms-1 align-baseline text-decoration-none fw-semibold" type="button" data-account-switch="login" data-pay-locked-cta>{lang key='website/checkout/locked-login'}</button></span>
+                {elseif $pay_note == 'none'}
+                <span>{lang key='website/checkout/payment-unavailable'}</span>
+                {else}
                 <span>{lang key='website/checkout/payment-country-pending'}</span>
+                {/if}
             </div>
         </div>
     </div>
 </div>
 {else}
-<div class="card">
+<div class="card" data-payment-state="free">
     <div class="card-body p-4">
         <div class="checkout-head">
             <span class="icon-disc"><i class="bi bi-cart-check"></i></span>

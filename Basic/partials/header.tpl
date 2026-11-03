@@ -1,9 +1,10 @@
 {function name=basic_nav_item item=[]}
 <a class="dropdown-item"{if $item.link} href="{$item.link}"{/if}>
     {if $item.icon}<span class="icon-disc"><i class="{$item.icon}"></i></span>{/if}
-    <span><span class="item-title">{$item.title}{if $item.extra.tag ?? false}<span class="badge" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}</span>{if $item.extra.desc ?? ''}<span class="item-desc">{$item.extra.desc}</span>{/if}</span>
+    <span><span class="item-title">{$item.title}{if $item.extra.tag ?? false}<span class="badge" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color|default:'#ffffff'}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}</span>{if $item.extra.desc ?? ''}<span class="item-desc">{$item.extra.desc}</span>{/if}</span>
 </a>
 {/function}
+{function name=basic_nav_top item=[]}{if $item.icon}<i class="{$item.icon} me-1"></i>{/if}{$item.title}{if $item.extra.tag ?? false}<span class="badge ms-1" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color|default:'#ffffff'}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}{/function}
 <header class="site-header">
     <nav class="container d-flex align-items-center py-2" aria-label="{lang key='website/index/nav-aria-main'}">
         <a class="site-brand d-flex align-items-center me-lg-5{if $brand_no_logo} brand-no-logo{/if}" href="{if $only_client_panel}{link route='my-account'}{else}{link route='home'}{/if}">
@@ -16,14 +17,14 @@
             {foreach $header_menu as $item}
                 {if $item.children}
             <li class="nav-item dropdown">
-                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{$item.title}<i class="bi bi-chevron-down nav-chevron"></i></a>
+                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{call name=basic_nav_top item=$item}<i class="bi bi-chevron-down nav-chevron"></i></a>
                 <div class="dropdown-menu nav-dropdown">
                     {foreach $item.children as $child}
                         {if $child.children}
                     <div class="dropdown-sub">
                         <a class="dropdown-item nav-sub-toggle"{if $child.link} href="{$child.link}"{/if} aria-haspopup="true">
                             {if $child.icon}<span class="icon-disc"><i class="{$child.icon}"></i></span>{/if}
-                            <span><span class="item-title">{$child.title}{if $child.extra.tag ?? false}<span class="badge" style="background-color:{$child.extra.tag.color};color:{$child.extra.tag.text_color}">{if $child.extra.tag.icon ?? ''}<i class="{$child.extra.tag.icon} me-1"></i>{/if}{$child.extra.tag.name}</span>{/if}</span>{if $child.extra.desc ?? ''}<span class="item-desc">{$child.extra.desc}</span>{/if}</span>
+                            <span><span class="item-title">{$child.title}{if $child.extra.tag ?? false}<span class="badge" style="background-color:{$child.extra.tag.color};color:{$child.extra.tag.text_color|default:'#ffffff'}">{if $child.extra.tag.icon ?? ''}<i class="{$child.extra.tag.icon} me-1"></i>{/if}{$child.extra.tag.name}</span>{/if}</span>{if $child.extra.desc ?? ''}<span class="item-desc">{$child.extra.desc}</span>{/if}</span>
                             <i class="bi bi-chevron-right nav-sub-caret"></i>
                         </a>
                         <div class="dropdown-menu nav-dropdown nav-sub-menu">
@@ -39,11 +40,25 @@
                 </div>
             </li>
                 {else}
-            <li class="nav-item"><a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{$item.title}</a></li>
+            <li class="nav-item"><a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{call name=basic_nav_top item=$item}</a></li>
                 {/if}
             {/foreach}
             {hook name='ui:client.nav.items'}
         </ul>
+        {if $rate_ticker|default:[]}
+        <div class="dropdown client-rate-ticker d-none d-lg-block ms-3">
+            <button class="btn btn-soft client-rate-ticker-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{lang key='website/index/rate-ticker-title' attr=1}"><i class="bi bi-currency-exchange"></i>{foreach $rate_ticker.items as $rt}{if $rt@iteration <= 2}<span class="client-rate-ticker-pair"><b>{$rt.code}</b>{$rt.short}</span>{/if}{/foreach}</button>
+            <div class="dropdown-menu nav-dropdown client-rate-ticker-menu">
+                <div class="client-topbar-menu-head"><span class="client-topbar-menu-title">{lang key='website/index/rate-ticker-title'}</span><span class="client-rate-ticker-base">{$rate_ticker.base}</span></div>
+                <div class="client-rate-ticker-list">
+                    {foreach $rate_ticker.items as $rt}
+                    <div class="client-rate-ticker-row"><span class="client-rate-ticker-name"><b>1 {$rt.code}</b><span>{$rt.name}</span></span><span class="client-rate-ticker-val">{$rt.long}</span></div>
+                    {/foreach}
+                </div>
+                {if $rate_ticker.updated}<div class="client-rate-ticker-foot" title="{$rate_ticker.updated.full}"><i class="bi bi-clock-history"></i>{lang key='website/index/rate-ticker-updated' time=$rate_ticker.updated.ago}</div>{/if}
+            </div>
+        </div>
+        {/if}
         <div class="d-flex align-items-center gap-3 ms-auto">
             {if $visibility_cart && $account_actions_enabled}
             <a class="btn btn-soft header-icon-btn position-relative{if $cart_count == 0} d-none{/if}" data-cart-btn href="{link route='cart'}" aria-label="{lang key='website/index/nav-aria-cart'}"><i class="bi bi-cart3"></i><span class="cart-count{if $cart_count == 0} d-none{/if}">{$cart_count}</span></a>
@@ -59,8 +74,8 @@
                  data-txt-read="{lang key='website/dashboard/notif-read-one'}">
                 <button class="btn btn-soft header-icon-btn client-topbar-notif" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="{lang key='website/dashboard/notif-aria'}"><i class="bi bi-bell"></i><span class="cart-count{if !$notification_count} d-none{/if}" data-role="notif-count">{$notification_count_text|default:0}</span></button>
                 <div class="dropdown-menu dropdown-menu-end nav-dropdown notif-menu">
-                    <div class="notif-head">
-                        <span class="notif-label">{lang key='website/dashboard/notif-title'}</span>
+                    <div class="client-topbar-menu-head">
+                        <span class="client-topbar-menu-title">{lang key='website/dashboard/notif-title'}</span>
                         <span class="notif-head-end">
                             <button type="button" class="notif-markall" data-action="notif-read-all">{lang key='website/dashboard/notif-read-all'}</button>
                             <span class="notif-new{if !$notification_count} d-none{/if}" data-role="notif-new">{lang key='website/dashboard/notif-new' count=$notification_count|default:0}</span>
@@ -69,9 +84,6 @@
                     <div class="notif-list" data-role="notif-list"></div>
                     <a class="notif-foot" href="{link route='info'}#notifications">{lang key='website/dashboard/notif-view-all'}<i class="bi bi-arrow-right"></i></a>
                 </div>
-                {* First page of the feed, rendered WITH the shell: the dropdown used to fetch it on
-                   first open and show skeleton rows for the length of the round trip. Read by
-                   client-notifications.js, which hands it to the same renderer the scroll paging uses. *}
                 {if $notification_seed_json}<script type="application/json" data-notif-seed>{$notification_seed_json nofilter}</script>{/if}
                 {csrf form='notifications'}
             </div>
@@ -94,7 +106,7 @@
                     </div>
                     {if $account_info.support_pin}
                     <div class="account-menu-balance">
-                        <span data-bs-toggle="tooltip" title="{lang key='website/index/account-pin-hint'}"><i class="bi bi-shield-lock me-1"></i>{lang key='website/index/account-support-pin'}</span>
+                        <span data-bs-toggle="tooltip" title="{lang key='website/index/account-pin-hint'}"><i class="bi bi-shield-lock"></i>{lang key='website/index/account-support-pin'}</span>
                         <span class="num-tabular fw-bold" data-role="pin-value">{$account_info.support_pin}</span>
                     </div>
                     {/if}

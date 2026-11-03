@@ -1,9 +1,10 @@
 {function name=wstyle_nav_item item=[]}
 <a class="dropdown-item"{if $item.link} href="{$item.link}"{/if}>
     {if $item.icon}<span class="icon-disc"><i class="{$item.icon}"></i></span>{/if}
-    <span><span class="item-title">{$item.title}{if $item.extra.tag ?? false}<span class="badge" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}</span>{if $item.extra.desc ?? ''}<span class="item-desc">{$item.extra.desc}</span>{/if}</span>
+    <span><span class="item-title">{$item.title}{if $item.extra.tag ?? false}<span class="badge" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color|default:'#ffffff'}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}</span>{if $item.extra.desc ?? ''}<span class="item-desc">{$item.extra.desc}</span>{/if}</span>
 </a>
 {/function}
+{function name=wstyle_nav_top item=[]}{if $item.icon}<i class="{$item.icon} me-1"></i>{/if}{$item.title}{if $item.extra.tag ?? false}<span class="badge ms-1" style="background-color:{$item.extra.tag.color};color:{$item.extra.tag.text_color|default:'#ffffff'}">{if $item.extra.tag.icon ?? ''}<i class="{$item.extra.tag.icon} me-1"></i>{/if}{$item.extra.tag.name}</span>{/if}{/function}
 <header class="site-header chrome-dark">
     <nav class="container d-flex align-items-center py-2" aria-label="{lang key='website/index/nav-aria-main'}">
         <a class="site-brand d-flex align-items-center me-lg-5{if $brand_no_logo} brand-no-logo{/if}" href="{link route='home'}">
@@ -16,7 +17,7 @@
             {foreach $header_menu as $item}
                 {if $item.extra.mega ?? ''}
             <li class="nav-item dropdown">
-                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{$item.title}<i class="bi bi-chevron-down nav-chevron"></i></a>
+                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{call name=wstyle_nav_top item=$item}<i class="bi bi-chevron-down nav-chevron"></i></a>
                 <div class="dropdown-menu nav-dropdown nav-mega">{$item.extra.mega nofilter}</div>
             </li>
                 {else}
@@ -27,7 +28,7 @@
                 {/foreach}
                 {if $item.children && count($mega_groups) >= 2}
             <li class="nav-item dropdown">
-                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{$item.title}<i class="bi bi-chevron-down nav-chevron"></i></a>
+                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{call name=wstyle_nav_top item=$item}<i class="bi bi-chevron-down nav-chevron"></i></a>
                 <div class="dropdown-menu nav-dropdown nav-mega">
                     <div class="nav-mega-grid">
                         {foreach $mega_groups as $group}
@@ -50,14 +51,14 @@
             </li>
                 {elseif $item.children}
             <li class="nav-item dropdown">
-                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{$item.title}<i class="bi bi-chevron-down nav-chevron"></i></a>
+                <a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{call name=wstyle_nav_top item=$item}<i class="bi bi-chevron-down nav-chevron"></i></a>
                 <div class="dropdown-menu nav-dropdown">
                     {foreach $item.children as $child}
                         {if $child.children}
                     <div class="dropdown-sub">
                         <a class="dropdown-item nav-sub-toggle"{if $child.link} href="{$child.link}"{/if} aria-haspopup="true">
                             {if $child.icon}<span class="icon-disc"><i class="{$child.icon}"></i></span>{/if}
-                            <span><span class="item-title">{$child.title}{if $child.extra.tag ?? false}<span class="badge" style="background-color:{$child.extra.tag.color};color:{$child.extra.tag.text_color}">{if $child.extra.tag.icon ?? ''}<i class="{$child.extra.tag.icon} me-1"></i>{/if}{$child.extra.tag.name}</span>{/if}</span>{if $child.extra.desc ?? ''}<span class="item-desc">{$child.extra.desc}</span>{/if}</span>
+                            <span><span class="item-title">{$child.title}{if $child.extra.tag ?? false}<span class="badge" style="background-color:{$child.extra.tag.color};color:{$child.extra.tag.text_color|default:'#ffffff'}">{if $child.extra.tag.icon ?? ''}<i class="{$child.extra.tag.icon} me-1"></i>{/if}{$child.extra.tag.name}</span>{/if}</span>{if $child.extra.desc ?? ''}<span class="item-desc">{$child.extra.desc}</span>{/if}</span>
                             <i class="bi bi-chevron-right nav-sub-caret"></i>
                         </a>
                         <div class="dropdown-menu nav-dropdown nav-sub-menu">
@@ -73,7 +74,7 @@
                 </div>
             </li>
                 {else}
-            <li class="nav-item"><a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{$item.title}</a></li>
+            <li class="nav-item"><a class="nav-link"{if $item.link} href="{$item.link}"{/if}>{call name=wstyle_nav_top item=$item}</a></li>
                 {/if}
                 {/if}
             {/foreach}

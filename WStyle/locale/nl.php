@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Standaard (1320px)',
     'opt_width_wide'         => 'Breed (1440px)',
     'opt_width_wider'        => 'Extra breed (1600px)',
+    'set_content_section_frame' => 'Kader van inhoudssecties',
+    'set_content_section_frame_desc' => 'Geldt voor secties met uw eigen HTML-inhoud, zoals de inhoudssectie van de domeinpagina, de inhoudstabbladen en de pagina-inhoud van categorieën en de eigen blokken van de startpagina. Themakader behoudt de achtergrond en breedte van het thema. Zonder kader toont de inhoud over de volle breedte zonder achtergrond, zodat uw HTML de eigen indeling bepaalt.',
+    'opt_frame_theme' => 'Themakader',
+    'opt_frame_none' => 'Zonder kader (volledige breedte)',
     'set_default_mode'       => 'Standaard weergavemodus',
     'set_default_mode_desc'  => 'Bepaalt welke weergavemodus bezoekers zien totdat ze er zelf een kiezen. Bezoekers kunnen de modus nog steeds wijzigen; hun keuze wordt in hun browser onthouden. Automatisch volgt de instelling van het apparaat.',
     'opt_mode_light'         => 'Licht',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Footer',
     'set_status_url'      => 'URL van de statuspagina',
     'set_status_url_desc' => 'Adres van de statuslink in de footerbalk. Laat leeg om naar de aankondigingenpagina te linken.',
+    'set_footer_payment_logos'      => 'Betaallogo\'s',
+    'set_footer_payment_logos_desc' => 'Merkpictogrammen in de footer en bij het afrekenen. Zonder selectie worden de logo\'s verborgen.',
 
     'grp_popup'              => 'Pop-upvenster',
     'set_popup_enabled'      => 'Pop-upvenster tonen',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Eenmaal per bezoeker',
     'opt_popup_daily'        => 'Eenmaal per dag',
     'opt_popup_always'       => 'Bij elke paginaweergave',
+    'set_popup_delay'        => 'Vertraging (seconden)',
+    'set_popup_delay_desc'   => 'De pop-up verschijnt zoveel seconden nadat de pagina is geladen.',
 
     'topbar_support'         => 'Ondersteuning',
     'footer_nav_aria'        => 'Footer',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Het programma in het kort',
     'rsp_metrics_title'     => 'De cijfers die ertoe doen',
+
+    'toast_copied'          => 'Gekopieerd naar het klembord.',
+    'toast_copy_failed'     => 'Kopiëren naar het klembord is mislukt.',
+    'toast_dismiss'         => 'Sluiten',
+    'aria_carousel'         => 'carrousel',
+    'aria_slide'            => 'dia',
 ];

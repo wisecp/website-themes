@@ -22,8 +22,8 @@
             </div>{/if}
         </div>
         {if !$is_reply && $c.reply_total > 0}
-        <button type="button" class="blog-comment-action blog-comment-replies-toggle" data-action="toggle-replies" data-parent-id="{$c.id}" data-loaded="0" aria-expanded="false">
-            <i class="bi bi-chevron-down me-1" data-role="toggle-icon"></i><span data-role="reply-count-label">{$c.reply_total}</span>&nbsp;{lang key='website/articles/comment-replies-label'}
+        <button type="button" class="blog-comment-action blog-comment-replies-toggle" data-action="toggle-replies" data-parent-id="{$c.id}" data-loaded="0" aria-expanded="false" data-reply-count="{$c.reply_total}">
+            <i class="bi bi-chevron-down me-1" data-role="toggle-icon"></i><span class="text-nowrap" data-role="reply-count-text">{capture assign=reply_n}<span data-role="reply-count-label">{$c.reply_total}</span>{/capture}{lang key='website/articles/comment-replies-count' plural=$c.reply_total count=$reply_n raw='count'}</span>
         </button>
         <div class="wui-collapse" data-role="replies-collapse">
             <div class="wui-collapse-inner">

@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Large (1440px)',
     'opt_width_wider'        => 'Très large (1600px)',
+    'set_content_section_frame' => 'Cadre des sections de contenu',
+    'set_content_section_frame_desc' => 'S\'applique aux sections qui affichent votre propre contenu HTML, comme la section de contenu de la page des domaines, les onglets de contenu et le contenu de page des catégories, et les blocs personnalisés de la page d\'accueil. Cadre du thème conserve le fond et la largeur du thème. Sans cadre affiche le contenu en pleine largeur et sans fond, votre HTML définit alors sa propre mise en page.',
+    'opt_frame_theme' => 'Cadre du thème',
+    'opt_frame_none' => 'Sans cadre (pleine largeur)',
     'set_default_mode'       => "Mode d'affichage par défaut",
     'set_default_mode_desc'  => "Définit le mode d'affichage présenté aux visiteurs tant qu'ils n'en ont pas choisi un. Les visiteurs peuvent toujours en changer et leur choix est mémorisé dans leur navigateur. Auto suit le réglage de l'appareil.",
     'opt_mode_light'         => 'Clair',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Pied de page',
     'set_status_url'      => 'URL de la page de statut',
     'set_status_url_desc' => 'Adresse du lien de statut dans la barre de pied de page. Laissez vide pour pointer vers la page des annonces.',
+    'set_footer_payment_logos'      => 'Logos de paiement',
+    'set_footer_payment_logos_desc' => 'Icônes de marque affichées dans le pied de page et lors de la finalisation de la commande. Sans sélection, les logos sont masqués.',
 
     'grp_popup'              => 'Fenêtre pop-up',
     'set_popup_enabled'      => 'Afficher la fenêtre pop-up',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Une fois par visiteur',
     'opt_popup_daily'        => 'Une fois par jour',
     'opt_popup_always'       => 'À chaque chargement de page',
+    'set_popup_delay'        => 'Délai (secondes)',
+    'set_popup_delay_desc'   => 'Le pop-up apparaît après ce nombre de secondes une fois la page chargée.',
 
     'topbar_support'         => 'Assistance',
     'footer_nav_aria'        => 'Pied de page',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Le programme en bref',
     'rsp_metrics_title'     => 'Les chiffres qui comptent',
+
+    'toast_copied'          => 'Copié dans le presse-papiers.',
+    'toast_copy_failed'     => 'Impossible de copier dans le presse-papiers.',
+    'toast_dismiss'         => 'Masquer',
+    'aria_carousel'         => 'carrousel',
+    'aria_slide'            => 'diapositive',
 ];

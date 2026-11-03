@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Large (1440px)',
     'opt_width_wider'        => 'Très large (1600px)',
+    'set_content_section_frame' => 'Cadre des sections de contenu',
+    'set_content_section_frame_desc' => 'S\'applique aux sections qui affichent votre propre contenu HTML, comme la section de contenu de la page des domaines ainsi que les onglets de contenu et le contenu de page des catégories. Cadre du thème conserve les espacements, les bordures et la largeur du thème. Sans cadre affiche le contenu en pleine largeur et sans cadre, votre HTML définit alors sa propre mise en page.',
+    'opt_frame_theme' => 'Cadre du thème',
+    'opt_frame_none' => 'Sans cadre (pleine largeur)',
     'set_default_mode'       => "Mode d'affichage par défaut",
     'set_default_mode_desc'  => "Définit le mode d'affichage présenté aux visiteurs tant qu'ils n'en ont pas choisi un. Les visiteurs peuvent toujours en changer et leur choix est mémorisé dans leur navigateur. Auto suit le réglage de l'appareil.",
     'opt_mode_light'         => 'Clair',
     'opt_mode_dark'          => 'Sombre',
     'opt_mode_auto'          => "Auto (réglage de l'appareil)",
+
+    'grp_footer'                    => 'Pied de page',
+    'set_footer_payment_logos'      => 'Logos de paiement',
+    'set_footer_payment_logos_desc' => 'Icônes de marque affichées dans le pied de page et lors de la finalisation de la commande. Sans sélection, les logos sont masqués.',
 
     'grp_checkout'              => 'Finalisation de la commande',
     'set_checkout_sidebar'      => 'Disposition du récapitulatif de la commande',
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => 'Essayer un autre tableau de bord',
     'cz_nudge_checkout'  => 'Essayer une autre disposition de finalisation',
     'cz_nudge_explore'   => 'Découvrir les options du thème',
+
+    'toast_copied'       => 'Copié dans le presse-papiers.',
+    'toast_copy_failed'  => 'Impossible de copier dans le presse-papiers.',
+    'toast_dismiss'      => 'Masquer',
+    'aria_carousel'      => 'carrousel',
+    'aria_slide'         => 'diapositive',
 ];

@@ -118,6 +118,8 @@
         <div class="list-rows" data-noun="services" data-today="{$today_ymd}"
             data-op-url="{link route='services'}"{if $table_ajax} data-ajax="{$table_ajax}"{/if}
             data-txt-count="{lang key='website/index/list-count'}"
+            data-txt-prev="{lang key='website/index/list-prev' attr=1}"
+            data-txt-next="{lang key='website/index/list-next' attr=1}"
             data-txt-nores="{lang key='website/index/list-nores'}"
             data-txt-noun="{lang key='website/services/noun'}"
             data-txt-autorenew-on="{lang key='website/services/autorenew-on'}"

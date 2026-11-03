@@ -64,7 +64,7 @@
                             <span class="kb-article-ico"><i data-role="icon" class="bi bi-journal-text"></i></span>
                             <div class="kb-article-body">
                                 <span class="kb-article-title" data-role="title"></span>
-                                <div class="kb-article-meta"><span data-role="cat-wrap"><i class="bi bi-folder2 me-1"></i><span data-role="category"></span></span><span><i class="bi bi-eye me-1"></i><span data-role="views"></span> {lang key='website/knowledgebase/views'}</span></div>
+                                <div class="kb-article-meta"><span data-role="cat-wrap"><i class="bi bi-folder2 me-1"></i><span data-role="category"></span></span><span><i class="bi bi-eye me-1"></i><span data-role="views"></span></span></div>
                             </div>
                             <i class="bi bi-chevron-right kb-article-arrow"></i>
                         </a>
@@ -84,7 +84,7 @@
                         <span class="kb-article-ico"><i class="{if $a.icon}{$a.icon}{else}bi bi-journal-text{/if}"></i></span>
                         <div class="kb-article-body">
                             <span class="kb-article-title">{$a.title}</span>
-                            <div class="kb-article-meta">{if $a.category_name}<span><i class="bi bi-folder2 me-1"></i>{$a.category_name}</span>{/if}<span><i class="bi bi-eye me-1"></i>{$a.views_display} {lang key='website/knowledgebase/views'}</span></div>
+                            <div class="kb-article-meta">{if $a.category_name}<span><i class="bi bi-folder2 me-1"></i>{$a.category_name}</span>{/if}<span><i class="bi bi-eye me-1"></i>{lang key='website/knowledgebase/count-views' plural=$a.visit_count|default:0 count=$a.views_display}</span></div>
                         </div>
                         <i class="bi bi-chevron-right kb-article-arrow"></i>
                     </a>
@@ -103,7 +103,7 @@
                             <span class="kb-cat-ico"><i class="{if $c.icon}{$c.icon}{else}bi bi-journal-text{/if}"></i></span>
                             <div class="kb-cat-name">{$c.title}</div>
                             {if $c.sub_title}<p class="kb-cat-desc">{$c.sub_title}</p>{/if}
-                            <span class="kb-cat-count"><i class="bi bi-file-earmark-text me-1"></i>{$c.count} {lang key='website/knowledgebase/articles'}</span>
+                            <span class="kb-cat-count"><i class="bi bi-file-earmark-text me-1"></i>{lang key='website/knowledgebase/count-articles' plural=$c.count|default:0 count=$c.count|default:0}</span>
                         </a>
                     </div>
                     {/foreach}

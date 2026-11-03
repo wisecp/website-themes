@@ -7,7 +7,7 @@
     {if !empty($meta_robots)}<meta name="robots" content="{$meta_robots}">{/if}
     {if !empty($canonical_link)}<link rel="canonical" href="{$canonical_link}">{/if}
     {favicon}
-    <script>
+    <script nonce="{$csp_nonce}">
       var mc = document.cookie.split("; ").filter(function(c) {
         return c.indexOf("wcp_theme_mode=") === 0;
       });
@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{asset path='css/libs/fontawesome/css/all.min.css'}">
     <link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-latin.woff2'}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-latin-ext.woff2'}" as="font" type="font/woff2" crossorigin>
+    {if ($ui_lang|default:'') == 'el'}<link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-greek.woff2'}" as="font" type="font/woff2" crossorigin>{elseif ($ui_lang|default:'') == 'ru' || ($ui_lang|default:'') == 'uk'}<link rel="preload" href="{asset path='css/libs/fonts/manrope/manrope-cyrillic.woff2'}" as="font" type="font/woff2" crossorigin>{/if}
     <link rel="stylesheet" href="{asset path='css/libs/fonts/manrope.css'}">
     <link rel="stylesheet" href="{asset path='css/theme.css'}">
     <link rel="stylesheet" href="{asset path='css/default.css'}">
@@ -45,7 +46,7 @@
     {block name=head}{/block}
     {hook name='ui:client.head.css'}
     {hook name='ui:client.head.js'}
-    <script>
+    <script nonce="{$csp_nonce}">
         const wcp_cookie_domain = "{$cookie_domain|default:''|escape:'javascript'}";
 
         const wcp_password_chars = {$password_special_chars|default:'[]' nofilter};
@@ -66,7 +67,7 @@
     <script src="{asset path='js/checkout-shell.js'}" defer></script>
     {if !empty($demo_mode)}{include file='partials/customizer-head.tpl'}{/if}
 </head>
-<body class="checkout-shell{block name=body_class}{/block}">
+<body class="checkout-shell{block name=body_class}{/block}" data-txt-copied="{lang key='toast_copied' attr=1}" data-txt-copy-failed="{lang key='toast_copy_failed' attr=1}" data-txt-dismiss="{lang key='toast_dismiss' attr=1}" data-txt-error="{lang key='needs/an-error-occurred' attr=1}" data-txt-password-show="{lang key='website/sign/password-show' attr=1}" data-txt-password-hide="{lang key='website/sign/password-hide' attr=1}">
 {hook name='ui:client.body.begin'}
 {include file='partials/checkout-header.tpl'}
 

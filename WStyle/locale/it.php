@@ -23,6 +23,10 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Ampia (1440px)',
     'opt_width_wider'        => 'Molto ampia (1600px)',
+    'set_content_section_frame' => 'Cornice delle sezioni di contenuto',
+    'set_content_section_frame_desc' => 'Si applica alle sezioni che mostrano contenuto HTML personalizzato, come la sezione di contenuto della pagina dei domini, le schede di contenuto e il contenuto di pagina delle categorie e i blocchi personalizzati della home page. Cornice del tema mantiene lo sfondo e la larghezza del tema. Senza cornice mostra il contenuto a tutta larghezza e senza sfondo, così il codice HTML definisce il layout.',
+    'opt_frame_theme' => 'Cornice del tema',
+    'opt_frame_none' => 'Senza cornice (larghezza piena)',
     'set_default_mode'       => 'Modalità di visualizzazione predefinita',
     'set_default_mode_desc'  => "Imposta la modalità di visualizzazione che i visitatori vedono finché non ne scelgono una. I visitatori possono comunque cambiarla e la loro scelta viene ricordata nel browser. Automatica segue l'impostazione del dispositivo.",
     'opt_mode_light'         => 'Chiara',
@@ -45,6 +49,8 @@ return [
     'grp_footer'          => 'Piè di pagina',
     'set_status_url'      => 'URL della pagina di stato',
     'set_status_url_desc' => 'Indirizzo del link di stato nella barra a piè di pagina. Lascia vuoto per collegarlo alla pagina degli annunci.',
+    'set_footer_payment_logos'      => 'Loghi di pagamento',
+    'set_footer_payment_logos_desc' => 'Icone dei marchi mostrate nel piè di pagina e nel checkout. Se nessuno è selezionato, i loghi vengono nascosti.',
 
     'grp_popup'              => 'Finestra popup',
     'set_popup_enabled'      => 'Mostra finestra popup',
@@ -57,6 +63,8 @@ return [
     'opt_popup_once'         => 'Una volta per visitatore',
     'opt_popup_daily'        => 'Una volta al giorno',
     'opt_popup_always'       => 'A ogni caricamento della pagina',
+    'set_popup_delay'        => 'Ritardo (secondi)',
+    'set_popup_delay_desc'   => 'Il popup appare dopo il numero di secondi indicato dal caricamento della pagina.',
 
     'topbar_support'         => 'Assistenza',
     'footer_nav_aria'        => 'Piè di pagina',
@@ -177,4 +185,10 @@ return [
 
     'rsp_metrics_eyebrow'   => 'Il programma in breve',
     'rsp_metrics_title'     => 'I numeri che contano',
+
+    'toast_copied'          => 'Copiato negli appunti.',
+    'toast_copy_failed'     => 'Impossibile copiare negli appunti.',
+    'toast_dismiss'         => 'Ignora',
+    'aria_carousel'         => 'carosello',
+    'aria_slide'            => 'diapositiva',
 ];

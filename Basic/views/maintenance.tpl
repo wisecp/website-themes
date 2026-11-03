@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>{lang key='system/maintenance/meta'}</title>
     {favicon}
-    <script>
+    <script nonce="{$csp_nonce}">
       var mc = document.cookie.split("; ").filter(function(c) {
         return c.indexOf("wcp_theme_mode=") === 0;
       });

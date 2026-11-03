@@ -10,7 +10,7 @@
 
     <section class="container py-4 py-lg-5">
 
-        <nav aria-label="Breadcrumb">
+        <nav aria-label="{lang key='website/index/breadcrumb-aria' attr=1}">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{$kb_link}">{lang key='website/knowledgebase/breadcrumb-knowledgebase'}</a></li>
                 {foreach $breadcrumb as $c name=bc}
@@ -30,7 +30,7 @@
                     <div class="kb-cat-header-text">
                         <h1 class="kb-cat-header-title">{$category.title}</h1>
                         {if $category.sub_title}<p class="kb-cat-header-desc">{$category.sub_title}</p>{/if}
-                        <span class="kb-cat-header-count"><i class="bi bi-file-earmark-text me-1"></i>{$cat_count} {lang key='website/knowledgebase/articles-in-category'}</span>
+                        <span class="kb-cat-header-count"><i class="bi bi-file-earmark-text me-1"></i>{lang key='website/knowledgebase/count-articles-in-category' plural=$cat_count|default:0 count=$cat_count|default:0}</span>
                     </div>
                 </header>
 
@@ -51,7 +51,7 @@
                             <a href="{$a.link}" class="kb-article" data-kb-item>
                                 <div class="kb-article-body">
                                     <span class="kb-article-title">{$a.title}</span>
-                                    <div class="kb-article-meta">{if $a.popular}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-fire me-1"></i>{lang key='website/knowledgebase/badge-popular'}</span>{/if}<span><i class="bi bi-eye me-1"></i>{$a.views_display} {lang key='website/knowledgebase/views'}</span></div>
+                                    <div class="kb-article-meta">{if $a.popular}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-fire me-1"></i>{lang key='website/knowledgebase/badge-popular'}</span>{/if}<span><i class="bi bi-eye me-1"></i>{lang key='website/knowledgebase/count-views' plural=$a.visit_count|default:0 count=$a.views_display}</span></div>
                                 </div>
                                 <i class="bi bi-chevron-right kb-article-arrow"></i>
                             </a>
@@ -70,7 +70,7 @@
                             <a href="{$a.link}" class="kb-article" data-kb-item>
                                 <div class="kb-article-body">
                                     <span class="kb-article-title">{$a.title}</span>
-                                    <div class="kb-article-meta">{if $a.popular}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-fire me-1"></i>{lang key='website/knowledgebase/badge-popular'}</span>{/if}<span><i class="bi bi-eye me-1"></i>{$a.views_display} {lang key='website/knowledgebase/views'}</span></div>
+                                    <div class="kb-article-meta">{if $a.popular}<span class="badge bg-success-subtle text-success-emphasis"><i class="bi bi-fire me-1"></i>{lang key='website/knowledgebase/badge-popular'}</span>{/if}<span><i class="bi bi-eye me-1"></i>{lang key='website/knowledgebase/count-views' plural=$a.visit_count|default:0 count=$a.views_display}</span></div>
                                 </div>
                                 <i class="bi bi-chevron-right kb-article-arrow"></i>
                             </a>

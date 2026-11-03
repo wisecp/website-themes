@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Breit (1440px)',
     'opt_width_wider'        => 'Extra breit (1600px)',
+    'set_content_section_frame' => 'Rahmen für Inhaltsbereiche',
+    'set_content_section_frame_desc' => 'Gilt für Bereiche mit Ihrem eigenen HTML-Inhalt: den Inhaltsbereich der Domainseite sowie die Inhaltsreiter und den Seiteninhalt von Kategorien. Theme-Rahmen behält Abstände, Rahmenlinien und Breite des Themes bei. Ohne Rahmen zeigt den Inhalt in voller Breite ohne Rahmen, sodass Ihr HTML das Layout selbst bestimmt.',
+    'opt_frame_theme' => 'Theme-Rahmen',
+    'opt_frame_none' => 'Ohne Rahmen (volle Breite)',
     'set_default_mode'       => 'Standard-Darstellungsmodus',
     'set_default_mode_desc'  => 'Legt fest, welchen Darstellungsmodus Besucher sehen, bis sie selbst einen wählen. Besucher können den Modus weiterhin wechseln; ihre Wahl wird in ihrem Browser gespeichert. Automatisch folgt der Einstellung des Geräts.',
     'opt_mode_light'         => 'Hell',
     'opt_mode_dark'          => 'Dunkel',
     'opt_mode_auto'          => 'Automatisch (Geräteeinstellung)',
+
+    'grp_footer'                    => 'Fußzeile',
+    'set_footer_payment_logos'      => 'Zahlungslogos',
+    'set_footer_payment_logos_desc' => 'Markensymbole in der Fußzeile und im Bestellabschluss. Ohne Auswahl werden die Logos ausgeblendet.',
 
     'grp_checkout'              => 'Bestellabschluss',
     'set_checkout_sidebar'      => "Layout der Bestell\xc3\xbcbersicht",
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => "Andere Kunden\xc3\xbcbersicht ausprobieren",
     'cz_nudge_checkout'  => 'Anderes Bestellabschlusslayout ausprobieren',
     'cz_nudge_explore'   => 'Theme-Optionen entdecken',
+
+    'toast_copied'       => 'In die Zwischenablage kopiert.',
+    'toast_copy_failed'  => 'Kopieren in die Zwischenablage fehlgeschlagen.',
+    'toast_dismiss'      => 'Ausblenden',
+    'aria_carousel'      => 'Karussell',
+    'aria_slide'         => 'Folie',
 ];

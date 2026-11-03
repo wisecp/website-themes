@@ -26,11 +26,19 @@ return [
     'opt_width_standard'     => 'Standard (1320px)',
     'opt_width_wide'         => 'Ampia (1440px)',
     'opt_width_wider'        => 'Molto ampia (1600px)',
+    'set_content_section_frame' => 'Cornice delle sezioni di contenuto',
+    'set_content_section_frame_desc' => 'Si applica alle sezioni che mostrano contenuto HTML personalizzato, come la sezione di contenuto della pagina dei domini e le schede di contenuto e il contenuto di pagina delle categorie. Cornice del tema mantiene spaziature, bordi e larghezza del tema. Senza cornice mostra il contenuto a tutta larghezza e senza cornice, così il codice HTML definisce il layout.',
+    'opt_frame_theme' => 'Cornice del tema',
+    'opt_frame_none' => 'Senza cornice (larghezza piena)',
     'set_default_mode'       => 'Modalità di visualizzazione predefinita',
     'set_default_mode_desc'  => "Imposta la modalità di visualizzazione che i visitatori vedono finché non ne scelgono una. I visitatori possono comunque cambiarla e la loro scelta viene ricordata nel browser. Automatica segue l'impostazione del dispositivo.",
     'opt_mode_light'         => 'Chiara',
     'opt_mode_dark'          => 'Scura',
     'opt_mode_auto'          => 'Automatica (impostazione del dispositivo)',
+
+    'grp_footer'                    => 'Piè di pagina',
+    'set_footer_payment_logos'      => 'Loghi di pagamento',
+    'set_footer_payment_logos_desc' => 'Icone dei marchi mostrate nel piè di pagina e nel checkout. Se nessuno è selezionato, i loghi vengono nascosti.',
 
     'grp_checkout'              => 'Checkout',
     'set_checkout_sidebar'      => 'Layout del riepilogo ordine',
@@ -93,4 +101,10 @@ return [
     'cz_nudge_dashboard' => 'Prova un altro layout della dashboard',
     'cz_nudge_checkout'  => 'Prova un altro layout di checkout',
     'cz_nudge_explore'   => 'Esplora le opzioni del tema',
+
+    'toast_copied'       => 'Copiato negli appunti.',
+    'toast_copy_failed'  => 'Impossibile copiare negli appunti.',
+    'toast_dismiss'      => 'Ignora',
+    'aria_carousel'      => 'carosello',
+    'aria_slide'         => 'diapositiva',
 ];

@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="{asset path='css/configure.css'}">
     <script src="{asset path='js/libs/tom-select/tom-select.complete.min.js'}" defer></script>
     <script src="{asset path='js/libs/intl-tel-input/js/intlTelInput.min.js'}" defer></script>
-    {if ($ui_lang|default:'en') != 'en'}<script type="module">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
+    <script src="{asset path='js/geo-country.js'}" defer></script>
+    {if ($ui_lang|default:'en') != 'en'}<script type="module" nonce="{$csp_nonce}">import i18n from "{$sadress}assets/plugins/intlTelInput/js/i18n/{$ui_lang}/index.js"; window.wcpItiI18n = i18n;</script>{/if}
 {/block}
 
 {block name=scripts}
@@ -23,6 +24,7 @@
           data-cycle-map="{$cycle_map_json}"
           data-save-text="{lang key='website/products/category-save'}"
           data-permonth-suffix="{lang key='website/products/category-per-month'}"
+          data-price-mode="{$price_mode|default:'monthly'}"
           data-renews-at="{lang key='website/configure/renews-at'}"
           data-one-time="{lang key='website/configure/one-time-renewal'}"
           {if $prorate.enabled}data-prorate-days="{$prorate.days}"
@@ -49,6 +51,7 @@
           {if $domain_section.free_json}data-free-domain="{$domain_section.free_json}"{/if}
           data-txt-available-line="{lang key='website/configure/domain/available-line'}"
           data-txt-available-line-norenew="{lang key='website/configure/domain/available-line-norenew'}"
+          data-txt-available-line-full="{lang key='website/configure/domain/available-line-full'}"
           data-txt-addon-included="{lang key='website/configure/domain/addon-included'}"
           data-txt-addon-per-year="{lang key='website/configure/domain/addon-per-year'}"
           data-txt-year-one="{lang key='website/configure/domain/year-one'}"
@@ -67,7 +70,7 @@
           data-txt-req-select="{lang key='website/configure/domain/req-select'}"
           data-txt-req-browse="{lang key='website/configure/domain/req-browse'}"
           data-txt-req-drop="{lang key='website/configure/domain/req-drop'}"
-          {/if}{foreach $prices as $cycle => $amount} data-{$cycle}="{$amount}"{/foreach}{foreach $setups as $cycle => $amount} data-setup-{$cycle}="{$amount}"{/foreach} data-txt-setup-note="{lang key='website/configure/setup-note'}" data-txt-free-first="{lang key='website/configure/addons/free-first-summary'}" data-txt-first-term="{lang key='website/configure/addons/first-term'}" data-txt-free-first-note="{lang key='website/configure/addons/free-first-note'}" data-txt-addon-free="{lang key='website/configure/addons/free'}">
+          {/if}{foreach $prices as $cycle => $amount} data-{$cycle}="{$amount}"{/foreach}{foreach $setups as $cycle => $amount} data-setup-{$cycle}="{$amount}"{/foreach}{foreach $discounts|default:[] as $cycle => $rate} data-discount-{$cycle}="{$rate}"{/foreach} data-txt-setup-note="{lang key='website/configure/setup-note'}" data-txt-free-first="{lang key='website/configure/addons/free-first-summary'}" data-txt-first-term="{lang key='website/configure/addons/first-term'}" data-txt-free-first-note="{lang key='website/configure/addons/free-first-note'}" data-txt-addon-free="{lang key='website/configure/addons/free'}">
         <input type="hidden" name="product_id" value="{$product.id}">
         {if $edit_item}<input type="hidden" name="item_key" value="{$edit_item.key}">{/if}
         <div class="checkout-split">
@@ -108,7 +111,7 @@
                                             <input class="form-check-input" type="radio" name="billing_cycle" value="{$cycle.key}"{if $cycle.key == $default_cycle} checked{/if}>
                                             <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-1">
                                                 <span class="billing-cycle-name">{$cycle.label}</span>
-                                                <span class="badge bg-success-subtle text-success-emphasis fw-semibold d-none" data-role="cycle-savings"></span>
+                                                <span class="badge bg-success-subtle text-success-emphasis d-none" data-role="cycle-savings"></span>
                                             </div>
                                             <div class="billing-cycle-figures">
                                                 <span class="billing-cycle-price" data-role="cycle-price"></span>
@@ -406,8 +409,8 @@
                                                 {if $addon.icon}<span class="label-media">{if $addon.icon.type == 'image'}<img src="{$addon.icon.value}" alt="">{else}<i class="{$addon.icon.value}"></i>{/if}</span>{/if}
                                                 <span class="addon-row-title fw-semibold">{$addon.name}{if $addon.compulsory} <span class="addon-row-badge">{lang key='website/configure/addons/required'}</span>{else} <span class="addon-row-badge" data-role="addon-badge" hidden>{lang key='website/configure/addons/included'}</span>{/if}</span>
                                                 {if $addon.description || $addon.store_url|default:''}<span class="addon-row-desc fs-8 text-body-secondary">{if $addon.description}{$addon.description nofilter}{/if}{if $addon.store_url|default:''} <a class="addon-store-link" href="{$addon.store_url}" target="_blank" rel="noopener">{lang key='website/configure/addons/details'}</a>{/if}</span>{/if}
-                                                <span class="addon-row-price" data-addon-from data-from-label="{lang key='website/configure/addons/from-label'}"><small class="d-block" data-role="from-label">{if $addon.from_count > 1}{lang key='website/configure/addons/from-label'}{elseif $addon.from_count == 1}{$addon.from_cycle_label}{/if}</small><b data-role="from-price">{if $addon.from_count == 1}{$addon.from_unit_fmt}{else}{$addon.from_price_fmt}{/if}</b></span>
-                                                <span class="form-check form-switch addon-row-toggle"><input class="form-check-input" type="checkbox" role="switch" data-addon-switch aria-controls="addonBody-{$addon.id}" aria-label="{$addon.name}"{if $addon.expanded} checked{/if}{if $addon.compulsory} disabled{/if}></span>
+                                                {if !$addon.compulsory}<span class="addon-row-price" data-addon-from data-from-label="{lang key='website/configure/addons/from-label'}"><small class="d-block" data-role="from-label">{if $addon.from_count > 1}{lang key='website/configure/addons/from-label'}{elseif $addon.from_count == 1}{$addon.from_cycle_label}{/if}</small><b data-role="from-price">{if $addon.from_count == 1}{$addon.from_unit_fmt}{else}{$addon.from_price_fmt}{/if}</b></span>{/if}
+                                                <span class="form-check form-switch addon-row-toggle"{if $addon.compulsory} hidden{/if}><input class="form-check-input" type="checkbox" role="switch" data-addon-switch aria-controls="addonBody-{$addon.id}" aria-label="{$addon.name}"{if $addon.expanded} checked{/if}{if $addon.compulsory} disabled{/if}></span>
                                             </div>
                                             <div class="wui-collapse{if $addon.expanded} wui-show{/if}" id="addonBody-{$addon.id}" data-addon-body><div class="wui-collapse-inner"><div class="addon-body">
                                             {if $addon.type == 'select'}
@@ -482,7 +485,7 @@
                                                 {if $addon.icon}<span class="label-media">{if $addon.icon.type == 'image'}<img src="{$addon.icon.value}" alt="">{else}<i class="{$addon.icon.value}"></i>{/if}</span>{/if}
                                                 <span class="addon-row-title fw-semibold">{$addon.name}</span>
                                                 {if $addon.description || $addon.store_url|default:''}<span class="addon-row-desc fs-8 text-body-secondary">{if $addon.description}{$addon.description nofilter}{/if}{if $addon.store_url|default:''} <a class="addon-store-link" href="{$addon.store_url}" target="_blank" rel="noopener">{lang key='website/configure/addons/details'}</a>{/if}</span>{/if}
-                                                {if !$qopt.free}<span class="addon-row-price"><small class="d-block">{$qopt.cycle_label}</small><b data-qty-price>{$addon.qty_price_fmt} {lang key='website/configure/addons/each'}</b></span>{/if}
+                                                {if !$qopt.free}<span class="addon-row-price"><small class="d-block" data-qty-cycle>{$qopt.cycle_label}</small><b data-qty-price>{$addon.qty_price_fmt} {lang key='website/configure/addons/each'}</b></span>{/if}
                                                 <span class="form-check form-switch addon-row-toggle"><input class="form-check-input" type="checkbox" role="switch" data-qty-enable aria-controls="qtyField-{$addon.id}" aria-label="{$addon.name}"{if $addon.preset_qty} checked{/if}></span>
                                             </div>
                                             <div class="wui-collapse{if $addon.preset_qty} wui-show{/if}" id="qtyField-{$addon.id}" data-qty-field>
@@ -609,9 +612,6 @@
                                             {elseif $req.type == 'radio'}
                                             <span class="form-label d-flex align-items-center gap-2">{if $req.icon}<span class="label-media">{if $req.icon.type == 'image'}<img src="{$req.icon.value}" alt="">{else}<i class="{$req.icon.value}"></i>{/if}</span>{/if}{$req.name}{if $req.required} <span class="text-danger" aria-hidden="true">*</span>{/if}</span>
                                             {if $req.description}<span class="fs-8 text-body-secondary d-block mb-2">{$req.description nofilter}</span>{/if}
-                                            {* Options sharing a group fold into one FAMILY card (no input of its own); its
-                                               version grid opens below the row and carries the real radios. configure.js
-                                               openFamily() toggles the grids; the first version is checked on open. *}
                                             <div class="{if $req.list_template == 1}option-grid{else}d-grid gap-2{/if}" data-req-choices="{$req.id}">
                                                 {foreach $req.groups as $grp}
                                                 {if $grp.multi}

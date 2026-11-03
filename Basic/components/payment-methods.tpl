@@ -2,9 +2,9 @@
      data-txt-balance-shortfall="{lang key='website/checkout/balance-shortfall'}"
      data-txt-balance-available="{lang key='website/checkout/balance-available'}">
     {foreach $payment_methods as $m}
-    <div class="payment-option"{if $m.kind == 'balance'} data-balance-option{/if}>
+    <div class="payment-option{if $m.balance_short|default:false} payment-option-na{/if}{if $m.balance_hidden|default:false} d-none{/if}"{if $m.kind == 'balance'} data-balance-option{/if}>
         <label class="payment-option-head">
-            <input class="form-check-input" type="radio" name="pmethod" value="{$m.name}" data-fee-rate="{$m.fee_rate}"{if $m.kind == 'balance'} data-balance="{$m.balance_raw}"{/if}{if $m.name == $payment_default} checked{/if}>
+            <input class="form-check-input" type="radio" name="pmethod" value="{$m.name}" data-fee-rate="{$m.fee_rate}"{if $m.kind == 'balance'} data-balance="{$m.balance_raw}"{/if}{if $m.name == $payment_default} checked{/if}{if ($m.balance_short|default:false) || ($m.balance_hidden|default:false)} disabled{/if}>
             <span class="option-media">
                 {if $m.icon_type == 'font'}<i class="{$m.icon}"></i>
                 {elseif $m.icon_type == 'image'}<img src="{$m.icon}" alt="">
@@ -24,7 +24,7 @@
         </label>
         {if $m.kind == 'balance'}
         <div class="payment-option-foot" data-balance-foot>
-            <span class="fs-8 text-body-secondary"><i class="bi bi-exclamation-circle me-1"></i><span data-role="balance-shortfall"></span></span>
+            <span class="fs-8 text-body-secondary"><i class="bi bi-exclamation-circle me-1"></i><span data-role="balance-shortfall">{if $m.balance_short|default:false}{lang key='website/checkout/balance-shortfall' balance=$m.balance_fmt total=$m.balance_total_fmt}{/if}</span></span>
             {if !empty($balance_addfunds_link)}<a class="btn btn-soft btn-sm ms-auto" href="{$balance_addfunds_link}"><i class="bi bi-plus-circle me-1"></i>{lang key='website/invoices/pay/add-funds'}</a>{/if}
         </div>
         {/if}
@@ -72,6 +72,12 @@
                             <div class="bank-line">
                                 <span class="bank-line-label">SWIFT / BIC</span>
                                 <span class="bank-line-value num-tabular">{$b.swift}</span>
+                            </div>
+                            {/if}
+                            {if $b.link || $b.note}
+                            <div class="bank-line flex-column align-items-start">
+                                {if $b.link}<a class="btn btn-primary btn-sm" href="{$b.link}" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right me-1"></i>{lang key='website/checkout/bank-pay-link'}</a>{/if}
+                                {if $b.note}<p class="fs-8 text-body-secondary mb-0">{$b.note|escape|nl2br nofilter}</p>{/if}
                             </div>
                             {/if}
                         </div>
@@ -185,8 +191,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    {/foreach}
+    {if ($pay_footer|default:false) && $m.name == $payment_default}{include file='components/invoice-pay-footer.tpl' show_partial=$show_partial|default:true}{$pay_footer_seated = true}{/if}</div>
+    {/foreach}{if ($pay_footer|default:false) && !($pay_footer_seated|default:false)}{include file='components/invoice-pay-footer.tpl' show_partial=$show_partial|default:true}{/if}
 
     {hook name='ui:client.checkout.methods.after'}
 </div>

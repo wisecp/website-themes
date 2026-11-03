@@ -15,8 +15,8 @@
 
 {block name=content}
 
-    {capture assign=sms_hero_title}{lang key='website/sms/hero-title'}{/capture}
-    {capture assign=sms_hero_lead}{lang key='website/sms/hero-lead'}{/capture}
+    {if $sms_group_title|default:''}{assign var=sms_hero_title value=$sms_group_title}{else}{capture assign=sms_hero_title}{lang key='website/sms/hero-title'}{/capture}{/if}
+    {if $sms_group_lead|default:''}{assign var=sms_hero_lead value=$sms_group_lead}{else}{capture assign=sms_hero_lead}{lang key='website/sms/hero-lead'}{/capture}{/if}
     {capture assign=sms_badge_countries}{lang key='website/sms/hero-badge-countries'}{/capture}
     {capture assign=sms_badge_speed}{lang key='website/sms/hero-badge-speed'}{/capture}
     {capture assign=sms_badge_reports}{lang key='website/sms/hero-badge-reports'}{/capture}
@@ -175,7 +175,13 @@
         </div>
     </section>
 
-    {if $faqs}
+    {if $sms_group_content|default:''}<section class="py-5 bg-surface" data-reveal>
+        <div class="container">
+            <div class="category-content">{content var=$sms_group_content}</div>
+        </div>
+    </section>
+
+    {/if}{if $faqs}
     <section class="py-5" data-reveal>
         <div class="container">
             <div class="row g-4 g-lg-5">
